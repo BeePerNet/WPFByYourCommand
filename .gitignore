@@ -5,3 +5,5 @@
 /.vs
 /Source/WPFByYourCommand/obj
 /Source/WPFByYourCommand/bin
+/Source/WPFByYourCommand/.vs/WPFByYourCommand/v16/Server/sqlite3
+/Source/.vs/WPFByYourCommand/v16
