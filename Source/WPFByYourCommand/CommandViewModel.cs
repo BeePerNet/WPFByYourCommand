@@ -8,20 +8,11 @@ namespace WPFByYourCommand
 {
     public abstract class CommandViewModel : INotifyPropertyChanged, ICommandContext
     {
-        protected void AddCommand(string name, string text, string iconSource, Type ownerType, InputGesture gesture) 
+        protected static void AddCommandInput(InputBindingCollection bindingCollection, RoutedCommand command) 
         {
-
-
-
-
-            CommandEx command = new CommandEx(name, text, iconSource, ownerType, gesture);
-
-
-
-
-
-
-
+            if (command.InputGestures != null)
+                foreach (InputGesture gesture in command.InputGestures)
+                    bindingCollection.Add(new InputBinding(command, gesture));
         }
 
 

@@ -22,7 +22,7 @@ namespace WPFByYourCommand
             DependencyProperty.RegisterAttached(
             "FocusPreviewMouseRightButtonDown",
             typeof(bool),
-            typeof(ItemsControl),
+            typeof(ItemsControlExtender),
             new UIPropertyMetadata(false, OnFocusPreviewMouseRightButtonDownChanged));
 
         static void OnFocusPreviewMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
@@ -80,7 +80,7 @@ namespace WPFByYourCommand
             DependencyProperty.RegisterAttached(
             "RollbackOnUnfocused",
             typeof(bool),
-            typeof(ItemsControl),
+            typeof(ItemsControlExtender),
             new UIPropertyMetadata(false, OnRollbackOnUnfocusedChanged));
 
         static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)

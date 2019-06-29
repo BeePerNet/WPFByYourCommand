@@ -6,11 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace WPFByYourCommand
 {
-    public class CommandEx : RoutedCommand
+    public class CommandEx : RoutedCommand, IMenuCommand
     {
+        protected CommandEx() { }
+
         private KeyGesture _keyGesture;
         public KeyGesture KeyGesture { get => _keyGesture; set => SetProperty(ref _keyGesture, value); }
 
@@ -24,14 +27,14 @@ namespace WPFByYourCommand
         public string Text { get => _text; set => SetProperty(ref _text, value); }
 
 
-
-        public CommandEx(string name, string text, string iconSource, Type ownerType, InputGesture gesture) : base(name, ownerType, new InputGestureCollection(new[] { gesture }))
+        public CommandEx(string name, string text, string iconSource, Type ownerType, params InputGesture[] gestures) : base(name, ownerType, new InputGestureCollection(gestures))
         {
             this._text = text;
             this._iconSource = iconSource;
+            this.KeyGesture = gestures.OfType<KeyGesture>().FirstOrDefault();
         }
 
-
+        public CommandEx(string name, string text, Type ownerType, params InputGesture[] gestures) : this(name, text, null, ownerType, gestures) { }
 
 
 
@@ -156,22 +159,110 @@ namespace WPFByYourCommand
 
         private static void _CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            /*MenuItem target = d as MenuItem;
-            if (target != null)
+            IMenuCommand command = e.NewValue as IMenuCommand;
+            ICommandSource commandSource = d as ICommandSource;
+            if (commandSource != null && command != null)
             {
-                IMenuCommand command = (IMenuCommand)e.NewValue;
-                if (command != null)
+                KeyValuePair<Type, Action<IMenuCommand, ICommandSource>>? dest = destinationDictionary.FirstOrDefault(T => d.GetType().IsAssignableFrom(T.Key));
+                if (dest.HasValue)
                 {
-                    target.Command = command;
-                    target.Header = command.Header;
+                    dest.Value.Value(command, commandSource);
+                }
+            }
+        }
+
+        private static Dictionary<Type, Action<IMenuCommand, ICommandSource>> destinationDictionary = new Dictionary<Type, Action<IMenuCommand, ICommandSource>>();
+
+        static CommandEx()
+        {
+            destinationDictionary.Add(typeof(MenuItem), FillMenuItem);
+            destinationDictionary.Add(typeof(Button), FillButton);
+        }
+
+        private static void FillMenuItem(IMenuCommand command, ICommandSource control)
+        {
+            MenuItem menuItem = control as MenuItem;
+            if (command != null)
+            {
+                menuItem.Command = command;
+                if (!string.IsNullOrWhiteSpace(command.Text))
+                    menuItem.Header = command.Text;
+                if (command.KeyGesture != null && !string.IsNullOrWhiteSpace(command.KeyGesture.DisplayString))
+                    menuItem.InputGestureText = command.KeyGesture.DisplayString;
+                if (!string.IsNullOrWhiteSpace(command.IconSource))
+                    menuItem.Icon = GetImage(command);
+            }
+            else
+            {
+                menuItem.Command = null;
+                if (!string.IsNullOrWhiteSpace(command.Text))
+                    menuItem.Header = null;
+                if (command.KeyGesture != null && !string.IsNullOrWhiteSpace(command.KeyGesture.DisplayString))
+                    menuItem.InputGestureText = null;
+                if (!string.IsNullOrWhiteSpace(command.IconSource))
+                    menuItem.Icon = null;
+            }
+        }
+
+        private static void FillButton(IMenuCommand command, ICommandSource control)
+        {
+            Button button = control as Button;
+            if (command != null)
+            {
+                button.Command = command;
+                if (string.IsNullOrWhiteSpace(command.IconSource))
+                {
+                    if (!string.IsNullOrWhiteSpace(command.Text))
+                        button.Content = command.Text;
                 }
                 else
                 {
-                    target.Command = null;
-                    target.Header = null;
+                    button.Content = GetImage(command);
+                    if (!string.IsNullOrWhiteSpace(command.Text))
+                        button.ToolTip = command.Text;
                 }
-            }*/
+            }
+            else
+            {
+                button.Command = null;
+                if (!string.IsNullOrWhiteSpace(command.Text))
+                    button.Content = null;
+                if (!string.IsNullOrWhiteSpace(command.Text))
+                    button.ToolTip = null;
+            }
         }
+
+        protected static Image GetImage(IMenuCommand command)
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(command.IconSource);
+            bitmap.EndInit();
+            if (command.UseDisablingImage)
+            {
+                AutoDisablingImage image = new AutoDisablingImage();
+                image.Source = bitmap;
+                image.Width = bitmap.Width;
+                image.Height = bitmap.Height;
+                return image;
+            }
+            else
+            {
+                Image image = new Image();
+                image.Source = bitmap;
+                image.Width = bitmap.Width;
+                image.Height = bitmap.Height;
+                return image;
+            }
+
+        }
+
+
+
+
+
+
+
         public static void SetCommand(Control target, CommandEx command)
         {
             target.SetValue(CommandProperty, command);
