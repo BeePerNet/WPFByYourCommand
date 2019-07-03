@@ -54,6 +54,7 @@
     <Compile Include="CommandExLoc.cs" />
     <Compile Include="ILocalizedMenuCommand.cs" />
     <Compile Include="IMenuCommand.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ItemsControlExtender.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -17,6 +17,7 @@ namespace WPFByYourCommand
         {
             // Override the metadata of the IsEnabled property.
             IsEnabledProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
+            //SourceProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
         }
 
         /// <summary>
@@ -30,6 +31,8 @@ namespace WPFByYourCommand
             {
                 AutoDisablingImage autoGreyScaleImg = source as AutoDisablingImage;
                 if (autoGreyScaleImg != null)
+                    autoGreyScaleImg.Opacity = (!(args.NewValue as bool? ?? false)) ? 0.5 : 1;
+                /*if (autoGreyScaleImg != null && autoGreyScaleImg.Source != null)
                 {
                     if (!(args.NewValue as bool? ?? false))
                     {
@@ -49,7 +52,7 @@ namespace WPFByYourCommand
                         autoGreyScaleImg.OpacityMask = null;
                         autoGreyScaleImg.Opacity = 1;
                     }
-                }
+                }*/
             }
         }
 
