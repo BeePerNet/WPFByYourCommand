@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -25,7 +26,7 @@ namespace WPFByYourCommand
             ICommandSource commandSource = d as ICommandSource;
             if (commandSource != null && command != null)
             {
-                KeyValuePair<Type, Action<IMenuCommand, ICommandSource>>? dest = destinationDictionary.FirstOrDefault(T => d.GetType().IsAssignableFrom(T.Key));
+                KeyValuePair<Type, Action<IMenuCommand, ICommandSource>>? dest = destinationDictionary.FirstOrDefault(T => T.Key.IsAssignableFrom(d.GetType()));
                 if (dest.HasValue)
                 {
                     dest.Value.Value(command, commandSource);
@@ -38,7 +39,7 @@ namespace WPFByYourCommand
         static CommandExLoc()
         {
             destinationDictionary.Add(typeof(MenuItem), FillMenuItem);
-            destinationDictionary.Add(typeof(Button), FillButton);
+            destinationDictionary.Add(typeof(ButtonBase), FillButton);
         }
 
         private static void FillMenuItem(IMenuCommand command, ICommandSource control)
@@ -74,7 +75,7 @@ namespace WPFByYourCommand
 
         private static void FillButton(IMenuCommand command, ICommandSource control)
         {
-            Button button = control as Button;
+            ButtonBase button = control as ButtonBase;
             if (command != null)
             {
                 button.Command = command;

@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace WPFByYourCommand
 {
-    public abstract class CommandViewModel : INotifyPropertyChanged, ICommandContext
+    public abstract class CommandViewModel : ObservableObject, ICommandContext
     {
-        protected static void AddCommandInput(InputBindingCollection bindingCollection, RoutedCommand command) 
-        {
-            if (command.InputGestures != null)
-                foreach (InputGesture gesture in command.InputGestures)
-                    bindingCollection.Add(new InputBinding(command, gesture));
-        }
-
-
-
-
         private static CommandBindingCollection _commandList;
         private static InputBindingCollection _inputList;
         private string _statusText = string.Empty;
@@ -53,32 +40,27 @@ namespace WPFByYourCommand
             }
         }
 
+
+
         public abstract void AddInputModels(InputBindingCollection bindingCollection);
 
-        //The interface only includes this evennt
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        //Common implementations of SetProperty
-        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName]string name = null)
+        public static T GetViewModelObject<T>(object originalSource) where T : CommandViewModel
         {
-            bool propertyChanged = false;
+            FrameworkElement element = originalSource as FrameworkElement;
+            if (element == null)
+                return null;
+            //if (element is Selector)
+            //  return (element as Selector)?.SelectedItem as T;
 
-            //If we have a different value, do stuff
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                OnPropertyChanged(name);
-                propertyChanged = true;
-            }
-
-            return propertyChanged;
+            return element.DataContext as T;
         }
 
-        //The C#6 version of the common implementation
-        protected void OnPropertyChanged([CallerMemberName]string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+
+
+
+
+
 
         public string StatusText
         {

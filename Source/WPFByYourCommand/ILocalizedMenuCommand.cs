@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WPFByYourCommand
+﻿namespace WPFByYourCommand
 {
-    public interface ILocalizedMenuCommand: IMenuCommand
+    public interface ILocalizedMenuCommand : IMenuCommand
     {
 
 

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace WPFByYourCommand
 {
-    public class CommandEx : RoutedCommand, IMenuCommand
+    public class CommandEx : RoutedCommand, INotifyPropertyChanged, IMenuCommand
     {
         protected CommandEx() { }
 
@@ -161,7 +161,7 @@ namespace WPFByYourCommand
         {
             IMenuCommand command = e.NewValue as IMenuCommand;
             ICommandSource commandSource = d as ICommandSource;
-            if (commandSource != null && command != null)
+            if (commandSource != null)
             {
                 KeyValuePair<Type, Action<IMenuCommand, ICommandSource>>? dest = destinationDictionary.FirstOrDefault(T => d.GetType().IsAssignableFrom(T.Key));
                 if (dest.HasValue)
@@ -178,6 +178,7 @@ namespace WPFByYourCommand
             destinationDictionary.Add(typeof(MenuItem), FillMenuItem);
             destinationDictionary.Add(typeof(Button), FillButton);
         }
+
 
         private static void FillMenuItem(IMenuCommand command, ICommandSource control)
         {
@@ -242,16 +243,16 @@ namespace WPFByYourCommand
             {
                 AutoDisablingImage image = new AutoDisablingImage();
                 image.Source = bitmap;
-                image.Width = bitmap.Width;
-                image.Height = bitmap.Height;
+                image.Width = bitmap.PixelWidth;
+                image.Height = bitmap.PixelWidth;
                 return image;
             }
             else
             {
                 Image image = new Image();
                 image.Source = bitmap;
-                image.Width = bitmap.Width;
-                image.Height = bitmap.Height;
+                image.Width = bitmap.PixelWidth;
+                image.Height = bitmap.PixelWidth;
                 return image;
             }
 

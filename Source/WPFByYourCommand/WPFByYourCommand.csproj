@@ -56,6 +56,7 @@
     <Compile Include="IMenuCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ItemsControlExtender.cs" />
+    <Compile Include="ObservableObject.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Helper.cs" />
     <Compile Include="ICommandContext.cs" />
+    <Compile Include="NotifyCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
