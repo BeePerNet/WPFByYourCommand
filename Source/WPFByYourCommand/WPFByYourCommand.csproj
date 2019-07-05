@@ -51,7 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\SelectorBehavior.cs" />
+    <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
     <Compile Include="CommandExLoc.cs" />
+    <Compile Include="Converters\IsEqualConverter.cs" />
     <Compile Include="ILocalizedMenuCommand.cs" />
     <Compile Include="IMenuCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />

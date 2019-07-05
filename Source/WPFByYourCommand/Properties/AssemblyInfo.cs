@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Markup;
 
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand")]
+[assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Behaviors")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Converters")]
 [assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
 
