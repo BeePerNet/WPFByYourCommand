@@ -20,15 +20,19 @@ namespace WPFByYourCommand.Converters
                 result = value == parameter;
             if (targetType == typeof(bool?))
                 return result;
+            if (targetType == typeof(int))
+                return result ? 1 : 0;
             if (targetType == typeof(Visibility))
                 return result ? Visibility.Visible : Visibility.Hidden;
-             return value;
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
             if (value is bool && (bool)value)
+                return parameter;
+            if (value is int && ((int)value) > 0)
                 return parameter;
             if (value is Visibility && ((Visibility)value) == Visibility.Visible)
                 return parameter;
