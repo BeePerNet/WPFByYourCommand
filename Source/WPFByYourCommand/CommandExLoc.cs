@@ -56,7 +56,11 @@ namespace WPFByYourCommand
                     BindingOperations.SetBinding(menuItem, MenuItem.InputGestureTextProperty, new BLoc(command.KeyGesture.DisplayString));
 
                 if (!string.IsNullOrWhiteSpace(command.IconSource))
-                    menuItem.Icon = GetImage(command);
+                {
+                    Image image = GetImage(command);
+                    menuItem.Icon = image;
+ //                   BindingOperations.SetBinding(image, AutoDisablingImage.IsEnabledProperty, new Binding("IsEnabled") { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(MenuItem), 1) });
+                }
             }
             else
             {

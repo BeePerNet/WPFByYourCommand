@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace WPFByYourCommand.Converters
 {
-    public class IsEqualConverter : IValueConverter
+    public class IsNotEqualConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
@@ -33,6 +33,7 @@ namespace WPFByYourCommand.Converters
                 else
                     result = value == parameter;
             }
+            result = !result;
             if (targetType == typeof(object) || targetType == typeof(bool) || targetType == typeof(bool?))
                 return result;
             if (targetType == typeof(int))
@@ -45,13 +46,7 @@ namespace WPFByYourCommand.Converters
         public object ConvertBack(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            if (value is bool && (bool)value)
-                return parameter;
-            if (value is int && ((int)value) > 0)
-                return parameter;
-            if (value is Visibility && ((Visibility)value) == Visibility.Visible)
-                return parameter;
-            return null;
+            throw new NotSupportedException();
         }
     }
 

@@ -28,7 +28,7 @@ namespace WPFByYourCommand
             {
                 AutoDisablingImage autoGreyScaleImg = source as AutoDisablingImage;
                 if (autoGreyScaleImg != null)
-                    autoGreyScaleImg.Opacity = (!(args.NewValue as bool? ?? false)) ? 0.5 : 1;
+                    autoGreyScaleImg.Opacity = (!(args.NewValue as bool? ?? false)) ? 0.4 : 1;
                 /*if (autoGreyScaleImg != null && autoGreyScaleImg.Source != null)
                 {
                     if (!(args.NewValue as bool? ?? false))

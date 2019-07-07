@@ -54,6 +54,7 @@
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
     <Compile Include="CommandExLoc.cs" />
+    <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
     <Compile Include="ILocalizedMenuCommand.cs" />
     <Compile Include="IMenuCommand.cs" />

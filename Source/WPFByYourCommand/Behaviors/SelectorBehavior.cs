@@ -67,6 +67,8 @@ namespace WPFByYourCommand.Behaviors
         }
 
         #endregion // IsBroughtIntoViewWhenSelected
+
+
     }
 }
 
