@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Observables
 {
-    public class ObservableObject : INotifyPropertyChanged
+    public abstract class ObservableObject : INotifyPropertyChanged
     {
         //The interface only includes this evennt
         public event PropertyChangedEventHandler PropertyChanged;

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Behaviors
 {
     public static class ItemsControlExtender
     {

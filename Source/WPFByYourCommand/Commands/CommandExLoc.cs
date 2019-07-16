@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using WPFLocalizeExtension.Extensions;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Commands
 {
     public class CommandExLoc : CommandEx
     {

@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using WPFByYourCommand.Observables;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Commands
 {
     public abstract class CommandViewModel : ObservableObject, ICommandContext
     {

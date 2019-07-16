@@ -53,29 +53,34 @@
   <ItemGroup>
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
-    <Compile Include="CommandExLoc.cs" />
+    <Compile Include="Commands\CommandExLoc.cs" />
+    <Compile Include="Behaviors\MenuItemTemplateSelector.cs" />
+    <Compile Include="Commands\IParentMenuCommand.cs" />
+    <Compile Include="Commands\ParentCommandEx.cs" />
+    <Compile Include="Commands\SeparatorDummyCommand.cs" />
+    <Compile Include="Commands\ITextCommand.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
-    <Compile Include="ILocalizedMenuCommand.cs" />
-    <Compile Include="IMenuCommand.cs" />
+    <Compile Include="Commands\ILocalizedMenuCommand.cs" />
+    <Compile Include="Commands\IMenuCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="ItemsControlExtender.cs" />
-    <Compile Include="ObservableObject.cs" />
+    <Compile Include="Behaviors\ItemsControlExtender.cs" />
+    <Compile Include="Observables\ObservableObject.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AutoDisablingImage.cs" />
-    <Compile Include="CommandEx.cs" />
-    <Compile Include="CommandViewModel.cs" />
+    <Compile Include="Controls\AutoDisablingImage.cs" />
+    <Compile Include="Commands\CommandEx.cs" />
+    <Compile Include="Commands\CommandViewModel.cs" />
     <Compile Include="CustomControl1.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="ICommandContext.cs" />
-    <Compile Include="DispatchObservableCollection.cs" />
+    <Compile Include="Commands\ICommandContext.cs" />
+    <Compile Include="Observables\DispatchObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,5 +109,6 @@
       <Name>WPFLocalizeExtension</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

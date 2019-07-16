@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Threading;
+using System.Diagnostics;
 using System.Windows.Threading;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Observables
 {
+    [DebuggerDisplay("{GetType()}, Childrens={Count}")]
     public class DispatchObservableCollection<T> : ObservableCollection<T>
     {
         // Override the event so this class can access it

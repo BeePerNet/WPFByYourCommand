@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Controls
 {
     public class AutoDisablingImage : Image
     {

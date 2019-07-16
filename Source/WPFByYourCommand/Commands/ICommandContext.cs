@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Commands
 {
     public interface ICommandContext
     {
