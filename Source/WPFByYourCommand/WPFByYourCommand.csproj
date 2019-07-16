@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="Helper.cs" />
     <Compile Include="ICommandContext.cs" />
-    <Compile Include="NotifyCollection.cs" />
+    <Compile Include="DispatchObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

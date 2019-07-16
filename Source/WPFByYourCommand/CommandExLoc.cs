@@ -138,15 +138,14 @@ namespace WPFByYourCommand
 
 
 
-        public static void SetCommand(Control target, CommandEx command)
+        new public static void SetCommand(Control target, CommandEx command)
         {
             target.SetValue(CommandProperty, command);
         }
-        public static CommandEx GetCommand(Control target)
+        new public static CommandEx GetCommand(Control target)
         {
             return (CommandEx)target.GetValue(CommandProperty);
         }
-
 
 
 
