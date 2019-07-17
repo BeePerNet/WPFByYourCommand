@@ -46,8 +46,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="XAMLMarkupExtensions">
-      <HintPath>..\..\..\SizeOnDisk\References\XAMLMarkupExtensions\XAMLMarkupExtensions.dll</HintPath>
+    <Reference Include="WPFLocalizeExtension, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\WPFLocalizeExtension\WPFLocalizeExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\XAMLMarkupExtensions\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -104,12 +109,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\WPFLocalizeExtension\WPFLocalizeExtension.csproj">
-      <Project>{97622B9A-D365-43C5-9D96-08B130CA391C}</Project>
-      <Name>WPFLocalizeExtension</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
