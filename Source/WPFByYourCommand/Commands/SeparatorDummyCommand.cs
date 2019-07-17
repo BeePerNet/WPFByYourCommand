@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
 {
     [DebuggerDisplay("---")]
-    public class SeparatorDummyCommand : ITextCommand
+    public class SeparatorDummyCommand : IMenuCommand
     {
         private SeparatorDummyCommand()
         {
@@ -14,6 +15,12 @@ namespace WPFByYourCommand.Commands
 
         public string Text => "-";
 
+        public KeyGesture KeyGesture => null;
+
+        public bool UseDisablingImage => false;
+
+        public object Icon => null;
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -22,6 +29,14 @@ namespace WPFByYourCommand.Commands
         }
 
         public void Execute(object parameter)
+        {
+        }
+
+        public void FillCommandSource(ICommandSource commandSource)
+        {
+        }
+
+        public void UnFillCommandSource(ICommandSource commandSource)
         {
         }
     }

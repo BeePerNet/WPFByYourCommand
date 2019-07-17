@@ -53,29 +53,31 @@
   <ItemGroup>
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
-    <Compile Include="Commands\CommandExLoc.cs" />
+    <Compile Include="Commands\CommandUtils.cs" />
     <Compile Include="Behaviors\MenuItemTemplateSelector.cs" />
-    <Compile Include="Commands\IParentMenuCommand.cs" />
-    <Compile Include="Commands\ParentCommandEx.cs" />
-    <Compile Include="Commands\SeparatorDummyCommand.cs" />
+    <Compile Include="Commands\CommandUIBehaviorType.cs" />
+    <Compile Include="Commands\CommandBehavior.cs" />
+    <Compile Include="Commands\DirectCommand.cs" />
     <Compile Include="Commands\ITextCommand.cs" />
+    <Compile Include="Commands\ParentCommand.cs" />
+    <Compile Include="Commands\SeparatorDummyCommand.cs" />
+    <Compile Include="Commands\WaekFunc.cs" />
+    <Compile Include="Commands\WeakAction.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
-    <Compile Include="Commands\ILocalizedMenuCommand.cs" />
     <Compile Include="Commands\IMenuCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Behaviors\ItemsControlExtender.cs" />
+    <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
+    <Compile Include="Observables\SafeObservableCollection.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\AutoDisablingImage.cs" />
-    <Compile Include="Commands\CommandEx.cs" />
+    <Compile Include="Commands\RoutedCommandEx.cs" />
     <Compile Include="Commands\CommandViewModel.cs" />
-    <Compile Include="CustomControl1.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />

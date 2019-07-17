@@ -8,6 +8,10 @@ namespace WPFByYourCommand.Commands
 
         bool UseDisablingImage { get; }
 
-        string IconSource { get; }
+        object Icon { get; }
+
+        void FillCommandSource(ICommandSource commandSource);
+
+        void UnFillCommandSource(ICommandSource commandSource);
     }
 }
