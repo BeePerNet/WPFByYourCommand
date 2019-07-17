@@ -53,6 +53,8 @@ namespace WPFByYourCommand.Commands
         private string _text;
         public string Text { get => _text; set => SetProperty(ref _text, value); }
 
+        private string _tag;
+        public string Tag { get => _tag; set => SetProperty(ref _tag, value); }
 
         public DirectCommand(string name, string text, string iconSource, Type ownerType,
             Action<DirectCommand, object> execute, bool keepTargetAlive = false, params InputGesture[] gestures) :

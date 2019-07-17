@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,6 +8,13 @@ namespace WPFByYourCommand
 {
     public static class Helper
     {
+        public static void LoadWPFStyles()
+        {
+            var foo = new Uri("pack://application:,,,/WPFByYourCommand;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute);
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = foo });
+        }
+
+
         /// <summary>
         /// Find a specific parent object type in the visual tree
         /// </summary>

@@ -1,18 +1,30 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:WPFByYourCommand">
-    <!--Style TargetType="{x:Type local:CustomControl1}">
-        <Setter Property="Template">
+    xmlns:beh="clr-namespace:WPFByYourCommand.Commands"
+    xmlns:conv="clr-namespace:WPFByYourCommand.Converters">
+    <conv:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter" />
+    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+        <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CustomControl1}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-
-                    </Border>
-                </ControlTemplate>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="beh:CommandBehavior.Command" Value="{Binding}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeStringConverter}}" Value="ParentCommand">
+                            <Setter Property="ItemsSource" Value="{Binding Childs}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text}" Value="-">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Separator/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </Setter.Value>
         </Setter>
-    </-->
+    </Style>
 </ResourceDictionary>

@@ -340,7 +340,7 @@ namespace WPFByYourCommand.Commands
                         || FuncReference != null)
                     && funcTarget != null)
                 {
-                    return (TResult)Method.Invoke(funcTarget, null);
+                    return (TResult)Method.Invoke(funcTarget, new object[] { t1, t2 });
                 }
 
 #if SILVERLIGHT
