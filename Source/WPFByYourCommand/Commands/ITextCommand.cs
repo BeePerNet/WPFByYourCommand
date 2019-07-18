@@ -2,7 +2,7 @@
 
 namespace WPFByYourCommand.Commands
 {
-    public interface ITextCommand: ICommand
+    public interface ITextCommand : ICommand
     {
         string Text { get; }
     }

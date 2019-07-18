@@ -148,7 +148,7 @@ namespace WPFByYourCommand.Commands
                         else if (commandSource is Button)
                         {
                             Button button = commandSource as Button;
-                            button.Command = e.NewValue as ICommand; 
+                            button.Command = e.NewValue as ICommand;
                             button.Content = text;
                         }
                         else
