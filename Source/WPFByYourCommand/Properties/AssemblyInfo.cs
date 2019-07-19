@@ -3,12 +3,13 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand")]
+[assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
+//[assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Behaviors")]
+[assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Bindings")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Commands")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Controls")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Converters")]
-[assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information

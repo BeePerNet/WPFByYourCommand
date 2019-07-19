@@ -9,7 +9,7 @@ namespace WPFByYourCommand.Commands
     {
         public static readonly DependencyProperty ContextProperty = DependencyProperty.RegisterAttached("Context",
           typeof(ICommandContext), typeof(CommandBehavior),
-            new PropertyMetadata(new PropertyChangedCallback(OnCommandInvalidated)));
+            new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCommandInvalidated)));
 
         public static ICommandContext GetContext(DependencyObject element)
         {
@@ -62,7 +62,7 @@ namespace WPFByYourCommand.Commands
 
 
         public static readonly DependencyProperty UITypeProperty = DependencyProperty.RegisterAttached(
-            "UIType", typeof(CommandUIBehaviorType), typeof(CommandBehavior), new FrameworkPropertyMetadata(CommandUIBehaviorType.Default, FrameworkPropertyMetadataOptions.AffectsRender, _UITypePropertyChanged));
+            "UIType", typeof(CommandUIBehaviorType), typeof(CommandBehavior), new FrameworkPropertyMetadata(CommandUIBehaviorType.Default, _UITypePropertyChanged));
 
         private static void _UITypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -86,13 +86,13 @@ namespace WPFByYourCommand.Commands
 
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached(
-            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, _CommandPropertyChanged));
+            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata((ICommand)null, FrameworkPropertyMetadataOptions.AffectsRender, _CommandPropertyChanged));
 
         private static void _CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ICommandSource commandSource = d as ICommandSource;
 
-            if (e.OldValue != null && e.OldValue is ICommand)
+            if (e.OldValue != null && e.OldValue != DependencyProperty.UnsetValue && e.OldValue is ICommand)
             {
                 if (e.OldValue is IMenuCommand)
                     (e.OldValue as IMenuCommand).UnFillCommandSource(commandSource);
@@ -125,7 +125,7 @@ namespace WPFByYourCommand.Commands
                         throw new NotImplementedException();
                 }
             }
-            if (e.NewValue != null && e.NewValue is ICommand)
+            if (e.NewValue != null && e.NewValue != DependencyProperty.UnsetValue && e.NewValue is ICommand)
             {
                 if (e.NewValue is IMenuCommand)
                     (e.NewValue as IMenuCommand).FillCommandSource(commandSource);

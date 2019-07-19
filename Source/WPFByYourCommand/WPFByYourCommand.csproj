@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
+    <Compile Include="Bindings\BindingDecoratorBase.cs" />
     <Compile Include="Commands\CommandUtils.cs" />
     <Compile Include="Behaviors\MenuItemTemplateSelector.cs" />
     <Compile Include="Commands\CommandUIBehaviorType.cs" />
@@ -72,10 +74,12 @@
     <Compile Include="Converters\IsEqualConverter.cs" />
     <Compile Include="Commands\IMenuCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Behaviors\ItemsControlExtender.cs" />
+    <Compile Include="Behaviors\ItemsControlBehavior.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
+    <Compile Include="Observables\PropertyChangeNotifier.cs" />
     <Compile Include="Observables\SafeObservableCollection.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
+    <Compile Include="Bindings\VisibleBinding.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

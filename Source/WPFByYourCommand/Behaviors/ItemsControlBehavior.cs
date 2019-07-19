@@ -5,14 +5,14 @@ using System.Windows.Input;
 
 namespace WPFByYourCommand.Behaviors
 {
-    public static class ItemsControlExtender
-    {
-        public static bool GetFocusPreviewMouseRightButtonDown(DependencyObject element)
+    public static class ItemsControlBehavior
+        {
+        public static bool GetFocusPreviewMouseRightButtonDown(ItemsControl element)
         {
             return (bool)element.GetValue(FocusPreviewMouseRightButtonDownProperty);
         }
 
-        public static void SetFocusPreviewMouseRightButtonDown(DependencyObject element, bool value)
+        public static void SetFocusPreviewMouseRightButtonDown(ItemsControl element, bool value)
         {
             element.SetValue(FocusPreviewMouseRightButtonDownProperty, value);
         }
@@ -22,8 +22,8 @@ namespace WPFByYourCommand.Behaviors
             DependencyProperty.RegisterAttached(
             "FocusPreviewMouseRightButtonDown",
             typeof(bool),
-            typeof(ItemsControlExtender),
-            new UIPropertyMetadata(false, OnFocusPreviewMouseRightButtonDownChanged));
+            typeof(ItemsControlBehavior),
+            new FrameworkPropertyMetadata(false, OnFocusPreviewMouseRightButtonDownChanged));
 
         static void OnFocusPreviewMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
@@ -66,12 +66,12 @@ namespace WPFByYourCommand.Behaviors
 
 
 
-        public static bool GetRollbackOnUnfocused(DependencyObject datagrid)
+        public static bool GetRollbackOnUnfocused(ItemsControl datagrid)
         {
             return (bool)datagrid.GetValue(RollbackOnUnfocusedProperty);
         }
 
-        public static void SetRollbackOnUnfocused(DependencyObject datagrid, bool value)
+        public static void SetRollbackOnUnfocused(ItemsControl datagrid, bool value)
         {
             datagrid.SetValue(RollbackOnUnfocusedProperty, value);
         }
@@ -80,8 +80,8 @@ namespace WPFByYourCommand.Behaviors
             DependencyProperty.RegisterAttached(
             "RollbackOnUnfocused",
             typeof(bool),
-            typeof(ItemsControlExtender),
-            new UIPropertyMetadata(false, OnRollbackOnUnfocusedChanged));
+            typeof(ItemsControlBehavior),
+            new FrameworkPropertyMetadata(false, OnRollbackOnUnfocusedChanged));
 
         static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {

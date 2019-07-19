@@ -13,7 +13,7 @@ namespace WPFByYourCommand.Controls
         static AutoDisablingImage()
         {
             // Override the metadata of the IsEnabled property.
-            IsEnabledProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
+            IsEnabledProperty.OverrideMetadata(typeof(AutoDisablingImage), new UIPropertyMetadata(true, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
             //SourceProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
         }
 

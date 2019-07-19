@@ -29,7 +29,7 @@ namespace WPFByYourCommand.Behaviors
             "IsBroughtIntoViewWhenSelected",
             typeof(bool),
             typeof(SelectorBehavior),
-            new UIPropertyMetadata(false, OnIsBroughtIntoViewWhenSelectionChanged));
+            new FrameworkPropertyMetadata(false, OnIsBroughtIntoViewWhenSelectionChanged));
 
         static void OnIsBroughtIntoViewWhenSelectionChanged(
           DependencyObject depObj, DependencyPropertyChangedEventArgs e)
