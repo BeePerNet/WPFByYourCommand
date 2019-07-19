@@ -68,7 +68,7 @@
     <Compile Include="Commands\ITextCommand.cs" />
     <Compile Include="Commands\ParentCommand.cs" />
     <Compile Include="Commands\SeparatorDummyCommand.cs" />
-    <Compile Include="Commands\WaekFunc.cs" />
+    <Compile Include="Commands\WeakFunc.cs" />
     <Compile Include="Commands\WeakAction.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
