@@ -10,7 +10,7 @@ namespace WPFByYourCommand.Commands
 {
     public class DirectCommand : IMenuCommand, INotifyPropertyChanged
     {
-        protected DirectCommand() { }
+        public DirectCommand() { }
 
         /// <summary>
         /// Name - Declared time Name of the property/field where it is
