@@ -23,6 +23,10 @@ namespace WPFByYourCommand.Commands
         private string _text;
         public string Text { get => _text; set => SetProperty(ref _text, value); }
 
+        private string _tag;
+        public string Tag { get => _tag; set => SetProperty(ref _tag, value); }
+
+
 
         public RoutedCommandEx(string name, string text, object icon, Type ownerType, params InputGesture[] gestures) : base(name, ownerType, new InputGestureCollection(gestures))
         {

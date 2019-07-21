@@ -10,7 +10,7 @@ namespace WPFByYourCommand.Observables
     {
         #region Class level variables
 
-        private WeakReference mPropertySource;
+        private readonly WeakReference mPropertySource;
 
         #endregion
 
@@ -30,13 +30,13 @@ namespace WPFByYourCommand.Observables
         {
             if (null == propertySource)
                 throw new ArgumentNullException("propertySource");
-            if (null == property)
-                throw new ArgumentNullException("property");
             this.mPropertySource = new WeakReference(propertySource);
-            Binding binding = new Binding();
-            binding.Path = property;
-            binding.Mode = BindingMode.OneWay;
-            binding.Source = propertySource;
+            Binding binding = new Binding
+            {
+                Path = property ?? throw new ArgumentNullException("property"),
+                Mode = BindingMode.OneWay,
+                Source = propertySource
+            };
             BindingOperations.SetBinding(this, ValueProperty, binding);
         }
 
@@ -73,9 +73,8 @@ namespace WPFByYourCommand.Observables
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            PropertyChangeNotifier notifier = (PropertyChangeNotifier)d;
-            if (null != notifier.ValueChanged)
-                notifier.ValueChanged(notifier, EventArgs.Empty);
+            PropertyChangeNotifier notifier = d as PropertyChangeNotifier;
+            notifier.ValueChanged?.Invoke(notifier, EventArgs.Empty);
         }
 
         /// <summary> 

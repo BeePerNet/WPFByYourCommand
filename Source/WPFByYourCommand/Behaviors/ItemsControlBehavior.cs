@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace WPFByYourCommand.Behaviors
 {
     public static class ItemsControlBehavior
-        {
+    {
         public static bool GetFocusPreviewMouseRightButtonDown(ItemsControl element)
         {
             return (bool)element.GetValue(FocusPreviewMouseRightButtonDownProperty);

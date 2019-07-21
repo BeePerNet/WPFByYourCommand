@@ -5,13 +5,13 @@ using WPFByYourCommand.Observables;
 
 namespace WPFByYourCommand.Bindings
 {
-    public class VisibleBinding : BindingDecoratorBase
+    public class VisibleBinding : BindingDecoratorBase, IDisposable
     {
         #region Class level variables
 
-        private FrameworkElement mTargetObject;
-        private DependencyProperty mTargetProperty;
-        private PropertyChangeNotifier mNotifier;
+        private FrameworkElement TargetObject;
+        private DependencyProperty TargetProperty;
+        private PropertyChangeNotifier Notifier;
 
         #endregion
 
@@ -48,12 +48,12 @@ namespace WPFByYourCommand.Bindings
 
         private void AttachTargetObject()
         {
-            SetVisibleBinding(mTargetObject, this);
+            SetVisibleBinding(TargetObject, this);
         }
 
         private void DetachTargetObject()
         {
-            SetVisibleBinding(mTargetObject, null);
+            SetVisibleBinding(TargetObject, null);
         }
 
         private void AttachTargetProperty()
@@ -66,26 +66,17 @@ namespace WPFByYourCommand.Bindings
 
         }
 
-        private void AttachExpression()
-        {
 
-        }
-
-        private void DetachExpression()
-        {
-
-        }
-
-        private void mNotifier_ValueChanged(object sender, EventArgs e)
+        private void NotifierValueChanged(object sender, EventArgs e)
         {
             CheckBindings();
         }
 
         private void CheckBindings()
         {
-            if (mNotifier != null && mNotifier.Value is bool)
+            if (Notifier != null && Notifier.Value is bool)
             {
-                if ((bool)mNotifier.Value)
+                if ((bool)Notifier.Value)
                 {
                     SetBinding();
                 }
@@ -98,17 +89,17 @@ namespace WPFByYourCommand.Bindings
 
         private void ClearBinding()
         {
-            if (mTargetObject != null && mTargetProperty != null)
+            if (TargetObject != null && TargetProperty != null)
             {
-                mTargetObject.SetValue(mTargetProperty, null);
+                TargetObject.SetValue(TargetProperty, null);
             }
         }
 
         private void SetBinding()
         {
-            if (mTargetObject != null && mTargetProperty != null)
+            if (TargetObject != null && TargetProperty != null)
             {
-                mTargetObject.SetBinding(mTargetProperty, this.Binding);
+                TargetObject.SetBinding(TargetProperty, this.Binding);
             }
         }
 
@@ -117,32 +108,32 @@ namespace WPFByYourCommand.Bindings
             if (targetObject is FrameworkElement)
             {
                 var element = targetObject as FrameworkElement;
-                if (mTargetObject == null)
+                if (TargetObject == null)
                 {
-                    if (mTargetObject != null)
+                    if (TargetObject != null)
                     {
                         DetachTargetObject();
                     }
-                    mTargetObject = element;
-                    if (mTargetObject != null)
+                    TargetObject = element;
+                    if (TargetObject != null)
                     {
                         AttachTargetObject();
                     }
-                    if (mTargetProperty != null)
+                    if (TargetProperty != null)
                     {
                         DetachTargetProperty();
                     }
-                    mTargetProperty = targetProperty;
-                    if (mTargetProperty != null)
+                    TargetProperty = targetProperty;
+                    if (TargetProperty != null)
                     {
                         AttachTargetProperty();
                     }
-                    if (mNotifier != null)
+                    if (Notifier != null)
                     {
-                        mNotifier.ValueChanged -= mNotifier_ValueChanged;
+                        Notifier.ValueChanged -= NotifierValueChanged;
                     }
-                    mNotifier = new PropertyChangeNotifier(element, "IsEnabled");
-                    mNotifier.ValueChanged += mNotifier_ValueChanged;
+                    Notifier = new PropertyChangeNotifier(element, "IsEnabled");
+                    Notifier.ValueChanged += NotifierValueChanged;
                     CheckBindings();
                 }
             }
@@ -219,14 +210,34 @@ namespace WPFByYourCommand.Bindings
         /// <param name="e">Event arguments.</param> 
         private static void OnVisibleBindingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var control = sender as FrameworkElement;
-            if (control != null)
+            //TODO:Problème ici à vérifier
+            if (sender is FrameworkElement control)
             {
             }
         }
 
         #endregion
 
-        #endregion 
+        #endregion
+
+
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose managed resources
+                if (this.Notifier != null)
+                    this.Notifier.Dispose();
+            }
+            // free native resources
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

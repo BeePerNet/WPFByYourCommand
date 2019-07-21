@@ -133,19 +133,21 @@ namespace WPFByYourCommand.Commands
             bitmap.EndInit();
             if (command.UseDisablingImage)
             {
-                AutoDisablingImage image = new AutoDisablingImage();
-                image.Source = bitmap;
-                image.Width = bitmap.PixelWidth;
-                image.Height = bitmap.PixelWidth;
-                return image;
+                return new AutoDisablingImage
+                {
+                    Source = bitmap,
+                    Width = bitmap.PixelWidth,
+                    Height = bitmap.PixelWidth
+                };
             }
             else
             {
-                Image image = new Image();
-                image.Source = bitmap;
-                image.Width = bitmap.PixelWidth;
-                image.Height = bitmap.PixelWidth;
-                return image;
+                return new Image
+                {
+                    Source = bitmap,
+                    Width = bitmap.PixelWidth,
+                    Height = bitmap.PixelWidth
+                };
             }
 
         }

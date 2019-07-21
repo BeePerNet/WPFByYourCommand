@@ -19,9 +19,13 @@ namespace WPFByYourCommand.Commands
 
         public bool UseDisablingImage => false;
 
+        public string Name => "-";
+
         public object Icon => null;
 
-        public event EventHandler CanExecuteChanged;
+        public string Tag => null;
+
+        public event EventHandler CanExecuteChanged { add { } remove { } }
 
         public bool CanExecute(object parameter)
         {

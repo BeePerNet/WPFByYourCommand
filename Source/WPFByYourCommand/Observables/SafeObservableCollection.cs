@@ -35,7 +35,7 @@ namespace WPFByYourCommand.Observables
             IsValid(name, expression, string.IsNullOrWhiteSpace(message) ? $"The value passed for '{name}' is out of range." : message);
         }
 
-        public static void IsNotNull<T>(string name, T value, string message = null)
+        public static void IsNotNull<U>(string name, U value, string message = null)
         {
             IsValid(name, value != null, string.IsNullOrWhiteSpace(message) ? $"The value passed for '{name}' is null." : message);
         }
@@ -142,8 +142,7 @@ namespace WPFByYourCommand.Observables
 
                     try
                     {
-                        var collection = _items as ICollection;
-                        if (collection != null)
+                        if (_items is ICollection collection)
                         {
                             _syncRoot = collection.SyncRoot;
                         }
@@ -477,14 +476,12 @@ namespace WPFByYourCommand.Observables
 
             try
             {
-                var tArray = array as T[];
-                if (tArray != null)
+                if (array is T[] tArray)
                 {
                     _items.CopyTo(tArray, arrayIndex);
                 }
                 else
                 {
-
 #if NETSTANDARD2_0 || NETFULL
                     //
                     // Catch the obvious case assignment will fail.
@@ -504,13 +501,12 @@ namespace WPFByYourCommand.Observables
                     // We can't cast array of value type to object[], so we don't support 
                     // widening of primitive types here.
                     //
-                    var objects = array as object[];
-                    if (objects == null)
+                    if (!(array is object[] objects))
                     {
                         throw new ArrayTypeMismatchException("Invalid array type");
                     }
 
-                    var count = _items.Count;
+                    int count = _items.Count;
                     try
                     {
                         for (var i = 0; i < count; i++)

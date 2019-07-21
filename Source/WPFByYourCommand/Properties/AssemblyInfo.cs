@@ -3,13 +3,13 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
 //[assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Behaviors")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Bindings")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Commands")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Controls")]
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Converters")]
+[assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -63,6 +63,6 @@ using System.Windows.Markup;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 
