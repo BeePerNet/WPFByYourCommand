@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -14,16 +15,16 @@ namespace WPFByYourCommand.Commands
         {
             if (commandSource is MenuItem)
                 FillMenuItem(command, commandSource as MenuItem);
-            else if (commandSource is Button)
-                FillButton(command, commandSource as Button);
+            else if (commandSource is ButtonBase)
+                FillButton(command, commandSource as ButtonBase);
         }
 
         public static void UnFillCommandSource(IMenuCommand command, ICommandSource commandSource)
         {
             if (commandSource is MenuItem)
                 UnFillMenuItem(command, commandSource as MenuItem);
-            else if (commandSource is Button)
-                UnFillButton(command, commandSource as Button);
+            else if (commandSource is ButtonBase)
+                UnFillButton(command, commandSource as ButtonBase);
         }
 
 
@@ -74,7 +75,7 @@ namespace WPFByYourCommand.Commands
                 menuItem.Icon = null;
         }
 
-        public static void FillButton(IMenuCommand command, Button button)
+        public static void FillButton(IMenuCommand command, ButtonBase button)
         {
             button.Command = command;
 
@@ -94,14 +95,14 @@ namespace WPFByYourCommand.Commands
                     button.Content = command.Icon;
 
                 if (!string.IsNullOrWhiteSpace(command.Text))
-                    if (!string.IsNullOrWhiteSpace(command.Text))
+                    if (command.Text.StartsWith("loc:"))
                         BindingOperations.SetBinding(button, Button.ToolTipProperty, new BLoc(command.Text.Remove(0, 4)));
                     else
                         button.ToolTip = command.Text;
             }
         }
 
-        public static void UnFillButton(IMenuCommand command, Button button)
+        public static void UnFillButton(IMenuCommand command, ButtonBase button)
         {
             button.Command = null;
 
@@ -115,6 +116,8 @@ namespace WPFByYourCommand.Commands
             }
             else
             {
+                button.Content = null;
+
                 if (!string.IsNullOrWhiteSpace(command.Text))
                     if (command.Text.StartsWith("loc:"))
                         BindingOperations.ClearBinding(button, Button.ToolTipProperty);
@@ -127,10 +130,7 @@ namespace WPFByYourCommand.Commands
 
         public static Image GetImage(IMenuCommand command)
         {
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(command.Icon.ToString());
-            bitmap.EndInit();
+            BitmapImage bitmap = new BitmapImage(new Uri(command.Icon.ToString()));
             if (command.UseDisablingImage)
             {
                 return new AutoDisablingImage

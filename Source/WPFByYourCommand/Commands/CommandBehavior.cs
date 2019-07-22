@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
@@ -112,9 +113,9 @@ namespace WPFByYourCommand.Commands
                             menuItem.Command = null;
                             menuItem.Header = null;
                         }
-                        else if (commandSource is Button)
+                        else if (commandSource is ButtonBase)
                         {
-                            Button button = commandSource as Button;
+                            ButtonBase button = commandSource as ButtonBase;
                             button.Command = null;
                             button.Content = null;
                         }
@@ -145,9 +146,9 @@ namespace WPFByYourCommand.Commands
                             menuItem.Command = e.NewValue as ICommand;
                             menuItem.Header = text;
                         }
-                        else if (commandSource is Button)
+                        else if (commandSource is ButtonBase)
                         {
-                            Button button = commandSource as Button;
+                            ButtonBase button = commandSource as ButtonBase;
                             button.Command = e.NewValue as ICommand;
                             button.Content = text;
                         }
