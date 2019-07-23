@@ -26,6 +26,8 @@ namespace WPFByYourCommand.Converters
                     else
                         result = (System.Convert.ToInt64(value) & parameterValue) == parameterValue;
                 }
+                else if (value is string && parameter != null)
+                    result = value.ToString().Equals(parameter.ToString(), StringComparison.OrdinalIgnoreCase);
                 else
                     result = value == parameter;
             }
