@@ -27,8 +27,7 @@ namespace WPFByYourCommand.Behaviors
 
         static void OnFocusPreviewMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
-            UIElement element = depObj as UIElement;
-            if (element == null)
+            if (!(depObj is UIElement element))
                 return;
 
             if (e.NewValue is bool == false)
@@ -85,8 +84,7 @@ namespace WPFByYourCommand.Behaviors
 
         static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
-            FrameworkElement datagrid = depObj as FrameworkElement;
-            if (datagrid == null)
+            if (!(depObj is FrameworkElement datagrid))
                 return;
 
             if (e.NewValue is bool == false)
@@ -106,12 +104,10 @@ namespace WPFByYourCommand.Behaviors
 
         static void RollbackDataGridOnLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            ItemsControl senderItemsControl = sender as ItemsControl;
-            if (senderItemsControl == null)
+            if (!(sender is ItemsControl senderItemsControl))
                 return;
 
-            UIElement focusedElement = Keyboard.FocusedElement as UIElement;
-            if (focusedElement == null)
+            if (!(Keyboard.FocusedElement is UIElement focusedElement))
                 return;
 
             ItemsControl focusedDatagrid = Helper.FindParentWithItemPresenter<ItemsControl>(focusedElement); //let's see if the new focused element is inside a datagrid
@@ -138,9 +134,7 @@ namespace WPFByYourCommand.Behaviors
 
         static void RollbackDataGridOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ItemsControl senderItemsControl = sender as ItemsControl;
-
-            if (senderItemsControl == null)
+            if (!(sender is ItemsControl senderItemsControl))
                 return;
 
             IEditableCollectionView collection = senderItemsControl.Items as IEditableCollectionView;
