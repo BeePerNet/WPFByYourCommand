@@ -85,6 +85,7 @@
     <Compile Include="Commands\SeparatorDummyCommand.cs" />
     <Compile Include="Commands\WeakFunc.cs" />
     <Compile Include="Commands\WeakAction.cs" />
+    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
     <Compile Include="Commands\IMenuCommand.cs" />
