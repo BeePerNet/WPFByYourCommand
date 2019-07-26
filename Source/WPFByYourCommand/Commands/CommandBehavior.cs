@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
 {
-    public class CommandBehavior
+    public class CommandBehavior: DependencyObject
     {
         public static readonly DependencyProperty ContextProperty = DependencyProperty.RegisterAttached("Context",
           typeof(ICommandContext), typeof(CommandBehavior),
@@ -15,14 +15,14 @@ namespace WPFByYourCommand.Commands
         public static ICommandContext GetContext(DependencyObject element)
         {
             if (element == null)
-                throw new ArgumentNullException("element", "is null");
+                throw new ArgumentNullException(nameof(element));
             return element.GetValue(ContextProperty) as ICommandContext;
         }
 
         public static void SetContext(DependencyObject element, ICommandContext commandContext)
         {
             if (element == null)
-                throw new ArgumentNullException("element", "is null");
+                throw new ArgumentNullException(nameof(element));
             element.SetValue(ContextProperty, commandContext);
         }
 
@@ -86,10 +86,24 @@ namespace WPFByYourCommand.Commands
 
 
 
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached(
-            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata((ICommand)null, FrameworkPropertyMetadataOptions.AffectsRender, _CommandPropertyChanged));
 
-        private static void _CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached(
+            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata((ICommand)null, CommandPropertyChanged));
+
+        private static void CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ICommandSource commandSource = d as ICommandSource;
 
@@ -161,13 +175,13 @@ namespace WPFByYourCommand.Commands
             }
         }
 
-        public static void SetCommand(Control target, CommandBehavior command)
+        public static void SetCommand(Control target, ICommand command)
         {
             target.SetValue(CommandProperty, command);
         }
-        public static CommandBehavior GetCommand(Control target)
+        public static ICommand GetCommand(Control target)
         {
-            return (CommandBehavior)target.GetValue(CommandProperty);
+            return (ICommand)target.GetValue(CommandProperty);
         }
 
 
