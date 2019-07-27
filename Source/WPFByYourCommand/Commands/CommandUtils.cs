@@ -11,6 +11,8 @@ namespace WPFByYourCommand.Commands
 {
     public static class CommandUtils
     {
+        private const string locPrefix = "loc:";
+
         public static void FillCommandSource(IMenuCommand command, ICommandSource commandSource)
         {
             if (commandSource is MenuItem)
@@ -35,13 +37,13 @@ namespace WPFByYourCommand.Commands
             menuItem.Command = command;
 
             if (!string.IsNullOrWhiteSpace(command.Text))
-                if (command.Text.StartsWith("loc:"))
+                if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                     BindingOperations.SetBinding(menuItem, MenuItem.HeaderProperty, new BLoc(command.Text.Remove(0, 4)));
                 else
                     menuItem.Header = command.Text;
 
             if (command.KeyGesture != null && !string.IsNullOrWhiteSpace(command.KeyGesture.DisplayString))
-                if (command.KeyGesture.DisplayString.StartsWith("loc:"))
+                if (command.KeyGesture.DisplayString.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                     BindingOperations.SetBinding(menuItem, MenuItem.InputGestureTextProperty, new BLoc(command.KeyGesture.DisplayString.Remove(0, 4)));
                 else
                     menuItem.InputGestureText = command.KeyGesture.DisplayString;
@@ -60,13 +62,13 @@ namespace WPFByYourCommand.Commands
             menuItem.Command = null;
 
             if (!string.IsNullOrWhiteSpace(command.Text))
-                if (command.Text.StartsWith("loc:"))
+                if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                     BindingOperations.ClearBinding(menuItem, MenuItem.HeaderProperty);
                 else
                     menuItem.Header = null;
 
             if (command.KeyGesture != null && !string.IsNullOrWhiteSpace(command.KeyGesture.DisplayString))
-                if (command.KeyGesture.DisplayString.StartsWith("loc:"))
+                if (command.KeyGesture.DisplayString.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                     BindingOperations.ClearBinding(menuItem, MenuItem.InputGestureTextProperty);
                 else
                     menuItem.InputGestureText = null;
@@ -82,7 +84,7 @@ namespace WPFByYourCommand.Commands
             if (command.Icon == null)
             {
                 if (!string.IsNullOrWhiteSpace(command.Text))
-                    if (command.Text.StartsWith("loc:"))
+                    if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                         BindingOperations.SetBinding(button, Button.ContentProperty, new BLoc(command.Text.Remove(0, 4)));
                     else
                         button.Content = command.Text;
@@ -95,7 +97,7 @@ namespace WPFByYourCommand.Commands
                     button.Content = command.Icon;
 
                 if (!string.IsNullOrWhiteSpace(command.Text))
-                    if (command.Text.StartsWith("loc:"))
+                    if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                         BindingOperations.SetBinding(button, Button.ToolTipProperty, new BLoc(command.Text.Remove(0, 4)));
                     else
                         button.ToolTip = command.Text;
@@ -109,7 +111,7 @@ namespace WPFByYourCommand.Commands
             if (command.Icon == null)
             {
                 if (!string.IsNullOrWhiteSpace(command.Text))
-                    if (command.Text.StartsWith("loc:"))
+                    if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                         BindingOperations.ClearBinding(button, Button.ContentProperty);
                     else
                         button.Content = null;
@@ -119,7 +121,7 @@ namespace WPFByYourCommand.Commands
                 button.Content = null;
 
                 if (!string.IsNullOrWhiteSpace(command.Text))
-                    if (command.Text.StartsWith("loc:"))
+                    if (command.Text.StartsWith(locPrefix, StringComparison.OrdinalIgnoreCase))
                         BindingOperations.ClearBinding(button, Button.ToolTipProperty);
                     else
                         button.ToolTip = null;
