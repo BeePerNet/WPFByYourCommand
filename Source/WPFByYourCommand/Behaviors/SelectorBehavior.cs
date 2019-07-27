@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,6 +10,7 @@ namespace WPFByYourCommand.Behaviors
     /// Exposes attached behaviors that can be
     /// applied to TreeViewItem objects.
     /// </summary>
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
     public static class SelectorBehavior
     {
         #region IsBroughtIntoViewWhenSelected
@@ -34,8 +36,7 @@ namespace WPFByYourCommand.Behaviors
         static void OnIsBroughtIntoViewWhenSelectionChanged(
           DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
-            Selector item = depObj as Selector;
-            if (item == null)
+            if (!(depObj is Selector item))
                 return;
 
             if (e.NewValue is bool == false)
@@ -56,8 +57,7 @@ namespace WPFByYourCommand.Behaviors
             if (!Object.ReferenceEquals(sender, e.OriginalSource))
                 return;
 
-            Selector item = e.OriginalSource as Selector;
-            if (item != null && item.SelectedItem != null)
+            if (e.OriginalSource is Selector item && item.SelectedItem != null)
             {
                 if (item is ListBox)
                     ((ListBox)item).ScrollIntoView(item.SelectedItem);

@@ -20,7 +20,7 @@ namespace WPFByYourCommand.Observables
     [DebuggerDisplay("Count = {Count}")]
     public class SafeObservableCollection<T> : IDisposable, IList<T>, IList, IReadOnlyList<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        public static void IsValid(string name, bool expression, string message = null)
+        public void IsValid(string name, bool expression, string message = null)
         {
             if (expression)
             {
@@ -30,12 +30,12 @@ namespace WPFByYourCommand.Observables
             throw new ArgumentException(name, string.IsNullOrWhiteSpace(message) ? $"The value passed for '{name}' is not valid." : message);
         }
 
-        public static void IsInRange(string name, bool expression, string message = null)
+        public void IsInRange(string name, bool expression, string message = null)
         {
             IsValid(name, expression, string.IsNullOrWhiteSpace(message) ? $"The value passed for '{name}' is out of range." : message);
         }
 
-        public static void IsNotNull<U>(string name, U value, string message = null)
+        public void IsNotNull<TValue>(string name, TValue value, string message = null)
         {
             IsValid(name, value != null, string.IsNullOrWhiteSpace(message) ? $"The value passed for '{name}' is null." : message);
         }
@@ -46,7 +46,7 @@ namespace WPFByYourCommand.Observables
 
         /// <summary>Initializes a new instance of the <see cref="SafeObservableCollection{T}" /> class that contains elements copied from the specified collection.</summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <exception cref="T:System.ArgumentNullException">The <paramref name="collection" /> parameter cannot be null.</exception>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="collection" /> parameter cannot be null.</exception>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public SafeObservableCollection(IEnumerable<T> collection) : this(collection, GetCurrentSynchronizationContext())
         {
@@ -54,7 +54,7 @@ namespace WPFByYourCommand.Observables
 
         /// <summary>Initializes a new instance of the <see cref="SafeObservableCollection{T}" /> class with the specified context.</summary>
         /// <param name="context">The context used for event invokation.</param>
-        /// <exception cref="T:System.ArgumentNullException">The <paramref name="context" /> parameter cannot be null.</exception>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="context" /> parameter cannot be null.</exception>
         public SafeObservableCollection(SynchronizationContext context) : this(new List<T>(), context)
         {
         }
@@ -62,11 +62,14 @@ namespace WPFByYourCommand.Observables
         /// <summary>Initializes a new instance of the <see cref="SafeObservableCollection{T}" /> class that contains elements copied from the specified collection with the specified context.</summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
         /// <param name="context">The context used for event invokation.</param>
-        /// <exception cref="T:System.ArgumentNullException">The <paramref name="collection" /> parameter cannot be null.</exception>
-        /// <exception cref="T:System.ArgumentNullException">The <paramref name="context" /> parameter cannot be null.</exception>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="collection" /> parameter cannot be null.</exception>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="context" /> parameter cannot be null.</exception>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public SafeObservableCollection(IEnumerable<T> collection, SynchronizationContext context)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             IsNotNull(nameof(collection), collection);
             IsNotNull(nameof(context), context);
 
@@ -77,6 +80,7 @@ namespace WPFByYourCommand.Observables
                 _items.Add(item);
             }
         }
+
 
 #if NETSTANDARD2_0 || NETFULL
         [NonSerialized]
@@ -168,14 +172,7 @@ namespace WPFByYourCommand.Observables
             get { return this[index]; }
             set
             {
-                try
-                {
-                    this[index] = (T)value;
-                }
-                catch (InvalidCastException)
-                {
-                    throw new ArgumentException("'value' is the wrong type");
-                }
+                this[index] = (T)value;
             }
         }
 
@@ -207,7 +204,7 @@ namespace WPFByYourCommand.Observables
         /// <summary>Gets or sets the element at the specified index.</summary>
         /// <returns>The element at the specified index.</returns>
         /// <param name="index">The zero-based index of the element to get or set.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is equal to or greater than <see cref="SafeObservableCollection{T}.Count" />. </exception>
         public T this[int index]
         {
@@ -263,15 +260,18 @@ namespace WPFByYourCommand.Observables
         {
             if (index < 0 || index >= _items.Count)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
         }
+
+        private const string NoReentrancyMessage = "SynchronizedObservableCollection reentrancy not allowed";
+        private const string InvalidOffsetMessage = "Invalid offset length.";
 
         private void CheckReentrancy()
         {
             if (_monitor.Busy && CollectionChanged != null && CollectionChanged.GetInvocationList().Length > 1)
             {
-                throw new InvalidOperationException("SynchronizedObservableCollection reentrancy not allowed");
+                throw new InvalidOperationException(NoReentrancyMessage);
             }
         }
 
@@ -293,7 +293,7 @@ namespace WPFByYourCommand.Observables
             {
                 _context.Send(state =>
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                     CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                 }, null);
@@ -306,7 +306,7 @@ namespace WPFByYourCommand.Observables
             {
                 _context.Send(state =>
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                     CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
                 }, null);
@@ -331,7 +331,7 @@ namespace WPFByYourCommand.Observables
             {
                 _context.Send(state =>
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
                     CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
                 }, null);
@@ -360,6 +360,9 @@ namespace WPFByYourCommand.Observables
             {
                 return;
             }
+            if (disposing)
+                if (_monitor != null)
+                    _monitor.Dispose();
 
             _itemsLocker.Dispose();
             _isDisposed = true;
@@ -405,10 +408,6 @@ namespace WPFByYourCommand.Observables
 
                 _items.Insert(index, item);
             }
-            catch (InvalidCastException)
-            {
-                throw new ArgumentException("'value' is the wrong type");
-            }
             finally
             {
                 _itemsLocker.ExitWriteLock();
@@ -439,18 +438,21 @@ namespace WPFByYourCommand.Observables
         }
 
         /// <summary>Copies the <see cref="SafeObservableCollection{T}" /> elements to an existing one-dimensional <see cref="System.Array" />, starting at the specified array index.</summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="SafeObservableCollection{T}" />. The <see cref="System.Array" /> must have zero-based indexing.</param>
+        /// <param name="array">The one-dimensional <see cref="System.Array" /> that is the destination of the elements copied from <see cref="SafeObservableCollection{T}" />. The <see cref="System.Array" /> must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// <paramref name="array" /> is null.</exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="arrayIndex" /> is less than zero.</exception>
-        /// <exception cref="T:System.ArgumentException">The number of elements in the source <see cref="SafeObservableCollection{T}" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination <paramref name="array" />.</exception>
+        /// <exception cref="System.ArgumentException">The number of elements in the source <see cref="SafeObservableCollection{T}" /> is greater than the available space from <paramref name="arrayIndex" /> to the end of the destination <paramref name="array" />.</exception>
         public void CopyTo(T[] array, int arrayIndex)
         {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
             IsNotNull(nameof(array), array);
             IsInRange(nameof(arrayIndex), arrayIndex >= 0 && arrayIndex < array.Length);
-            IsValid(nameof(arrayIndex), array.Length - arrayIndex >= Count, "Invalid offset length.");
+            IsValid(nameof(arrayIndex), array.Length - arrayIndex >= Count, InvalidOffsetMessage);
 
             _itemsLocker.EnterReadLock();
 
@@ -470,7 +472,7 @@ namespace WPFByYourCommand.Observables
             IsValid(nameof(array), array.Rank == 1, "Multidimensional array are not supported");
             IsValid(nameof(array), array.GetLowerBound(0) == 0, "Non-zero lower bound is not supported");
             IsInRange(nameof(arrayIndex), arrayIndex >= 0 && arrayIndex < array.Length);
-            IsValid(nameof(arrayIndex), array.Length - arrayIndex >= Count, "Invalid offset length.");
+            IsValid(nameof(arrayIndex), array.Length - arrayIndex >= Count, InvalidOffsetMessage);
 
             _itemsLocker.EnterReadLock();
 
@@ -572,7 +574,7 @@ namespace WPFByYourCommand.Observables
         }
 
         /// <summary>Returns an enumerator that iterates through the <see cref="SafeObservableCollection{T}" />.</summary>
-        /// <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1" /> for the <see cref="SafeObservableCollection{T}" />.</returns>
+        /// <returns>An <see cref="System.Collections.Generic.IEnumerator`1" /> for the <see cref="SafeObservableCollection{T}" />.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             _itemsLocker.EnterReadLock();
@@ -632,7 +634,7 @@ namespace WPFByYourCommand.Observables
         /// <summary>Inserts an element into the <see cref="SafeObservableCollection{T}" /> at the specified index.</summary>
         /// <param name="index">The zero-based index at which <paramref name="item" /> should be inserted.</param>
         /// <param name="item">The object to insert. The value can be null for reference types.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is greater than <see cref="SafeObservableCollection{T}.Count" />.</exception>
         public void Insert(int index, T item)
         {
@@ -644,7 +646,7 @@ namespace WPFByYourCommand.Observables
 
                 if (index < 0 || index > _items.Count)
                 {
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(index));
                 }
 
                 _items.Insert(index, item);
@@ -742,7 +744,7 @@ namespace WPFByYourCommand.Observables
 
         /// <summary>Removes the element at the specified index of the <see cref="SafeObservableCollection{T}" />.</summary>
         /// <param name="index">The zero-based index of the element to remove.</param>
-        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index" /> is less than zero.-or-<paramref name="index" /> is equal to or greater than <see cref="SafeObservableCollection{T}.Count" />.</exception>
         public void RemoveAt(int index)
         {

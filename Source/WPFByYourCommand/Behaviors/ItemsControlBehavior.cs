@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace WPFByYourCommand.Behaviors
 {
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
     public static class ItemsControlBehavior
     {
         public static bool GetFocusPreviewMouseRightButtonDown(ItemsControl element)

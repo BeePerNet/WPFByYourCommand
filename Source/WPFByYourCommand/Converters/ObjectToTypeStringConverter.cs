@@ -9,7 +9,7 @@ namespace WPFByYourCommand.Converters
          object value, Type targetType,
          object parameter, System.Globalization.CultureInfo culture)
         {
-            return value.GetType().Name;
+            return value?.GetType().Name;
         }
 
         public object ConvertBack(
@@ -17,7 +17,7 @@ namespace WPFByYourCommand.Converters
          object parameter, System.Globalization.CultureInfo culture)
         {
             // I don't think you'll need this
-            throw new Exception("Can't convert back");
+            throw new NotSupportedException();
         }
     }
 }

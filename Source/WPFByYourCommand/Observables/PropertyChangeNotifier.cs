@@ -29,11 +29,11 @@ namespace WPFByYourCommand.Observables
         public PropertyChangeNotifier(DependencyObject propertySource, PropertyPath property)
         {
             if (null == propertySource)
-                throw new ArgumentNullException("propertySource");
+                throw new ArgumentNullException(nameof(propertySource));
             this.mPropertySource = new WeakReference(propertySource);
             Binding binding = new Binding
             {
-                Path = property ?? throw new ArgumentNullException("property"),
+                Path = property ?? throw new ArgumentNullException(nameof(property)),
                 Mode = BindingMode.OneWay,
                 Source = propertySource
             };
@@ -48,16 +48,9 @@ namespace WPFByYourCommand.Observables
         {
             get
             {
-                try
-                {
-                    return this.mPropertySource.IsAlive
-                    ? this.mPropertySource.Target as DependencyObject
-                    : null;
-                }
-                catch
-                {
-                    return null;
-                }
+                return this.mPropertySource != null && this.mPropertySource.IsAlive
+                ? this.mPropertySource.Target as DependencyObject
+                : null;
             }
         }
 
@@ -84,7 +77,9 @@ namespace WPFByYourCommand.Observables
         [Description("Returns/sets the value of the property")]
         [Category("Behavior")]
         [Bindable(true)]
+#pragma warning disable CA1721 // Property names should not match get methods
         public object Value
+#pragma warning restore CA1721 // Property names should not match get methods
         {
             get
             {

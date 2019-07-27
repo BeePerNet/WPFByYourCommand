@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -6,7 +7,8 @@ using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
 {
-    public class CommandBehavior
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
+    public static class CommandBehavior
     {
         public static readonly DependencyProperty ContextProperty = DependencyProperty.RegisterAttached("Context",
           typeof(ICommandContext), typeof(CommandBehavior),
@@ -63,9 +65,9 @@ namespace WPFByYourCommand.Commands
 
 
         public static readonly DependencyProperty UITypeProperty = DependencyProperty.RegisterAttached(
-            "UIType", typeof(CommandUIBehaviorType), typeof(CommandBehavior), new FrameworkPropertyMetadata(CommandUIBehaviorType.Default, _UITypePropertyChanged));
+            "UIType", typeof(CommandUIBehaviorType), typeof(CommandBehavior), new FrameworkPropertyMetadata(CommandUIBehaviorType.Default, UITypePropertyChanged));
 
-        private static void _UITypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void UITypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             throw new NotImplementedException();
         }

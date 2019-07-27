@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
 {
+    [SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix")]
     public class RoutedCommandEx : RoutedCommand, INotifyPropertyChanged, IMenuCommand
     {
         public RoutedCommandEx() { }

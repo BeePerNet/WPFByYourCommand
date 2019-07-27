@@ -220,13 +220,15 @@ namespace WPFByYourCommand.Commands
             Reference = new WeakReference(target);
 
 #if DEBUG
+#pragma warning disable CA1508 // Avoid dead conditional code
             if (FuncReference != null
+#pragma warning restore CA1508 // Avoid dead conditional code
                 && FuncReference.Target != null
                 && !keepTargetAlive)
             {
                 var type = FuncReference.Target.GetType();
 
-                if (type.Name.StartsWith("<>")
+                if (type.Name.StartsWith("<>", StringComparison.Ordinal)
                     && type.Name.Contains("DisplayClass"))
                 {
                     System.Diagnostics.Debug.WriteLine(

@@ -149,7 +149,7 @@ namespace WPFByYourCommand.Commands
         /// parameter to true if the action is using closures. See
         /// http://galasoft.ch/s/mvvmweakaction. </param>
         public WeakAction(Action<T1, T2> action, bool keepTargetAlive = false)
-            : this(action == null ? null : action.Target, action, keepTargetAlive)
+            : this(action?.Target, action, keepTargetAlive)
         {
         }
 
@@ -225,13 +225,15 @@ namespace WPFByYourCommand.Commands
             Reference = new WeakReference(target);
 
 #if DEBUG
+#pragma warning disable CA1508 // Avoid dead conditional code
             if (ActionReference != null
+#pragma warning restore CA1508 // Avoid dead conditional code
                 && ActionReference.Target != null
                 && !keepTargetAlive)
             {
                 var type = ActionReference.Target.GetType();
 
-                if (type.Name.StartsWith("<>")
+                if (type.Name.StartsWith("<>", StringComparison.Ordinal)
                     && type.Name.Contains("DisplayClass"))
                 {
                     System.Diagnostics.Debug.WriteLine(

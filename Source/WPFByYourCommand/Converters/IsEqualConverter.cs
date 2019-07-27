@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
@@ -6,31 +7,41 @@ namespace WPFByYourCommand.Converters
 {
     public class IsEqualConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+        internal static bool GetValue(object value, object parameter)
         {
             bool result = false;
             if (value == null && parameter == null)
                 result = true;
+            else if (parameter == null)
+                result = false;
             else if (value != null)
             {
                 if (value.GetType().IsEnum)
                 {
-                    Int64 parameterValue = 0;
+                    Int64 parameterValue;
                     if (parameter is string)
-                        parameterValue = System.Convert.ToInt64(Enum.Parse(value.GetType(), parameter.ToString()));
+                        parameterValue = System.Convert.ToInt64(Enum.Parse(value.GetType(), parameter.ToString()), CultureInfo.InvariantCulture);
                     else
-                        parameterValue = System.Convert.ToInt64(parameter);
+                        parameterValue = System.Convert.ToInt64(parameter, CultureInfo.InvariantCulture);
                     if (parameterValue == 0)
-                        result = System.Convert.ToInt64(value) == 0;
+                        result = System.Convert.ToInt64(value, CultureInfo.InvariantCulture) == 0;
                     else
-                        result = (System.Convert.ToInt64(value) & parameterValue) == parameterValue;
+                        result = (System.Convert.ToInt64(value, CultureInfo.InvariantCulture) & parameterValue) == parameterValue;
                 }
-                else if (value is string && parameter != null)
+                else if (value is string)
                     result = value.ToString().Equals(parameter.ToString(), StringComparison.OrdinalIgnoreCase);
                 else
                     result = value == parameter;
             }
+            return result;
+        }
+
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            bool result = GetValue(value, parameter);
+
             if (targetType == typeof(object) || targetType == typeof(bool) || targetType == typeof(bool?))
                 return result;
             if (targetType == typeof(int))

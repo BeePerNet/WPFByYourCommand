@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace WPFByYourCommand.Bindings
     /// that can be found on regular <see cref="Binding"/> markup extension.<br/>
     /// See: http://www.hardcodet.net/2008/04/wpf-custom-binding-class 
     /// </summary>
+    [SuppressMessage("Design", "CA1012:Abstract types should not have constructors")]
     [MarkupExtensionReturnType(typeof(object))]
     public abstract class BindingDecoratorBase : MarkupExtension
     {
@@ -238,12 +240,12 @@ namespace WPFByYourCommand.Bindings
         /// In case of a valid binding expression, this is a <see cref="BindingExpressionBase"/>
         /// instance.
         /// </returns>
-        /// <param name="provider">Object that can provide services for the markup
+        /// <param name="serviceProvider">Object that can provide services for the markup
         /// extension.</param>
-        public override object ProvideValue(IServiceProvider provider)
+        public override object ProvideValue(IServiceProvider serviceProvider)
         {
             //create a binding and associate it with the target
-            return binding.ProvideValue(provider);
+            return binding.ProvideValue(serviceProvider);
         }
 
 

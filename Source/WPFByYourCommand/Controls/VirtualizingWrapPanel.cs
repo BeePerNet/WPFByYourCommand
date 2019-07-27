@@ -84,7 +84,7 @@ namespace WPFByYourCommand.Controls
 
         protected virtual void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
+            if (e != null && e.AddedItems.Count > 0)
             {
                 object addedItem = e.AddedItems[0];
                 int selectedIndex = _itemsControl.Items.IndexOf(addedItem);
@@ -149,9 +149,7 @@ namespace WPFByYourCommand.Controls
             {
                 for (var itemIndex = layoutInfo.FirstRealizedItemIndex; itemIndex <= layoutInfo.LastRealizedItemIndex; itemIndex++, visualIndex++)
                 {
-                    bool newlyRealized;
-
-                    var child = (UIElement)_itemsGenerator.GenerateNext(out newlyRealized);
+                    var child = (UIElement)_itemsGenerator.GenerateNext(out bool newlyRealized);
                     SetVirtualItemIndex(child, itemIndex);
 
                     if (newlyRealized)
@@ -316,7 +314,7 @@ namespace WPFByYourCommand.Controls
 
             var itemsPerLine = Math.Max((int)Math.Floor(viewPortSize.Width / ItemWidth), 1);
             var totalLines = (int)Math.Ceiling((double)_itemsControl.Items.Count / itemsPerLine);
-            var extentHeight = Math.Max(totalLines * ItemHeight, viewPortSize.Height);
+            var extentHeight = Math.Max(totalLines * itemHeight, viewPortSize.Height);
 
             return new ExtentInfo
             {
@@ -529,25 +527,19 @@ namespace WPFByYourCommand.Controls
                 wrapPanel.InvalidateMeasure();
         }
 
-        private double Clamp(double value, double min, double max)
+        private static double Clamp(double value, double min, double max)
         {
             return Math.Min(Math.Max(value, min), max);
         }
 
         internal class ExtentInfo
         {
-            public int ItemsPerLine;
-            public int TotalLines;
-            public double ExtentHeight;
-            public double MaxVerticalOffset;
+            public int ItemsPerLine { get; set; }
+            public int TotalLines { get; set; }
+            public double ExtentHeight { get; set; }
+            public double MaxVerticalOffset { get; set; }
         }
 
-        public class ItemLayoutInfo
-        {
-            public int FirstRealizedItemIndex;
-            public double FirstRealizedLineTop;
-            public double FirstRealizedItemLeft;
-            public int LastRealizedItemIndex;
-        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,18 +26,10 @@ namespace WPFByYourCommand.Controls
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OnAutoGreyScaleImageIsEnabledPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
-            try
+            if (args != null && !(args.OldValue ?? false).Equals(args.NewValue))
             {
-                if (!args.OldValue.Equals(args.NewValue))
-                {
-                    AutoDisablingImage autoGreyScaleImg = source as AutoDisablingImage;
-                    if (autoGreyScaleImg != null)
-                        autoGreyScaleImg.Opacity = (!(args.NewValue as bool? ?? false)) ? 0.4 : 1;
-                }
-            }
-            catch (Exception)
-            {
-
+                if (source is AutoDisablingImage autoGreyScaleImg)
+                    autoGreyScaleImg.Opacity = !Convert.ToBoolean(args.NewValue ?? false, CultureInfo.InvariantCulture) ? 0.4 : 1;
             }
         }
 

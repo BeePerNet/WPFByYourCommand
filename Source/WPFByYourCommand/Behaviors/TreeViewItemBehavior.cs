@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,6 +9,7 @@ namespace WPFByYourCommand.Behaviors
     /// Exposes attached behaviors that can be
     /// applied to TreeViewItem objects.
     /// </summary>
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
     public static class TreeViewItemBehavior
     {
         #region IsBroughtIntoViewWhenSelected
@@ -33,8 +35,7 @@ namespace WPFByYourCommand.Behaviors
         static void OnIsBroughtIntoViewWhenSelectedChanged(
           DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
-            TreeViewItem item = depObj as TreeViewItem;
-            if (item == null)
+            if (!(depObj is TreeViewItem item))
                 return;
 
             if (e.NewValue is bool == false)
@@ -54,8 +55,7 @@ namespace WPFByYourCommand.Behaviors
             if (!Object.ReferenceEquals(sender, e.OriginalSource))
                 return;
 
-            TreeViewItem item = e.OriginalSource as TreeViewItem;
-            if (item != null)
+            if (e.OriginalSource is TreeViewItem item)
                 item.BringIntoView();
         }
 

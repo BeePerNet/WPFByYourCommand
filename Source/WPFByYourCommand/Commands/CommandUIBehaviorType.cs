@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WPFByYourCommand.Commands
 {
+    [SuppressMessage("Design", "CA1008:Enums should have zero value")]
     [Flags]
     public enum CommandUIBehaviorType
     {

@@ -1,14 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using WPFByYourCommand.Observables;
 
 namespace WPFByYourCommand.Commands
 {
-    public abstract class CommandViewModel : ObservableObject, ICommandContext
+    public abstract class CommandViewModel : ObservableObject, ICommandContext, IDisposable
     {
         private static CommandBindingCollection _commandList;
         private static InputBindingCollection _inputList;
-        private string _statusText = string.Empty;
 
         public CommandBindingCollection Commands
         {
@@ -48,13 +48,35 @@ namespace WPFByYourCommand.Commands
 
         public static T GetViewModelObject<T>(object originalSource) where T : CommandViewModel
         {
-            FrameworkElement element = originalSource as FrameworkElement;
-            if (element == null)
+            if (!(originalSource is FrameworkElement element))
                 return null;
             //if (element is Selector)
             //  return (element as Selector)?.SelectedItem as T;
 
             return element.DataContext as T;
+        }
+
+
+        protected virtual void InternalDispose(bool disposing)
+        {
+
+        }
+
+        bool _disposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            this.InternalDispose(disposing);
+            // free native resources
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
     }

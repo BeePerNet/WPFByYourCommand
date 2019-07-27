@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
@@ -11,6 +13,8 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://wpfbyyourcommand.codeplex.com", "WPFByYourCommand.Converters")]
 [assembly: XmlnsPrefix("http://wpfbyyourcommand.codeplex.com", "cmd")]
 
+
+[assembly: CLSCompliant(true)]
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -40,7 +44,7 @@ using System.Windows.Markup;
 //l'attribut NeutralResourceLanguage ci-dessous. Mettez à jour "fr-FR" dans
 //la ligne ci-après pour qu'elle corresponde au paramètre UICulture du fichier projet.
 
-//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
+[assembly: NeutralResourcesLanguage("en")]
 
 
 [assembly: ThemeInfo(
@@ -63,6 +67,6 @@ using System.Windows.Markup;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Data;
 using WPFByYourCommand.Observables;
@@ -43,7 +44,13 @@ namespace WPFByYourCommand.Bindings
 
         public static void SetVisibleBinding(Binding binding, FrameworkElement targetObject, DependencyProperty targetProperty)
         {
+#pragma warning disable CA1806 // Do not ignore method results
+#pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDE0067 // Supprimer les objets avant la mise hors de portée
             new VisibleBinding(binding, targetObject, targetProperty);
+#pragma warning restore IDE0067 // Supprimer les objets avant la mise hors de portée
+#pragma warning restore CA2000 // Dispose objects before losing scope
+#pragma warning restore CA1806 // Do not ignore method results
         }
 
         private void AttachTargetObject()
@@ -56,11 +63,14 @@ namespace WPFByYourCommand.Bindings
             SetVisibleBinding(TargetObject, null);
         }
 
+
+        [SuppressMessage("Design", "CA1822")]
         private void AttachTargetProperty()
         {
 
         }
 
+        [SuppressMessage("Design", "CA1822")]
         private void DetachTargetProperty()
         {
 
@@ -108,34 +118,31 @@ namespace WPFByYourCommand.Bindings
             if (targetObject is FrameworkElement)
             {
                 var element = targetObject as FrameworkElement;
-                if (TargetObject == null)
+                if (TargetObject != null)
                 {
-                    if (TargetObject != null)
-                    {
-                        DetachTargetObject();
-                    }
-                    TargetObject = element;
-                    if (TargetObject != null)
-                    {
-                        AttachTargetObject();
-                    }
-                    if (TargetProperty != null)
-                    {
-                        DetachTargetProperty();
-                    }
-                    TargetProperty = targetProperty;
-                    if (TargetProperty != null)
-                    {
-                        AttachTargetProperty();
-                    }
-                    if (Notifier != null)
-                    {
-                        Notifier.ValueChanged -= NotifierValueChanged;
-                    }
-                    Notifier = new PropertyChangeNotifier(element, "IsEnabled");
-                    Notifier.ValueChanged += NotifierValueChanged;
-                    CheckBindings();
+                    DetachTargetObject();
                 }
+                TargetObject = element;
+                if (TargetObject != null)
+                {
+                    AttachTargetObject();
+                }
+                if (TargetProperty != null)
+                {
+                    DetachTargetProperty();
+                }
+                TargetProperty = targetProperty;
+                if (TargetProperty != null)
+                {
+                    AttachTargetProperty();
+                }
+                if (Notifier != null)
+                {
+                    Notifier.ValueChanged -= NotifierValueChanged;
+                }
+                Notifier = new PropertyChangeNotifier(element, "IsEnabled");
+                Notifier.ValueChanged += NotifierValueChanged;
+                CheckBindings();
             }
         }
 
@@ -174,7 +181,7 @@ namespace WPFByYourCommand.Bindings
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             return (VisibleBinding)element.GetValue(VisibleBindingProperty);
         }
@@ -188,7 +195,7 @@ namespace WPFByYourCommand.Bindings
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             element.SetValue(VisibleBindingProperty, value);
         }
@@ -211,7 +218,7 @@ namespace WPFByYourCommand.Bindings
         private static void OnVisibleBindingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             //TODO:Problème ici à vérifier
-            if (sender is FrameworkElement control)
+            if (sender is FrameworkElement)
             {
             }
         }
@@ -222,9 +229,12 @@ namespace WPFByYourCommand.Bindings
 
 
 
-
+        bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {
+            if (_disposed)
+                return;
+
             if (disposing)
             {
                 // dispose managed resources
@@ -232,6 +242,7 @@ namespace WPFByYourCommand.Bindings
                     this.Notifier.Dispose();
             }
             // free native resources
+            _disposed = true;
         }
 
         public void Dispose()

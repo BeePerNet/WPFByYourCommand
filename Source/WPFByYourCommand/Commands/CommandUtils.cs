@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -9,6 +10,7 @@ using WPFLocalizeExtension.Extensions;
 
 namespace WPFByYourCommand.Commands
 {
+    [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope")]
     public static class CommandUtils
     {
         private const string locPrefix = "loc:";
@@ -34,6 +36,9 @@ namespace WPFByYourCommand.Commands
 
         public static void FillMenuItem(IMenuCommand command, MenuItem menuItem)
         {
+            if (command == null || menuItem == null)
+                return;
+
             menuItem.Command = command;
 
             if (!string.IsNullOrWhiteSpace(command.Text))
@@ -59,6 +64,9 @@ namespace WPFByYourCommand.Commands
 
         public static void UnFillMenuItem(IMenuCommand command, MenuItem menuItem)
         {
+            if (command == null || menuItem == null)
+                return;
+
             menuItem.Command = null;
 
             if (!string.IsNullOrWhiteSpace(command.Text))
@@ -79,6 +87,9 @@ namespace WPFByYourCommand.Commands
 
         public static void FillButton(IMenuCommand command, ButtonBase button)
         {
+            if (command == null || button == null)
+                return;
+
             button.Command = command;
 
             if (command.Icon == null)
@@ -106,6 +117,9 @@ namespace WPFByYourCommand.Commands
 
         public static void UnFillButton(IMenuCommand command, ButtonBase button)
         {
+            if (command == null || button == null)
+                return;
+
             button.Command = null;
 
             if (command.Icon == null)
@@ -132,6 +146,9 @@ namespace WPFByYourCommand.Commands
 
         public static Image GetImage(IMenuCommand command)
         {
+            if (command == null)
+                return null;
+
             BitmapImage bitmap = new BitmapImage(new Uri(command.Icon.ToString()));
             if (command.UseDisablingImage)
             {
