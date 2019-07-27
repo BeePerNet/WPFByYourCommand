@@ -21,7 +21,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <UICulture>en-us</UICulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
