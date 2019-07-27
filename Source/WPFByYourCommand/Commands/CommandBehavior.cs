@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace WPFByYourCommand.Commands
 {
-    public class CommandBehavior: DependencyObject
+    public class CommandBehavior
     {
         public static readonly DependencyProperty ContextProperty = DependencyProperty.RegisterAttached("Context",
           typeof(ICommandContext), typeof(CommandBehavior),

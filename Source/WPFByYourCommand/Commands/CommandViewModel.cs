@@ -57,16 +57,5 @@ namespace WPFByYourCommand.Commands
             return element.DataContext as T;
         }
 
-
-
-
-
-
-
-        public string StatusText
-        {
-            get { return _statusText; }
-            set { SetProperty(ref _statusText, value); }
-        }
     }
 }
