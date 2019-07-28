@@ -103,7 +103,6 @@
     <Compile Include="Observables\SafeObservableCollection.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Compile Include="Bindings\VisibleBinding.cs" />
-    <Compile Include="Threading\TaskCancellationExtension.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
