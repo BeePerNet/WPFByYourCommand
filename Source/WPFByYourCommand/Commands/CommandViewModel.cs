@@ -7,8 +7,8 @@ namespace WPFByYourCommand.Commands
 {
     public abstract class CommandViewModel : ObservableObject, ICommandContext, IDisposable
     {
-        private static CommandBindingCollection _commandList;
-        private static InputBindingCollection _inputList;
+        private CommandBindingCollection _commandList;
+        private InputBindingCollection _inputList;
 
         public CommandBindingCollection Commands
         {
@@ -50,8 +50,6 @@ namespace WPFByYourCommand.Commands
         {
             if (!(originalSource is FrameworkElement element))
                 return null;
-            //if (element is Selector)
-            //  return (element as Selector)?.SelectedItem as T;
 
             return element.DataContext as T;
         }
