@@ -5,7 +5,7 @@ using WPFByYourCommand.Observables;
 
 namespace WPFByYourCommand.Commands
 {
-    public abstract class CommandViewModel : ObservableObject, ICommandContext, IDisposable
+    public abstract class CommandViewModel : ObservableObject, ICommandContext
     {
         private CommandBindingCollection _commandList;
         private InputBindingCollection _inputList;
