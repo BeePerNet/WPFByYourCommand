@@ -55,27 +55,6 @@ namespace WPFByYourCommand.Commands
         }
 
 
-        protected virtual void InternalDispose(bool disposing)
-        {
-
-        }
-
-        bool _disposed = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            this.InternalDispose(disposing);
-            // free native resources
-            _disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
     }
 }
