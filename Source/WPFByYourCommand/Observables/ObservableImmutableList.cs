@@ -9,6 +9,10 @@ using System.Collections.Immutable;
 
 namespace WPFByYourCommand.Observables
 {
+    /// <summary>
+    /// FROM https://www.codeproject.com/Articles/64936/Threadsafe-ObservableImmutable-Collection
+    /// By AnthonyPaulO
+    /// </summary>
     public class ObservableImmutableCollection<T> : ObservableCollectionObject, IList, ICollection, IEnumerable, IList<T>, IImmutableList<T>, ICollection<T>, IEnumerable<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         #region Private

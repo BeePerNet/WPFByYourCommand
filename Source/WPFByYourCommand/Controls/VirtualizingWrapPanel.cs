@@ -41,7 +41,7 @@ namespace WPFByYourCommand.Controls
 
         private static void SetVirtualItemIndex(DependencyObject obj, int value)
         {
-                obj.SetValue(VirtualItemIndexProperty, value);
+            obj.SetValue(VirtualItemIndexProperty, value);
         }
 
         public double ItemHeight
@@ -64,23 +64,6 @@ namespace WPFByYourCommand.Controls
             }
         }
 
-
-
-        /*public void ScrollIntoView(object item)
-        {
-            int index = _itemsControl.Items.IndexOf(item);
-            var generatorStartPosition = _itemsGenerator.GeneratorPositionFromIndex(index);
-
-            //_itemsGenerator.
-            //if (itemIndex < 0 || itemIndex >= this.ItemCount)
-            //  throw new ArgumentOutOfRangeException(nameof(itemIndex));
-
-
-            //new ItemsControl.ItemInfo(item, container, index).Refresh(this.ItemContainerGenerator);
-            //SetVerticalOffset(generatorStartPosition.Offset);
-
-
-        }*/
 
         protected virtual void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
