@@ -41,7 +41,7 @@ namespace WPFByYourCommand.Controls
 
         private static void SetVirtualItemIndex(DependencyObject obj, int value)
         {
-            obj.SetValue(VirtualItemIndexProperty, value);
+                obj.SetValue(VirtualItemIndexProperty, value);
         }
 
         public double ItemHeight

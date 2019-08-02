@@ -54,6 +54,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\SizeOnDisk\Source\packages\System.Collections.Immutable.1.5.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Xml" />
@@ -99,8 +102,9 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Behaviors\ItemsControlBehavior.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
+    <Compile Include="Observables\ObservableCollectionObject.cs" />
+    <Compile Include="Observables\ObservableImmutableList.cs" />
     <Compile Include="Observables\PropertyChangeNotifier.cs" />
-    <Compile Include="Observables\SafeObservableCollection.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Compile Include="Bindings\VisibleBinding.cs" />
     <Page Include="Themes\Generic.xaml">
@@ -114,7 +118,6 @@
   <ItemGroup>
     <Compile Include="Helper.cs" />
     <Compile Include="Commands\ICommandContext.cs" />
-    <Compile Include="Observables\DispatchObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
