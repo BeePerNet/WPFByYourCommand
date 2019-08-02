@@ -56,15 +56,9 @@ namespace WPFByYourCommand.Commands
         private string _tag;
         public string Tag { get => _tag; set => SetProperty(ref _tag, value); }
 
-        public DirectCommand(string name, string text, string iconSource, Type ownerType,
-            Action<DirectCommand, object> execute, bool keepTargetAlive = false, params InputGesture[] gestures) :
-            this(name, text, iconSource, ownerType,
-            execute, null, keepTargetAlive, gestures)
-        { }
-
 
         public DirectCommand(string name, string text, string iconSource, Type ownerType,
-            Action<DirectCommand, object> execute, Func<DirectCommand, object, bool> canExecute, bool keepTargetAlive = false, params InputGesture[] gestures)
+            Action<DirectCommand, object> execute, Func<DirectCommand, object, bool> canExecute = null, bool keepTargetAlive = false, params InputGesture[] gestures)
         {
             if (execute != null)
             {
