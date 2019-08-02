@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Collections.Immutable;
 
 namespace WPFByYourCommand.Observables
 {
@@ -13,6 +13,7 @@ namespace WPFByYourCommand.Observables
     /// FROM https://www.codeproject.com/Articles/64936/Threadsafe-ObservableImmutable-Collection
     /// By AnthonyPaulO
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
     public class ObservableImmutableCollection<T> : ObservableCollectionObject, IList, ICollection, IEnumerable, IList<T>, IImmutableList<T>, ICollection<T>, IEnumerable<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         #region Private
@@ -344,7 +345,7 @@ namespace WPFByYourCommand.Observables
 
         #endregion Specific
 
-        public ImmutableList<T> ToImmutableList()
+        public IImmutableList<T> ToImmutableList()
         {
             return _items;
         }

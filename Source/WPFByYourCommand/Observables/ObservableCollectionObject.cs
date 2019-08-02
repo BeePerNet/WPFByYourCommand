@@ -77,10 +77,10 @@ namespace WPFByYourCommand.Observables
             }
 
             _lockObjWasTaken = true;
-            PumpWait_PumpUntil(dispatcher, condition);
+            PumpWaitPumpUntil(dispatcher, condition);
         }
 
-        protected static void PumpWait_PumpUntil(Dispatcher dispatcher, Func<bool> condition)
+        protected static void PumpWaitPumpUntil(Dispatcher dispatcher, Func<bool> condition)
         {
             var frame = new DispatcherFrame();
             BeginInvokePump(dispatcher, frame, condition);
