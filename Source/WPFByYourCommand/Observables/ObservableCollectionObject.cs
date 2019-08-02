@@ -80,6 +80,7 @@ namespace WPFByYourCommand.Observables
             PumpWaitPumpUntil(dispatcher, condition);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
         protected static void PumpWaitPumpUntil(Dispatcher dispatcher, Func<bool> condition)
         {
             var frame = new DispatcherFrame();

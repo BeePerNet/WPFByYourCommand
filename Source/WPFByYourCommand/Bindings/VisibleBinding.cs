@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Data;
-using WPFByYourCommand.Observables;
 
 namespace WPFByYourCommand.Bindings
 {

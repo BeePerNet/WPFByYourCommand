@@ -104,7 +104,7 @@
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
     <Compile Include="Observables\ObservableCollectionObject.cs" />
     <Compile Include="Observables\ObservableImmutableList.cs" />
-    <Compile Include="Observables\PropertyChangeNotifier.cs" />
+    <Compile Include="Bindings\PropertyChangeNotifier.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Compile Include="Bindings\VisibleBinding.cs" />
     <Page Include="Themes\Generic.xaml">

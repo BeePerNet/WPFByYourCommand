@@ -9,6 +9,8 @@ using System.Windows.Input;
 namespace WPFByYourCommand.Commands
 {
     [SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix")]
+    [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#")]
+
     public class RoutedCommandEx : RoutedCommand, INotifyPropertyChanged, IMenuCommand
     {
         public RoutedCommandEx() { }

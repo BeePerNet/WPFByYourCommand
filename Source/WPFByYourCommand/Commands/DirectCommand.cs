@@ -93,6 +93,7 @@ namespace WPFByYourCommand.Commands
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Common implementations of SetProperty
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "0#")]
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName]string name = null)
         {
             bool propertyChanged = false;

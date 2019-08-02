@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 
-namespace WPFByYourCommand.Observables
+namespace WPFByYourCommand.Bindings
 {
 
     public sealed class PropertyChangeNotifier : DependencyObject, IDisposable
