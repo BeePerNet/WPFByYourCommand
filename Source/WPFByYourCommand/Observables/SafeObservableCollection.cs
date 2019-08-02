@@ -11,6 +11,7 @@ using System.Threading;
 
 namespace WPFByYourCommand.Observables
 {
+    /// Not fully tested ******************************************************************
     /// <summary>Represents a thread-safe dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed.</summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
 #if NETSTANDARD2_0 || NETFULL

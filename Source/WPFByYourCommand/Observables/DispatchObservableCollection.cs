@@ -7,6 +7,10 @@ using System.Windows.Threading;
 
 namespace WPFByYourCommand.Observables
 {
+    /// <summary>
+    /// Not fully tested ******************************************************************
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [DebuggerDisplay("{GetType()}, Childrens={Count}")]
     public class DispatchObservableCollection<T> : ObservableCollection<T>
     {
