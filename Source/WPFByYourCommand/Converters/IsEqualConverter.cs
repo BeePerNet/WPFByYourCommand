@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
 namespace WPFByYourCommand.Converters
 {
-    public class IsEqualConverter : IValueConverter
+    public class IsEqualConverter : IValueConverter, IMultiValueConverter
     {
         internal static bool GetValue(object value, object parameter)
         {
@@ -14,6 +15,11 @@ namespace WPFByYourCommand.Converters
                 result = true;
             else if (parameter == null)
                 result = false;
+            else if (value is bool && !(parameter is bool))
+            {
+                if (bool.TryParse(parameter.ToString(), out bool boolvalue))
+                    result = (bool)value == boolvalue;
+            }
             else if (value != null)
             {
                 if (value.GetType().IsEnum)
@@ -51,8 +57,20 @@ namespace WPFByYourCommand.Converters
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool result = values.Select(T => Convert(T, typeof(bool), parameter, culture)).Cast<bool>().Any();
+
+            if (targetType == typeof(object) || targetType == typeof(bool) || targetType == typeof(bool?))
+                return result;
+            if (targetType == typeof(int))
+                return result ? 1 : 0;
+            if (targetType == typeof(Visibility))
+                return result ? Visibility.Visible : Visibility.Hidden;
+            return values;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool && (bool)value)
                 return parameter;
@@ -61,6 +79,11 @@ namespace WPFByYourCommand.Converters
             if (value is Visibility && ((Visibility)value) == Visibility.Visible)
                 return parameter;
             return null;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
     }
 

@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WPFByYourCommand.Controls;
 
 namespace WPFByYourCommand.Behaviors
 {
@@ -47,7 +48,7 @@ namespace WPFByYourCommand.Behaviors
 
         static void FocusElementPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Control control = Helper.FindParentControl<Control>(e.OriginalSource as DependencyObject);
+            Control control = ControlsHelper.FindParentControl<Control>(e.OriginalSource as DependencyObject);
 
             if (control != null)
             {
@@ -112,7 +113,7 @@ namespace WPFByYourCommand.Behaviors
             if (!(Keyboard.FocusedElement is UIElement focusedElement))
                 return;
 
-            ItemsControl focusedDatagrid = Helper.FindParentWithItemPresenter<ItemsControl>(focusedElement); //let's see if the new focused element is inside a datagrid
+            ItemsControl focusedDatagrid = ControlsHelper.FindParentWithItemPresenter<ItemsControl>(focusedElement); //let's see if the new focused element is inside a datagrid
             if (focusedDatagrid == senderItemsControl)
             {
                 return;

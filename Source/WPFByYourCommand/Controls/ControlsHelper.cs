@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace WPFByYourCommand
+namespace WPFByYourCommand.Controls
 {
-    public static class Helper
+    public static class ControlsHelper
     {
-        public static void LoadWPFStyles()
-        {
-            var foo = new Uri("pack://application:,,,/WPFByYourCommand;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute);
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = foo });
-        }
-
-
         /// <summary>
         /// Find a specific parent object type in the visual tree
         /// </summary>
@@ -32,10 +28,11 @@ namespace WPFByYourCommand
         public static T FindParentWithItemPresenter<T>(UIElement element) where T : UIElement
         {
             UIElement childElement; //element from which to start the tree navigation, looking for a Datagrid parent
-
+            
+            //Maybe we have to add other components
             if (element is ComboBoxItem) //since ComboBoxItem.Parent is null, we must pass through ItemsPresenter in order to get the parent ComboBox
             {
-                ItemsPresenter parentItemsPresenter = Helper.FindParentControl<ItemsPresenter>(element as ComboBoxItem);
+                ItemsPresenter parentItemsPresenter = FindParentControl<ItemsPresenter>(element as ComboBoxItem);
                 ComboBox combobox = parentItemsPresenter.TemplatedParent as ComboBox;
                 childElement = combobox;
             }
@@ -44,11 +41,8 @@ namespace WPFByYourCommand
                 childElement = element;
             }
 
-            return Helper.FindParentControl<T>(childElement); //let's see if the new focused element is inside a datagrid
+            return FindParentControl<T>(childElement); //let's see if the new focused element is inside a datagrid
         }
-
-
-        public static readonly string AssemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
     }
 }

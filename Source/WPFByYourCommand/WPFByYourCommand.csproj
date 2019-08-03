@@ -94,6 +94,7 @@
     <Compile Include="Commands\SeparatorDummyCommand.cs" />
     <Compile Include="Commands\WeakFunc.cs" />
     <Compile Include="Commands\WeakAction.cs" />
+    <Compile Include="Controls\ControlsHelper.cs" />
     <Compile Include="Controls\ItemLayoutInfo.cs" />
     <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
@@ -102,11 +103,21 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Behaviors\ItemsControlBehavior.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
+    <Compile Include="Exceptions\ExceptionBox.xaml.cs">
+      <DependentUpon>ExceptionBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\TextExceptionFormatter.cs" />
+    <Compile Include="StylesHelper.cs" />
+    <Compile Include="LanguageHelper.cs" />
     <Compile Include="Observables\ObservableCollectionObject.cs" />
     <Compile Include="Observables\ObservableImmutableList.cs" />
     <Compile Include="Bindings\PropertyChangeNotifier.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Compile Include="Bindings\VisibleBinding.cs" />
+    <Page Include="Exceptions\ExceptionBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,7 +127,7 @@
     <Compile Include="Commands\CommandViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
+    <Compile Include="ImagingHelper.cs" />
     <Compile Include="Commands\ICommandContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -151,6 +162,9 @@
     <Analyzer Include="..\..\..\SizeOnDisk\Source\packages\Microsoft.NetCore.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
     <Analyzer Include="..\..\..\SizeOnDisk\Source\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
     <Analyzer Include="..\..\..\SizeOnDisk\Source\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Exceptions\eventlogError.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
