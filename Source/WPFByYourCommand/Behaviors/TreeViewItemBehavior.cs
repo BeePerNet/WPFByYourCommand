@@ -38,9 +38,6 @@ namespace WPFByYourCommand.Behaviors
             if (!(depObj is TreeViewItem item))
                 return;
 
-            if (e.NewValue is bool == false)
-                return;
-
             if ((bool)e.NewValue)
                 item.Selected += OnTreeViewItemSelected;
             else

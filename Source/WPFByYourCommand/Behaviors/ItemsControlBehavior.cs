@@ -10,63 +10,6 @@ namespace WPFByYourCommand.Behaviors
     [SuppressMessage("Design", "CA1062:Validate arguments of public methods")]
     public static class ItemsControlBehavior
     {
-        public static bool GetFocusPreviewMouseRightButtonDown(ItemsControl element)
-        {
-            return (bool)element.GetValue(FocusPreviewMouseRightButtonDownProperty);
-        }
-
-        public static void SetFocusPreviewMouseRightButtonDown(ItemsControl element, bool value)
-        {
-            element.SetValue(FocusPreviewMouseRightButtonDownProperty, value);
-        }
-
-
-        public static readonly DependencyProperty FocusPreviewMouseRightButtonDownProperty =
-            DependencyProperty.RegisterAttached(
-            "FocusPreviewMouseRightButtonDown",
-            typeof(bool),
-            typeof(ItemsControlBehavior),
-            new FrameworkPropertyMetadata(false, OnFocusPreviewMouseRightButtonDownChanged));
-
-        static void OnFocusPreviewMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(depObj is UIElement element))
-                return;
-
-            if (e.NewValue is bool == false)
-                return;
-
-            if ((bool)e.NewValue)
-            {
-                element.PreviewMouseRightButtonDown += FocusElementPreviewMouseRightButtonDown;
-            }
-            else
-            {
-                element.PreviewMouseRightButtonDown -= FocusElementPreviewMouseRightButtonDown;
-            }
-        }
-
-        static void FocusElementPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Control control = ControlsHelper.FindParentControl<Control>(e.OriginalSource as DependencyObject);
-
-            if (control != null)
-            {
-                control.Focus();
-                e.Handled = true;
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
 
         public static bool GetRollbackOnUnfocused(ItemsControl datagrid)
         {
@@ -87,21 +30,18 @@ namespace WPFByYourCommand.Behaviors
 
         static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
-            if (!(depObj is FrameworkElement datagrid))
-                return;
-
-            if (e.NewValue is bool == false)
+            if (!(depObj is ItemsControl control))
                 return;
 
             if ((bool)e.NewValue)
             {
-                datagrid.LostKeyboardFocus += RollbackDataGridOnLostFocus;
-                datagrid.DataContextChanged += RollbackDataGridOnDataContextChanged;
+                control.LostKeyboardFocus += RollbackDataGridOnLostFocus;
+                control.DataContextChanged += RollbackDataGridOnDataContextChanged;
             }
             else
             {
-                datagrid.LostKeyboardFocus -= RollbackDataGridOnLostFocus;
-                datagrid.DataContextChanged -= RollbackDataGridOnDataContextChanged;
+                control.LostKeyboardFocus -= RollbackDataGridOnLostFocus;
+                control.DataContextChanged -= RollbackDataGridOnDataContextChanged;
             }
         }
 
@@ -151,8 +91,6 @@ namespace WPFByYourCommand.Behaviors
                 collection.CancelNew();
             }
         }
-
-
 
 
     }

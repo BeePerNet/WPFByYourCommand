@@ -81,8 +81,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\LocalizationBehavior.cs" />
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
+    <Compile Include="Behaviors\UIElementBehavior.cs" />
     <Compile Include="Bindings\BindingDecoratorBase.cs" />
     <Compile Include="Commands\CommandUtils.cs" />
     <Compile Include="Behaviors\MenuItemTemplateSelector.cs" />
@@ -108,7 +110,6 @@
     </Compile>
     <Compile Include="Exceptions\TextExceptionFormatter.cs" />
     <Compile Include="StylesHelper.cs" />
-    <Compile Include="LanguageHelper.cs" />
     <Compile Include="Observables\ObservableCollectionObject.cs" />
     <Compile Include="Observables\ObservableImmutableList.cs" />
     <Compile Include="Bindings\PropertyChangeNotifier.cs" />

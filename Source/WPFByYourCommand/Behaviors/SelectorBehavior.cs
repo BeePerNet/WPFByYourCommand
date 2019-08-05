@@ -39,9 +39,6 @@ namespace WPFByYourCommand.Behaviors
             if (!(depObj is Selector item))
                 return;
 
-            if (e.NewValue is bool == false)
-                return;
-
             if ((bool)e.NewValue)
                 item.SelectionChanged += OnSelectorSelectionChanged;
             else
