@@ -31,15 +31,15 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        private void Add(UIElement element, Action<UIElement> action, params string[] keys)
+        private void Add(DependencyObject element, Action<DependencyObject> action, params string[] keys)
         {
             keys = keys.Select(T => T.ToUpperInvariant()).ToArray();
             lock (_lock)
             {
-                Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>> item = list.SingleOrDefault(T => T.Item2.Target == element);
+                Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>> item = list.SingleOrDefault(T => T.Item2.Target == element);
                 if (item == null)
                 {
-                    item = new Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>>(new List<string>(), new TypedWeakReference<UIElement>(element), action);
+                    item = new Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>(new List<string>(), new TypedWeakReference<DependencyObject>(element), action);
                     list.Add(item);
                 }
                 foreach (string key in keys)
@@ -48,12 +48,12 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        private void Remove(UIElement element)
+        private void Remove(DependencyObject element)
         {
             lock (_lock)
             {
-                Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>>[] items = list.Where(T => T.Item2.Target == null || T.Item2.Target == element).ToArray();
-                foreach (Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>> item in items)
+                Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>[] items = list.Where(T => T.Item2.Target == null || T.Item2.Target == element).ToArray();
+                foreach (Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>> item in items)
                     list.Remove(item);
             }
         }
@@ -64,7 +64,7 @@ namespace WPFByYourCommand.Behaviors
             keys = keys.Select(T => T.ToUpperInvariant()).ToArray();
             lock (_lock)
             {
-                foreach (Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>> tuple in list.Where(T => T.Item1.Any(i => keys.Any(k => i == k))).ToArray())
+                foreach (Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>> tuple in list.Where(T => T.Item1.Any(i => keys.Any(k => i == k))).ToArray())
                 {
                     if (tuple.Item2.Target == null)
                         list.Remove(tuple);
@@ -74,7 +74,7 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        private List<Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>>> list = new List<Tuple<List<string>, TypedWeakReference<UIElement>, Action<UIElement>>>();
+        private List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>> list = new List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>>();
 
         private object _lock = new object();
         private static GlobalizationBehavior Instance { get; } = new GlobalizationBehavior();
@@ -127,25 +127,29 @@ namespace WPFByYourCommand.Behaviors
 
 
 
-        public static string GetUpdateGlobalization(UIElement element)
+
+
+
+
+        public static string GetUpdateWindow(Window element)
         {
-            return (string)element.GetValue(UpdateGlobalizationProperty);
+            return (string)element.GetValue(UpdateWindowProperty);
         }
 
-        public static void SetUpdateGlobalization(UIElement element, string value)
+        public static void SetUpdateWindow(Window element, string value)
         {
-            element.SetValue(UpdateGlobalizationProperty, value);
+            element.SetValue(UpdateWindowProperty, value);
         }
 
 
-        public static readonly DependencyProperty UpdateGlobalizationProperty =
+        public static readonly DependencyProperty UpdateWindowProperty =
             DependencyProperty.RegisterAttached(
-            "UpdateGlobalization",
+            "UpdateWindow",
             typeof(string),
             typeof(GlobalizationBehavior),
-            new FrameworkPropertyMetadata(null, OnUpdateGlobalizationChanged));
+            new FrameworkPropertyMetadata(null, OnUpdateWindowChanged));
 
-        static void OnUpdateGlobalizationChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        static void OnUpdateWindowChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
             if (!(depObj is UIElement element))
                 return;
@@ -154,7 +158,48 @@ namespace WPFByYourCommand.Behaviors
             {
                 if (e.NewValue != null)
                 {
-                    Action<UIElement> action = GetAction(element);
+                    Action<DependencyObject> action = (w) => (w as Window).Language = XmlLanguage.GetLanguage(LocalizeDictionary.Instance.Culture.IetfLanguageTag);
+                    Instance.Add(element, action, e.NewValue.ToString().Split(','));
+                    action(element);
+                }
+                else
+                    Instance.Remove(element);
+            }
+        }
+
+
+
+
+
+
+        public static string GetUpdateItemsDefaultView(ItemsControl element)
+        {
+            return (string)element.GetValue(UpdateItemsDefaultViewProperty);
+        }
+
+        public static void SetUpdateItemsDefaultView(ItemsControl element, string value)
+        {
+            element.SetValue(UpdateItemsDefaultViewProperty, value);
+        }
+
+
+        public static readonly DependencyProperty UpdateItemsDefaultViewProperty =
+            DependencyProperty.RegisterAttached(
+            "UpdateItemsDefaultView",
+            typeof(string),
+            typeof(GlobalizationBehavior),
+            new FrameworkPropertyMetadata(null, OnUpdateItemsDefaultViewChanged));
+
+        static void OnUpdateItemsDefaultViewChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(depObj is UIElement element))
+                return;
+
+            if (!DesignerProperties.GetIsInDesignMode(element))
+            {
+                if (e.NewValue != null)
+                {
+                    Action<DependencyObject> action = (w) => CollectionViewSource.GetDefaultView((w as ItemsControl).Items).Refresh();
                     Instance.Add(element, action, e.NewValue.ToString().Split(','));
                 }
                 else
@@ -162,24 +207,120 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        private static Action<UIElement> GetAction(UIElement element)
+
+
+
+        static void UpdateBindings(ItemsControl itemsControl)
         {
-            if (element is Window window)
+            foreach(DependencyObject control in itemsControl.Items.OfType<DependencyObject>())
             {
-                Action<UIElement> action = (w) => (w as Window).Language = XmlLanguage.GetLanguage(LocalizeDictionary.Instance.Culture.IetfLanguageTag);
-                action(element);
-                return action;
+                UpdateBindings(control);
             }
-            else if (element is ItemsControl itemsControl)
+        }
+
+
+        static void UpdateBindings(DependencyObject obj)
+        {
+            LocalValueEnumerator lve = obj.GetLocalValueEnumerator();
+            while (lve.MoveNext())
             {
-                return (w) => CollectionViewSource.GetDefaultView((w as ItemsControl).Items).Refresh();
+                LocalValueEntry entry = lve.Current;
+
+                if (BindingOperations.IsDataBound(obj, entry.Property))
+                {
+                    (entry.Value as BindingExpression).UpdateTarget();
+                }
             }
-            else
-                throw new ArgumentOutOfRangeException(nameof(element), "Type not supported");
+            if (obj is ContentControl contentControl && contentControl.Content is DependencyObject dependencyObject)
+            {
+                UpdateBindings(dependencyObject);
+            }
         }
 
 
 
+
+        public static string GetUpdateItemsBindings(ItemsControl element)
+        {
+            return (string)element.GetValue(UpdateItemsBindingsProperty);
+        }
+
+        public static void SetUpdateItemsBindings(ItemsControl element, string value)
+        {
+            element.SetValue(UpdateItemsBindingsProperty, value);
+        }
+
+
+        public static readonly DependencyProperty UpdateItemsBindingsProperty =
+            DependencyProperty.RegisterAttached(
+            "UpdateItemsBindings",
+            typeof(string),
+            typeof(GlobalizationBehavior),
+            new FrameworkPropertyMetadata(null, OnUpdateItemsBindingsChanged));
+
+
+        static void OnUpdateItemsBindingsChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(depObj is ItemsControl element))
+                return;
+
+            if (!DesignerProperties.GetIsInDesignMode(element))
+            {
+                if (e.NewValue != null)
+                {
+                    Action<DependencyObject> action = (w) => UpdateBindings(w as ItemsControl);
+                    Instance.Add(element, action, e.NewValue.ToString().Split(','));
+                }
+                else
+                    Instance.Remove(element);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public static string GetUpdateBindings(DependencyObject element)
+        {
+            return (string)element.GetValue(UpdateBindingsProperty);
+        }
+
+        public static void SetUpdateBindings(DependencyObject element, string value)
+        {
+            element.SetValue(UpdateBindingsProperty, value);
+        }
+
+
+        public static readonly DependencyProperty UpdateBindingsProperty =
+            DependencyProperty.RegisterAttached(
+            "UpdateBindings",
+            typeof(string),
+            typeof(GlobalizationBehavior),
+            new FrameworkPropertyMetadata(null, OnUpdateBindingsChanged));
+
+
+        static void OnUpdateBindingsChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(depObj is DependencyObject element))
+                return;
+
+            if (!DesignerProperties.GetIsInDesignMode(element))
+            {
+                if (e.NewValue != null)
+                {
+                    Action<DependencyObject> action = (w) => UpdateBindings(w);
+                    Instance.Add(element, action, e.NewValue.ToString().Split(','));
+                }
+                else
+                    Instance.Remove(element);
+            }
+        }
 
     }
 }
