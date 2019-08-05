@@ -35,17 +35,17 @@ namespace WPFByYourCommand.Behaviors
 
             if ((bool)e.NewValue)
             {
-                control.LostKeyboardFocus += RollbackDataGridOnLostFocus;
-                control.DataContextChanged += RollbackDataGridOnDataContextChanged;
+                control.LostKeyboardFocus += RollbackOnLostFocus;
+                control.DataContextChanged += RollbackOnDataContextChanged;
             }
             else
             {
-                control.LostKeyboardFocus -= RollbackDataGridOnLostFocus;
-                control.DataContextChanged -= RollbackDataGridOnDataContextChanged;
+                control.LostKeyboardFocus -= RollbackOnLostFocus;
+                control.DataContextChanged -= RollbackOnDataContextChanged;
             }
         }
 
-        static void RollbackDataGridOnLostFocus(object sender, KeyboardFocusChangedEventArgs e)
+        static void RollbackOnLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (!(sender is ItemsControl senderItemsControl))
                 return;
@@ -75,7 +75,7 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        static void RollbackDataGridOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        static void RollbackOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(sender is ItemsControl senderItemsControl))
                 return;
