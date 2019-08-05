@@ -81,7 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\LocalizationBehavior.cs" />
+    <Compile Include="Behaviors\GlobalizationBehavior.cs" />
     <Compile Include="Behaviors\SelectorBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
     <Compile Include="Behaviors\UIElementBehavior.cs" />
