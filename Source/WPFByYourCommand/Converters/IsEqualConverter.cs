@@ -13,32 +13,32 @@ namespace WPFByYourCommand.Converters
             bool result = false;
             if (value == null && parameter == null)
                 result = true;
-            else if (parameter == null)
+            else if (parameter == null || value == null)
                 result = false;
             else if (value is bool && !(parameter is bool))
             {
                 if (bool.TryParse(parameter.ToString(), out bool boolvalue))
                     result = (bool)value == boolvalue;
             }
-            else if (value != null)
+            else if (value.GetType().IsEnum)
             {
-                if (value.GetType().IsEnum)
-                {
-                    Int64 parameterValue;
-                    if (parameter is string)
-                        parameterValue = System.Convert.ToInt64(Enum.Parse(value.GetType(), parameter.ToString()), CultureInfo.InvariantCulture);
-                    else
-                        parameterValue = System.Convert.ToInt64(parameter, CultureInfo.InvariantCulture);
-                    if (parameterValue == 0)
-                        result = System.Convert.ToInt64(value, CultureInfo.InvariantCulture) == 0;
-                    else
-                        result = (System.Convert.ToInt64(value, CultureInfo.InvariantCulture) & parameterValue) == parameterValue;
-                }
-                else if (value is string)
-                    result = value.ToString().Equals(parameter.ToString(), StringComparison.OrdinalIgnoreCase);
+                Int64 parameterValue;
+                if (parameter is string)
+                    parameterValue = System.Convert.ToInt64(Enum.Parse(value.GetType(), parameter.ToString()), CultureInfo.InvariantCulture);
                 else
-                    result = value == parameter;
+                    parameterValue = System.Convert.ToInt64(parameter, CultureInfo.InvariantCulture);
+                if (parameterValue == 0)
+                    result = System.Convert.ToInt64(value, CultureInfo.InvariantCulture) == 0;
+                else
+                    result = (System.Convert.ToInt64(value, CultureInfo.InvariantCulture) & parameterValue) == parameterValue;
             }
+            else if (double.TryParse(value.ToString(), out double dValue) && double.TryParse(parameter.ToString(), out double dParam))
+                result = dValue == dParam;
+            else if (value is string)
+                result = value.ToString().Equals(parameter.ToString(), StringComparison.OrdinalIgnoreCase);
+            else
+                result = value == parameter;
+
             return result;
         }
 
