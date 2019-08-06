@@ -26,17 +26,17 @@ namespace WPFByYourCommand.Exceptions
         }
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
-        public static void ShowException(Exception ex)
+        public static void ShowException(Exception ex, Window owner = null)
         {
-            ExceptionBox.ShowException(TextExceptionFormatter.GetInnerException(ex).Message, new TextExceptionFormatter(ex).Format());
+            ExceptionBox.ShowException(TextExceptionFormatter.GetInnerException(ex).Message, new TextExceptionFormatter(ex).Format(), owner);
         }
 
-        public static void ShowException(string startText, Exception ex)
+        public static void ShowException(string startText, Exception ex, Window owner = null)
         {
-            ExceptionBox.ShowException(startText, new TextExceptionFormatter(ex).Format());
+            ExceptionBox.ShowException(startText, new TextExceptionFormatter(ex).Format(), owner);
         }
 
-        private static void InternalShowException(Window owner, string textblock, string textbox)
+        private static void InternalShowException(string textblock, string textbox, Window owner = null)
         {
             try
             {
@@ -52,16 +52,19 @@ namespace WPFByYourCommand.Exceptions
             }
         }
 
-        public static void ShowException(string textblock, string textbox)
+        public static void ShowException(string textblock, string textbox, Window owner = null)
         {
-            if (Application.Current == null)
-                InternalShowException(null, textblock, textbox);
-            else if (Application.Current.Dispatcher.Thread == Thread.CurrentThread)
-                InternalShowException(Application.Current.MainWindow, textblock, textbox);
+            if (owner == null && Application.Current != null)
+                owner = Application.Current.MainWindow;
+
+            if (owner == null)
+                InternalShowException(textblock, textbox);
+            else if (owner.Dispatcher.Thread == Thread.CurrentThread)
+                InternalShowException(textblock, textbox, owner);
             else
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                owner.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    InternalShowException(Application.Current.MainWindow, textblock, textbox);
+                    InternalShowException(textblock, textbox, owner);
                 }));
         }
 
