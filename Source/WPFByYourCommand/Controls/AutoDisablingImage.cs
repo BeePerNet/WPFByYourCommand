@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,16 +7,16 @@ namespace WPFByYourCommand.Controls
     [SuppressMessage("Design", "CA1501", Justification = "<En attente>")]
     public class AutoDisablingImage : Image
     {
+        public static readonly DependencyProperty GreyOpacityProperty = DependencyProperty.Register(nameof(GreyOpacity), typeof(double), typeof(AutoDisablingImage), new UIPropertyMetadata(0.4, new PropertyChangedCallback(GreyOpacity_Changed)));
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDisablingImage"/> class.
         /// </summary>
-
         static AutoDisablingImage()
         {
             // Override the metadata of the IsEnabled property.
-            IsEnabledProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
-            //SourceProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnAutoGreyScaleImageIsEnabledPropertyChanged)));
+            IsEnabledProperty.OverrideMetadata(typeof(AutoDisablingImage), new FrameworkPropertyMetadata(new PropertyChangedCallback(IsEnabled_Changed)));
         }
 
         /// <summary>
@@ -26,14 +24,49 @@ namespace WPFByYourCommand.Controls
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-        private static void OnAutoGreyScaleImageIsEnabledPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
+        private static void IsEnabled_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (args != null && !(args.OldValue ?? false).Equals(args.NewValue))
+            ((AutoDisablingImage)d).pushOpacity();
+        }
+
+        private static void GreyOpacity_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((AutoDisablingImage)d).pushOpacity();
+        }
+
+
+        private double lastOpacityValue;
+        private void pushOpacity()
+        {
+            if (this.Visibility != Visibility.Visible)
+                return;
+
+            if (this.IsEnabled)
             {
-                if (source is AutoDisablingImage autoGreyScaleImg)
-                    autoGreyScaleImg.Opacity = !Convert.ToBoolean(args.NewValue ?? false, CultureInfo.InvariantCulture) ? 0.4 : 1;
+                this.Opacity = lastOpacityValue;
+            }
+            else
+            {
+                lastOpacityValue = this.Opacity;
+                this.Opacity = this.GreyOpacity;
             }
         }
+
+        [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
+        public double GreyOpacity
+        {
+            get
+            {
+                return (double)this.GetValue(AutoDisablingImage.GreyOpacityProperty);
+            }
+            set
+            {
+                this.SetValue(AutoDisablingImage.GreyOpacityProperty, (object)value);
+            }
+        }
+
+
+
 
 
     }
