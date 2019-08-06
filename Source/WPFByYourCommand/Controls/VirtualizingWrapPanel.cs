@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -12,6 +13,7 @@ namespace WPFByYourCommand.Controls
     /// <summary>
     /// FROM: https://stackoverflow.com/questions/3485821/is-there-a-good-free-virtualizingwrappanel-available-for-wpf
     /// </summary>
+    [SuppressMessage("Design", "CA1501", Justification = "<En attente>")]
     public class VirtualizingWrapPanel : VirtualizingPanel, IScrollInfo
     {
         private const double ScrollLineAmount = 16.0;

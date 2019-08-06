@@ -16,7 +16,7 @@ namespace WPFByYourCommand.Commands
                 if (_commandList == null)
                 {
                     _commandList = new CommandBindingCollection();
-                    this.AddCommandModels(_commandList);
+                    AddCommandModels(_commandList);
                 }
 
                 return _commandList;
@@ -33,7 +33,7 @@ namespace WPFByYourCommand.Commands
                 if (_inputList == null)
                 {
                     _inputList = new InputBindingCollection();
-                    this.AddInputModels(_inputList);
+                    AddInputModels(_inputList);
                 }
 
                 return _inputList;

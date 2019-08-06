@@ -34,9 +34,9 @@ namespace WPFByYourCommand.Commands
 
         public RoutedCommandEx(string name, string text, object icon, Type ownerType, params InputGesture[] gestures) : base(name, ownerType, new InputGestureCollection(gestures))
         {
-            this._text = text;
-            this._Icon = icon;
-            this.KeyGesture = gestures.OfType<KeyGesture>().FirstOrDefault();
+            _text = text;
+            _Icon = icon;
+            KeyGesture = gestures.OfType<KeyGesture>().FirstOrDefault();
         }
 
         public RoutedCommandEx(string name, string text, Type ownerType, params InputGesture[] gestures) : this(name, text, null, ownerType, gestures) { }

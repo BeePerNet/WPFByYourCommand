@@ -103,7 +103,7 @@ namespace WPFByYourCommand.Commands
 
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached(
-            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata((ICommand)null, CommandPropertyChanged));
+            "Command", typeof(ICommand), typeof(CommandBehavior), new FrameworkPropertyMetadata(null, CommandPropertyChanged));
 
         private static void CommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

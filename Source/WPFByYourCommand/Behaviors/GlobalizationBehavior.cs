@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace WPFByYourCommand.Behaviors
     /// <summary>
     /// For Window and ItemsControl
     /// </summary>
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
     public class GlobalizationBehavior
     {
         private GlobalizationBehavior()
@@ -74,9 +76,9 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        private List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>> list = new List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>>();
+        private readonly List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>> list = new List<Tuple<List<string>, TypedWeakReference<DependencyObject>, Action<DependencyObject>>>();
 
-        private object _lock = new object();
+        private readonly object _lock = new object();
         private static GlobalizationBehavior Instance { get; } = new GlobalizationBehavior();
 
         public static void CallUpdate(params string[] keys)
@@ -125,21 +127,9 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
+        public static string GetUpdateWindow(Window element) => (string)element.GetValue(UpdateWindowProperty);
 
-
-
-
-
-
-        public static string GetUpdateWindow(Window element)
-        {
-            return (string)element.GetValue(UpdateWindowProperty);
-        }
-
-        public static void SetUpdateWindow(Window element, string value)
-        {
-            element.SetValue(UpdateWindowProperty, value);
-        }
+        public static void SetUpdateWindow(Window element, string value) => element.SetValue(UpdateWindowProperty, value);
 
 
         public static readonly DependencyProperty UpdateWindowProperty =
@@ -158,7 +148,7 @@ namespace WPFByYourCommand.Behaviors
             {
                 if (e.NewValue != null)
                 {
-                    Action<DependencyObject> action = (w) => (w as Window).Language = XmlLanguage.GetLanguage(LocalizeDictionary.Instance.Culture.IetfLanguageTag);
+                    void action(DependencyObject w) => (w as Window).Language = XmlLanguage.GetLanguage(LocalizeDictionary.Instance.Culture.IetfLanguageTag);
                     Instance.Add(element, action, e.NewValue.ToString().Split(','));
                     action(element);
                 }
@@ -199,7 +189,7 @@ namespace WPFByYourCommand.Behaviors
             {
                 if (e.NewValue != null)
                 {
-                    Action<DependencyObject> action = (w) => CollectionViewSource.GetDefaultView((w as ItemsControl).Items).Refresh();
+                    void action(DependencyObject w) => CollectionViewSource.GetDefaultView((w as ItemsControl).Items).Refresh();
                     Instance.Add(element, action, e.NewValue.ToString().Split(','));
                 }
                 else
@@ -212,7 +202,7 @@ namespace WPFByYourCommand.Behaviors
 
         static void UpdateBindings(ItemsControl itemsControl)
         {
-            foreach(DependencyObject control in itemsControl.Items.OfType<DependencyObject>())
+            foreach (DependencyObject control in itemsControl.Items.OfType<DependencyObject>())
             {
                 UpdateBindings(control);
             }
@@ -268,7 +258,7 @@ namespace WPFByYourCommand.Behaviors
             {
                 if (e.NewValue != null)
                 {
-                    Action<DependencyObject> action = (w) => UpdateBindings(w as ItemsControl);
+                    void action(DependencyObject w) => UpdateBindings(w as ItemsControl);
                     Instance.Add(element, action, e.NewValue.ToString().Split(','));
                 }
                 else
@@ -314,7 +304,7 @@ namespace WPFByYourCommand.Behaviors
             {
                 if (e.NewValue != null)
                 {
-                    Action<DependencyObject> action = (w) => UpdateBindings(w);
+                    void action(DependencyObject w) => UpdateBindings(w);
                     Instance.Add(element, action, e.NewValue.ToString().Split(','));
                 }
                 else

@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WPFByYourCommand.Controls;
 
 namespace WPFByYourCommand.Behaviors
 {
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
     public static class ControlBehavior
     {
         public static bool GetFocusMouseRightButtonDown(Control element)

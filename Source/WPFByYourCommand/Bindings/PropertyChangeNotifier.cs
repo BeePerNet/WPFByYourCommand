@@ -30,7 +30,7 @@ namespace WPFByYourCommand.Bindings
         {
             if (null == propertySource)
                 throw new ArgumentNullException(nameof(propertySource));
-            this.mPropertySource = new WeakReference(propertySource);
+            mPropertySource = new WeakReference(propertySource);
             Binding binding = new Binding
             {
                 Path = property ?? throw new ArgumentNullException(nameof(property)),
@@ -48,8 +48,8 @@ namespace WPFByYourCommand.Bindings
         {
             get
             {
-                return this.mPropertySource != null && this.mPropertySource.IsAlive
-                ? this.mPropertySource.Target as DependencyObject
+                return mPropertySource != null && mPropertySource.IsAlive
+                ? mPropertySource.Target as DependencyObject
                 : null;
             }
         }
@@ -83,11 +83,11 @@ namespace WPFByYourCommand.Bindings
         {
             get
             {
-                return (object)this.GetValue(PropertyChangeNotifier.ValueProperty);
+                return GetValue(PropertyChangeNotifier.ValueProperty);
             }
             set
             {
-                this.SetValue(PropertyChangeNotifier.ValueProperty, value);
+                SetValue(PropertyChangeNotifier.ValueProperty, value);
             }
         }
 

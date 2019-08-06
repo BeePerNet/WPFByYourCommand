@@ -26,7 +26,7 @@ namespace WPFByYourCommand.Bindings
 
         public BindingDecoratorBase(string path) : this()
         {
-            this.Path = new PropertyPath(path);
+            Path = new PropertyPath(path);
         }
 
         public BindingDecoratorBase(Binding binding) : this()

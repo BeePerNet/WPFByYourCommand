@@ -22,7 +22,7 @@ namespace WPFByYourCommand.Exceptions
         {
             InitializeComponent();
 
-            this.DataContext = new Context() { Textblock = textblock, Textbox = textbox };
+            DataContext = new Context() { Textblock = textblock, Textbox = textbox };
         }
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
@@ -36,6 +36,7 @@ namespace WPFByYourCommand.Exceptions
             ExceptionBox.ShowException(startText, new TextExceptionFormatter(ex).Format(), owner);
         }
 
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<En attente>")]
         private static void InternalShowException(string textblock, string textbox, Window owner = null)
         {
             try

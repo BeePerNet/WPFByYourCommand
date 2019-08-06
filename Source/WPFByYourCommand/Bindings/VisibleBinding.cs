@@ -108,7 +108,7 @@ namespace WPFByYourCommand.Bindings
         {
             if (TargetObject != null && TargetProperty != null)
             {
-                TargetObject.SetBinding(TargetProperty, this.Binding);
+                TargetObject.SetBinding(TargetProperty, Binding);
             }
         }
 
@@ -237,8 +237,8 @@ namespace WPFByYourCommand.Bindings
             if (disposing)
             {
                 // dispose managed resources
-                if (this.Notifier != null)
-                    this.Notifier.Dispose();
+                if (Notifier != null)
+                    Notifier.Dispose();
             }
             // free native resources
             _disposed = true;

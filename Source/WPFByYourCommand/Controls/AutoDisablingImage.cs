@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace WPFByYourCommand.Controls
 {
+    [SuppressMessage("Design", "CA1501", Justification = "<En attente>")]
     public class AutoDisablingImage : Image
     {
 

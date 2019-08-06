@@ -37,9 +37,9 @@ namespace WPFByYourCommand.Commands
             }
         }
 
-        private string _name;
-        private Type _ownerType;
-        private InputGestureCollection _inputGestureCollection;
+        private readonly string _name;
+        private readonly Type _ownerType;
+        private readonly InputGestureCollection _inputGestureCollection;
 
         private KeyGesture _keyGesture;
         public KeyGesture KeyGesture { get => _keyGesture; set => SetProperty(ref _keyGesture, value); }
@@ -74,9 +74,9 @@ namespace WPFByYourCommand.Commands
             _ownerType = ownerType;
             _inputGestureCollection = new InputGestureCollection(gestures);
 
-            this._text = text;
-            this._Icon = iconSource;
-            this.KeyGesture = gestures.OfType<KeyGesture>().FirstOrDefault();
+            _text = text;
+            _Icon = iconSource;
+            KeyGesture = gestures.OfType<KeyGesture>().FirstOrDefault();
         }
 
 
@@ -180,14 +180,14 @@ namespace WPFByYourCommand.Commands
                 {
                     // removes an event handler from local backing field in a thread safe manner
                     EventHandler handler2;
-                    EventHandler canExecuteChanged = this._requerySuggestedLocal;
+                    EventHandler canExecuteChanged = _requerySuggestedLocal;
 
                     do
                     {
                         handler2 = canExecuteChanged;
                         EventHandler handler3 = (EventHandler)Delegate.Remove(handler2, value);
                         canExecuteChanged = System.Threading.Interlocked.CompareExchange<EventHandler>(
-                            ref this._requerySuggestedLocal,
+                            ref _requerySuggestedLocal,
                             handler3,
                             handler2);
                     }

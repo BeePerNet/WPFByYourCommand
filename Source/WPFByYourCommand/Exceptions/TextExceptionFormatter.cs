@@ -34,7 +34,7 @@ namespace WPFByYourCommand.Exceptions
 
         public Exception GetInnerException()
         {
-            return GetInnerException(this.exception);
+            return GetInnerException(exception);
         }
 
 
@@ -46,27 +46,27 @@ namespace WPFByYourCommand.Exceptions
 
         public string Format()
         {
-            this.WriteDescription();
-            this.WriteDateTime(DateTime.UtcNow);
-            this.WriteException(this.exception, null);
-            return this.stringBuilder.ToString();
+            WriteDescription();
+            WriteDateTime(DateTime.UtcNow);
+            WriteException(exception, null);
+            return stringBuilder.ToString();
         }
 
         private void WriteDescription()
         {
-            this.stringBuilder.AppendLine(this.exception.GetType().FullName);
+            stringBuilder.AppendLine(exception.GetType().FullName);
         }
 
         private void WriteDateTime(DateTime utcNow)
         {
-            this.stringBuilder.AppendLine(utcNow.ToLocalTime().ToString("G", DateTimeFormatInfo.InvariantInfo));
+            stringBuilder.AppendLine(utcNow.ToLocalTime().ToString("G", DateTimeFormatInfo.InvariantInfo));
         }
 
         private void Indent()
         {
-            for (int i = 0; i < this.innerDepth; i++)
+            for (int i = 0; i < innerDepth; i++)
             {
-                this.stringBuilder.Append("\t");
+                stringBuilder.Append("\t");
             }
         }
 
@@ -74,16 +74,16 @@ namespace WPFByYourCommand.Exceptions
         {
             if (outerException != null)
             {
-                this.innerDepth++;
-                this.Indent();
+                innerDepth++;
+                Indent();
                 string innerException = "Inner Exception";
-                this.stringBuilder.AppendLine(innerException);
-                this.WriteException2(exceptionToFormat, outerException);
-                this.innerDepth--;
+                stringBuilder.AppendLine(innerException);
+                WriteException2(exceptionToFormat, outerException);
+                innerDepth--;
             }
             else
             {
-                this.WriteException2(exceptionToFormat, outerException);
+                WriteException2(exceptionToFormat, outerException);
             }
         }
 
@@ -93,41 +93,41 @@ namespace WPFByYourCommand.Exceptions
             {
                 throw new ArgumentNullException(nameof(exceptionToFormat));
             }
-            this.WriteExceptionType(exceptionToFormat.GetType());
-            this.WriteMessage(exceptionToFormat.Message);
-            this.WriteSource(exceptionToFormat.Source);
-            this.WriteHelpLink(exceptionToFormat.HelpLink);
-            this.WriteReflectionInfo(exceptionToFormat);
-            this.WriteStackTrace(exceptionToFormat.StackTrace);
+            WriteExceptionType(exceptionToFormat.GetType());
+            WriteMessage(exceptionToFormat.Message);
+            WriteSource(exceptionToFormat.Source);
+            WriteHelpLink(exceptionToFormat.HelpLink);
+            WriteReflectionInfo(exceptionToFormat);
+            WriteStackTrace(exceptionToFormat.StackTrace);
             if (outerException == null)
             {
-                this.WriteAdditionalInfo(this.AdditionalInfo);
+                WriteAdditionalInfo(AdditionalInfo);
             }
             Exception innerException = exceptionToFormat.InnerException;
             if (innerException != null)
             {
-                this.WriteException(innerException, exceptionToFormat);
+                WriteException(innerException, exceptionToFormat);
             }
         }
 
         private void WriteExceptionType(Type exceptionType)
         {
-            this.IndentAndWriteLine("Type: {0}", exceptionType.AssemblyQualifiedName);
+            IndentAndWriteLine("Type: {0}", exceptionType.AssemblyQualifiedName);
         }
 
         private void WriteMessage(string message)
         {
-            this.IndentAndWriteLine("Message: {0}", message);
+            IndentAndWriteLine("Message: {0}", message);
         }
 
         private void WriteSource(string source)
         {
-            this.IndentAndWriteLine("Source: {0}", source);
+            IndentAndWriteLine("Source: {0}", source);
         }
 
         private void WriteHelpLink(string helpLink)
         {
-            this.IndentAndWriteLine("HelpLink: {0}", helpLink);
+            IndentAndWriteLine("HelpLink: {0}", helpLink);
         }
 
         private void WriteReflectionInfo(Exception exceptionToFormat)
@@ -152,7 +152,7 @@ namespace WPFByYourCommand.Exceptions
                     {
                         propertyAccessFailed = "Property Access Failed";
                     }
-                    this.WritePropertyInfo(info, propertyAccessFailed);
+                    WritePropertyInfo(info, propertyAccessFailed);
                 }
             }
             foreach (FieldInfo info2 in fields)
@@ -165,80 +165,80 @@ namespace WPFByYourCommand.Exceptions
                 {
                     propertyAccessFailed = "Field Access Failed";
                 }
-                this.WriteFieldInfo(info2, propertyAccessFailed);
+                WriteFieldInfo(info2, propertyAccessFailed);
             }
         }
 
         private void WritePropertyInfo(PropertyInfo propertyInfo, object value)
         {
-            this.Indent();
-            this.stringBuilder.Append(propertyInfo.Name);
-            this.stringBuilder.Append(" : ");
+            Indent();
+            stringBuilder.Append(propertyInfo.Name);
+            stringBuilder.Append(" : ");
             if (value == null)
             {
-                this.stringBuilder.AppendLine("{null}");
+                stringBuilder.AppendLine("{null}");
             }
             else
             {
-                this.stringBuilder.AppendLine(value.ToString());
+                stringBuilder.AppendLine(value.ToString());
             }
         }
 
         private void WriteFieldInfo(FieldInfo fieldInfo, object value)
         {
-            this.Indent();
-            this.stringBuilder.Append(fieldInfo.Name);
-            this.stringBuilder.Append(" : ");
+            Indent();
+            stringBuilder.Append(fieldInfo.Name);
+            stringBuilder.Append(" : ");
             if (value == null)
             {
-                this.stringBuilder.AppendLine("{null}");
+                stringBuilder.AppendLine("{null}");
             }
             else
             {
-                this.stringBuilder.AppendLine(value.ToString());
+                stringBuilder.AppendLine(value.ToString());
             }
         }
 
         private void WriteStackTrace(string stackTrace)
         {
-            this.Indent();
-            this.stringBuilder.Append("StackTrace: ");
+            Indent();
+            stringBuilder.Append("StackTrace: ");
             if ((stackTrace == null) || (stackTrace.Length == 0))
             {
-                this.stringBuilder.AppendLine("Stack Trace Unavailable");
+                stringBuilder.AppendLine("Stack Trace Unavailable");
             }
             else
             {
-                string str2 = stackTrace.Replace("\n", "\n" + new string('\t', this.innerDepth));
-                this.stringBuilder.AppendLine(str2);
-                this.stringBuilder.AppendLine();
+                string str2 = stackTrace.Replace("\n", "\n" + new string('\t', innerDepth));
+                stringBuilder.AppendLine(str2);
+                stringBuilder.AppendLine();
             }
         }
 
         private void WriteAdditionalInfo(NameValueCollection additionalInformation)
         {
-            this.stringBuilder.AppendLine("Additional Info:");
-            this.stringBuilder.AppendLine();
+            stringBuilder.AppendLine("Additional Info:");
+            stringBuilder.AppendLine();
             foreach (string str in additionalInformation.AllKeys)
             {
-                this.stringBuilder.Append(str);
-                this.stringBuilder.Append(" : ");
-                this.stringBuilder.Append(additionalInformation[str]);
-                this.stringBuilder.Append("\n");
+                stringBuilder.Append(str);
+                stringBuilder.Append(" : ");
+                stringBuilder.Append(additionalInformation[str]);
+                stringBuilder.Append("\n");
             }
         }
 
         private void IndentAndWriteLine(string format, params object[] arg)
         {
-            this.Indent();
-            this.stringBuilder.AppendLine(string.Format(CultureInfo.CurrentCulture, format, arg));
+            Indent();
+            stringBuilder.AppendLine(string.Format(CultureInfo.CurrentCulture, format, arg));
         }
 
         public Exception Exception
         {
             get
             {
-                return this.exception;
+                return exception;
             }
         }
 
@@ -246,9 +246,9 @@ namespace WPFByYourCommand.Exceptions
         {
             get
             {
-                if (this.additionalInfo == null)
+                if (additionalInfo == null)
                 {
-                    this.additionalInfo = new NameValueCollection
+                    additionalInfo = new NameValueCollection
                     {
                         { "MachineName", GetMachineName() },
                         { "TimeStamp", DateTime.UtcNow.ToString(CultureInfo.CurrentCulture) },
@@ -258,7 +258,7 @@ namespace WPFByYourCommand.Exceptions
                         { "WindowsIdentity", GetWindowsIdentity() }
                     };
                 }
-                return this.additionalInfo;
+                return additionalInfo;
             }
         }
 

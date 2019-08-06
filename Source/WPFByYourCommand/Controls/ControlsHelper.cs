@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -28,7 +23,7 @@ namespace WPFByYourCommand.Controls
         public static T FindParentWithItemPresenter<T>(UIElement element) where T : UIElement
         {
             UIElement childElement; //element from which to start the tree navigation, looking for a Datagrid parent
-            
+
             //Maybe we have to add other components
             if (element is ComboBoxItem) //since ComboBoxItem.Parent is null, we must pass through ItemsPresenter in order to get the parent ComboBox
             {
