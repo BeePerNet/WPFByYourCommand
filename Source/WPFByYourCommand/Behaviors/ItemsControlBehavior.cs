@@ -28,10 +28,12 @@ namespace WPFByYourCommand.Behaviors
             typeof(ItemsControlBehavior),
             new FrameworkPropertyMetadata(false, OnRollbackOnUnfocusedChanged));
 
-        static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        private static void OnRollbackOnUnfocusedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
             if (!(depObj is ItemsControl control))
+            {
                 return;
+            }
 
             if ((bool)e.NewValue)
             {
@@ -45,13 +47,17 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        static void RollbackOnLostFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private static void RollbackOnLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (!(sender is ItemsControl senderItemsControl))
+            {
                 return;
+            }
 
             if (!(Keyboard.FocusedElement is UIElement focusedElement))
+            {
                 return;
+            }
 
             ItemsControl focusedDatagrid = ControlsHelper.FindParentWithItemPresenter<ItemsControl>(focusedElement); //let's see if the new focused element is inside a datagrid
             if (focusedDatagrid == senderItemsControl)
@@ -75,10 +81,12 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        static void RollbackOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private static void RollbackOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(sender is ItemsControl senderItemsControl))
+            {
                 return;
+            }
 
             IEditableCollectionView collection = senderItemsControl.Items as IEditableCollectionView;
 

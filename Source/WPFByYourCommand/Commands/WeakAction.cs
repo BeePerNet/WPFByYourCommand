@@ -120,18 +120,14 @@ namespace WPFByYourCommand.Commands
         /// <summary>
         /// Gets a value indicating whether the WeakAction is static or not.
         /// </summary>
-        public bool IsStatic
-        {
-            get
-            {
+        public bool IsStatic =>
 #if SILVERLIGHT
                 return (_action != null && _action.Target == null)
                     || _staticAction != null;
 #else
-                return _staticAction != null;
+                _staticAction != null;
 #endif
-            }
-        }
+
 
         /// <summary>
         /// Initializes an empty instance of the <see cref="WeakAction" /> class.
@@ -231,7 +227,7 @@ namespace WPFByYourCommand.Commands
                 && ActionReference.Target != null
                 && !keepTargetAlive)
             {
-                var type = ActionReference.Target.GetType();
+                Type type = ActionReference.Target.GetType();
 
                 if (type.Name.StartsWith("<>", StringComparison.Ordinal)
                     && type.Name.Contains("DisplayClass"))
@@ -334,7 +330,7 @@ namespace WPFByYourCommand.Commands
                 return;
             }
 
-            var actionTarget = ActionTarget;
+            object actionTarget = ActionTarget;
 
             if (IsAlive)
             {

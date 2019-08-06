@@ -39,7 +39,9 @@ namespace WPFByYourCommand.Controls
         private void pushOpacity()
         {
             if (Visibility != Visibility.Visible)
+            {
                 return;
+            }
 
             if (IsEnabled)
             {
@@ -55,14 +57,8 @@ namespace WPFByYourCommand.Controls
         [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
         public double GreyOpacity
         {
-            get
-            {
-                return (double)GetValue(AutoDisablingImage.GreyOpacityProperty);
-            }
-            set
-            {
-                SetValue(AutoDisablingImage.GreyOpacityProperty, value);
-            }
+            get => (double)GetValue(AutoDisablingImage.GreyOpacityProperty);
+            set => SetValue(AutoDisablingImage.GreyOpacityProperty, value);
         }
 
 

@@ -50,176 +50,173 @@ namespace WPFByYourCommand.Bindings
         [Browsable(false)]
         public Binding Binding
         {
-            get { return binding; }
-            set { binding = value; }
+            get => binding;
+            set => binding = value;
         }
 
 
         [DefaultValue(null)]
         public object AsyncState
         {
-            get { return binding.AsyncState; }
-            set { binding.AsyncState = value; }
+            get => binding.AsyncState;
+            set => binding.AsyncState = value;
         }
 
         [DefaultValue(false)]
         public bool BindsDirectlyToSource
         {
-            get { return binding.BindsDirectlyToSource; }
-            set { binding.BindsDirectlyToSource = value; }
+            get => binding.BindsDirectlyToSource;
+            set => binding.BindsDirectlyToSource = value;
         }
 
         [DefaultValue(null)]
         public IValueConverter Converter
         {
-            get { return binding.Converter; }
-            set { binding.Converter = value; }
+            get => binding.Converter;
+            set => binding.Converter = value;
         }
 
         [DefaultValue(null)]
         public object TargetNullValue
         {
-            get { return binding.TargetNullValue; }
-            set { binding.TargetNullValue = value; }
+            get => binding.TargetNullValue;
+            set => binding.TargetNullValue = value;
         }
 
         [TypeConverter(typeof(CultureInfoIetfLanguageTagConverter)), DefaultValue(null)]
         public CultureInfo ConverterCulture
         {
-            get { return binding.ConverterCulture; }
-            set { binding.ConverterCulture = value; }
+            get => binding.ConverterCulture;
+            set => binding.ConverterCulture = value;
         }
 
         [DefaultValue(null)]
         public object ConverterParameter
         {
-            get { return binding.ConverterParameter; }
-            set { binding.ConverterParameter = value; }
+            get => binding.ConverterParameter;
+            set => binding.ConverterParameter = value;
         }
 
         [DefaultValue(null)]
         public string ElementName
         {
-            get { return binding.ElementName; }
-            set { binding.ElementName = value; }
+            get => binding.ElementName;
+            set => binding.ElementName = value;
         }
 
         [DefaultValue(null)]
         public object FallbackValue
         {
-            get { return binding.FallbackValue; }
-            set { binding.FallbackValue = value; }
+            get => binding.FallbackValue;
+            set => binding.FallbackValue = value;
         }
 
         [DefaultValue(false)]
         public bool IsAsync
         {
-            get { return binding.IsAsync; }
-            set { binding.IsAsync = value; }
+            get => binding.IsAsync;
+            set => binding.IsAsync = value;
         }
 
         [DefaultValue(BindingMode.Default)]
         public BindingMode Mode
         {
-            get { return binding.Mode; }
-            set { binding.Mode = value; }
+            get => binding.Mode;
+            set => binding.Mode = value;
         }
 
         [DefaultValue(false)]
         public bool NotifyOnSourceUpdated
         {
-            get { return binding.NotifyOnSourceUpdated; }
-            set { binding.NotifyOnSourceUpdated = value; }
+            get => binding.NotifyOnSourceUpdated;
+            set => binding.NotifyOnSourceUpdated = value;
         }
 
         [DefaultValue(false)]
         public bool NotifyOnTargetUpdated
         {
-            get { return binding.NotifyOnTargetUpdated; }
-            set { binding.NotifyOnTargetUpdated = value; }
+            get => binding.NotifyOnTargetUpdated;
+            set => binding.NotifyOnTargetUpdated = value;
         }
 
         [DefaultValue(false)]
         public bool NotifyOnValidationError
         {
-            get { return binding.NotifyOnValidationError; }
-            set { binding.NotifyOnValidationError = value; }
+            get => binding.NotifyOnValidationError;
+            set => binding.NotifyOnValidationError = value;
         }
 
         [DefaultValue(null)]
         public PropertyPath Path
         {
-            get { return binding.Path; }
-            set { binding.Path = value; }
+            get => binding.Path;
+            set => binding.Path = value;
         }
 
         [DefaultValue(null)]
         public RelativeSource RelativeSource
         {
-            get { return binding.RelativeSource; }
-            set { binding.RelativeSource = value; }
+            get => binding.RelativeSource;
+            set => binding.RelativeSource = value;
         }
 
         [DefaultValue(null)]
         public object Source
         {
-            get { return binding.Source; }
-            set { binding.Source = value; }
+            get => binding.Source;
+            set => binding.Source = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UpdateSourceExceptionFilterCallback UpdateSourceExceptionFilter
         {
-            get { return binding.UpdateSourceExceptionFilter; }
-            set { binding.UpdateSourceExceptionFilter = value; }
+            get => binding.UpdateSourceExceptionFilter;
+            set => binding.UpdateSourceExceptionFilter = value;
         }
 
         [DefaultValue(UpdateSourceTrigger.Default)]
         public UpdateSourceTrigger UpdateSourceTrigger
         {
-            get { return binding.UpdateSourceTrigger; }
-            set { binding.UpdateSourceTrigger = value; }
+            get => binding.UpdateSourceTrigger;
+            set => binding.UpdateSourceTrigger = value;
         }
 
         [DefaultValue(false)]
         public bool ValidatesOnDataErrors
         {
-            get { return binding.ValidatesOnDataErrors; }
-            set { binding.ValidatesOnDataErrors = value; }
+            get => binding.ValidatesOnDataErrors;
+            set => binding.ValidatesOnDataErrors = value;
         }
 
         [DefaultValue(false)]
         public bool ValidatesOnExceptions
         {
-            get { return binding.ValidatesOnExceptions; }
-            set { binding.ValidatesOnExceptions = value; }
+            get => binding.ValidatesOnExceptions;
+            set => binding.ValidatesOnExceptions = value;
         }
 
         [DefaultValue(null)]
         public string XPath
         {
-            get { return binding.XPath; }
-            set { binding.XPath = value; }
+            get => binding.XPath;
+            set => binding.XPath = value;
         }
 
         [DefaultValue(null)]
-        public Collection<ValidationRule> ValidationRules
-        {
-            get { return binding.ValidationRules; }
-        }
+        public Collection<ValidationRule> ValidationRules => binding.ValidationRules;
 
         [DefaultValue(null)]
         public string StringFormat
         {
-            get { return binding.StringFormat; }
-            set { binding.StringFormat = value; }
+            get => binding.StringFormat;
+            set => binding.StringFormat = value;
         }
 
         [DefaultValue("")]
         public string BindingGroupName
         {
-            get { return binding.BindingGroupName; }
-            set { binding.BindingGroupName = value; }
+            get => binding.BindingGroupName;
+            set => binding.BindingGroupName = value;
         }
 
 
@@ -267,11 +264,17 @@ namespace WPFByYourCommand.Bindings
         {
             target = null;
             dp = null;
-            if (provider == null) return false;
+            if (provider == null)
+            {
+                return false;
+            }
 
             //create a binding and assign it to the target
             IProvideValueTarget service = (IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget));
-            if (service == null) return false;
+            if (service == null)
+            {
+                return false;
+            }
 
             //we need dependency objects / properties
             target = service.TargetObject as DependencyObject;

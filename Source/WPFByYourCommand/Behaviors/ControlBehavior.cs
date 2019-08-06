@@ -7,6 +7,7 @@ using WPFByYourCommand.Controls;
 namespace WPFByYourCommand.Behaviors
 {
     [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
+    [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
     public static class ControlBehavior
     {
         public static bool GetFocusMouseRightButtonDown(Control element)
@@ -27,10 +28,12 @@ namespace WPFByYourCommand.Behaviors
             typeof(ControlBehavior),
             new FrameworkPropertyMetadata(false, OnFocusMouseRightButtonDownChanged));
 
-        static void OnFocusMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        private static void OnFocusMouseRightButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
             if (!(depObj is UIElement element))
+            {
                 return;
+            }
 
             if ((bool)e.NewValue)
             {
@@ -42,7 +45,7 @@ namespace WPFByYourCommand.Behaviors
             }
         }
 
-        static void FocusElementMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private static void FocusElementMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Control control = ControlsHelper.FindParentControl<Control>(e.OriginalSource as DependencyObject);
 

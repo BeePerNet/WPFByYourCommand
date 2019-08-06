@@ -12,11 +12,20 @@ namespace WPFByYourCommand.Converters
             bool result = !IsEqualConverter.GetValue(value, parameter);
 
             if (targetType == typeof(object) || targetType == typeof(bool) || targetType == typeof(bool?))
+            {
                 return result;
+            }
+
             if (targetType == typeof(int))
+            {
                 return result ? 1 : 0;
+            }
+
             if (targetType == typeof(Visibility))
+            {
                 return result ? Visibility.Visible : Visibility.Hidden;
+            }
+
             return value;
         }
 

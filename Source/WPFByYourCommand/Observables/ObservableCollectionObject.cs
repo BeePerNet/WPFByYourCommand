@@ -25,13 +25,7 @@ namespace WPFByYourCommand.Observables
         #region Public Properties
 
         private readonly ObservableLockType _lockType;
-        public ObservableLockType LockType
-        {
-            get
-            {
-                return _lockType;
-            }
-        }
+        public ObservableLockType LockType => _lockType;
 
         #endregion Public Properties
 
@@ -58,7 +52,7 @@ namespace WPFByYourCommand.Observables
 
         protected void WaitForCondition(Func<bool> condition)
         {
-            var dispatcher = GetDispatcher();
+            Dispatcher dispatcher = GetDispatcher();
 
             if (dispatcher == null)
             {
@@ -68,7 +62,7 @@ namespace WPFByYourCommand.Observables
                         SpinWait.SpinUntil(condition); // spin baby... 
                         break;
                     case ObservableLockType.Lock:
-                        var isLockTaken = false;
+                        bool isLockTaken = false;
                         Monitor.Enter(_lockObj, ref isLockTaken);
                         _lockObjWasTaken = isLockTaken;
                         break;
@@ -83,7 +77,7 @@ namespace WPFByYourCommand.Observables
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
         protected static void PumpWaitPumpUntil(Dispatcher dispatcher, Func<bool> condition)
         {
-            var frame = new DispatcherFrame();
+            DispatcherFrame frame = new DispatcherFrame();
             BeginInvokePump(dispatcher, frame, condition);
             Dispatcher.PushFrame(frame);
         }
@@ -100,7 +94,9 @@ namespace WPFByYourCommand.Observables
                         frame.Continue = !condition();
 
                         if (frame.Continue)
+                        {
                             BeginInvokePump(dispatcher, frame, condition);
+                        }
                     }
                     )
                 );
@@ -109,13 +105,13 @@ namespace WPFByYourCommand.Observables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DoEvents()
         {
-            var dispatcher = GetDispatcher();
+            Dispatcher dispatcher = GetDispatcher();
             if (dispatcher == null)
             {
                 return;
             }
 
-            var frame = new DispatcherFrame();
+            DispatcherFrame frame = new DispatcherFrame();
             dispatcher.BeginInvoke(DispatcherPriority.DataBind, new DispatcherOperationCallback(ExitFrame), frame);
             Dispatcher.PushFrame(frame);
         }
@@ -165,7 +161,10 @@ namespace WPFByYourCommand.Observables
                     break;
                 case ObservableLockType.Lock:
                     if (_lockObjWasTaken)
+                    {
                         Monitor.Exit(_lockObj);
+                    }
+
                     _lockObjWasTaken = false;
                     break;
             }
@@ -179,17 +178,23 @@ namespace WPFByYourCommand.Observables
 
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
-            var notifyCollectionChangedEventHandler = CollectionChanged;
+            NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler = CollectionChanged;
 
             if (notifyCollectionChangedEventHandler == null)
+            {
                 return;
+            }
 
             foreach (NotifyCollectionChangedEventHandler handler in notifyCollectionChangedEventHandler.GetInvocationList())
             {
                 if (handler.Target is DispatcherObject dispatcherObject && !dispatcherObject.CheckAccess())
+                {
                     dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, handler, this, args);
+                }
                 else
+                {
                     handler(this, args);
+                }
             }
         }
 

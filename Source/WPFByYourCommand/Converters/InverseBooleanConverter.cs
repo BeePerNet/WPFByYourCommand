@@ -10,7 +10,9 @@ namespace WPFByYourCommand.Converters
             System.Globalization.CultureInfo culture)
         {
             if (targetType != typeof(bool))
+            {
                 throw new InvalidCastException();
+            }
 
             return !(bool)value;
         }

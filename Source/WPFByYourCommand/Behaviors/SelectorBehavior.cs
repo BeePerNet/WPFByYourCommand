@@ -33,33 +33,46 @@ namespace WPFByYourCommand.Behaviors
             typeof(SelectorBehavior),
             new UIPropertyMetadata(false, OnIsBroughtIntoViewWhenSelectionChanged));
 
-        static void OnIsBroughtIntoViewWhenSelectionChanged(
+        private static void OnIsBroughtIntoViewWhenSelectionChanged(
           DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
             if (!(depObj is Selector item))
+            {
                 return;
+            }
 
             if ((bool)e.NewValue)
+            {
                 item.SelectionChanged += OnSelectorSelectionChanged;
+            }
             else
+            {
                 item.SelectionChanged -= OnSelectorSelectionChanged;
+            }
         }
 
-        static void OnSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static void OnSelectorSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             // Only react to the Selected event raised by the TreeViewItem
             // whose IsSelected property was modified. Ignore all ancestors
             // who are merely reporting that a descendant's Selected fired.
             if (!Object.ReferenceEquals(sender, e.OriginalSource))
+            {
                 return;
+            }
 
             if (e.OriginalSource is Selector item && item.SelectedItem != null)
             {
                 if (item is ListBox)
+                {
                     ((ListBox)item).ScrollIntoView(item.SelectedItem);
+                }
+
                 if (item is DataGrid)
+                {
                     ((DataGrid)item).ScrollIntoView(item.SelectedItem);
+                }
             }
         }
 

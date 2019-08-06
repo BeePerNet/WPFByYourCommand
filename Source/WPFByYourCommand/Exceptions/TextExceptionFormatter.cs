@@ -26,9 +26,15 @@ namespace WPFByYourCommand.Exceptions
         public static Exception GetInnerException(Exception ex)
         {
             if (ex == null)
+            {
                 return null;
+            }
+
             while (ex.InnerException != null)
+            {
                 ex = ex.InnerException;
+            }
+
             return ex;
         }
 
@@ -234,13 +240,7 @@ namespace WPFByYourCommand.Exceptions
             stringBuilder.AppendLine(string.Format(CultureInfo.CurrentCulture, format, arg));
         }
 
-        public Exception Exception
-        {
-            get
-            {
-                return exception;
-            }
-        }
+        public Exception Exception => exception;
 
         public NameValueCollection AdditionalInfo
         {

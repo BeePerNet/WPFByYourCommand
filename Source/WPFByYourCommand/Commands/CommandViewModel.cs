@@ -48,7 +48,9 @@ namespace WPFByYourCommand.Commands
         public static T GetViewModelObject<T>(object originalSource) where T : CommandViewModel
         {
             if (!(originalSource is FrameworkElement element))
+            {
                 return null;
+            }
 
             return element.DataContext as T;
         }

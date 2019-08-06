@@ -32,28 +32,38 @@ namespace WPFByYourCommand.Behaviors
             typeof(TreeViewItemBehavior),
             new UIPropertyMetadata(false, OnIsBroughtIntoViewWhenSelectedChanged));
 
-        static void OnIsBroughtIntoViewWhenSelectedChanged(
+        private static void OnIsBroughtIntoViewWhenSelectedChanged(
           DependencyObject depObj, DependencyPropertyChangedEventArgs e)
         {
             if (!(depObj is TreeViewItem item))
+            {
                 return;
+            }
 
             if ((bool)e.NewValue)
+            {
                 item.Selected += OnTreeViewItemSelected;
+            }
             else
+            {
                 item.Selected -= OnTreeViewItemSelected;
+            }
         }
 
-        static void OnTreeViewItemSelected(object sender, RoutedEventArgs e)
+        private static void OnTreeViewItemSelected(object sender, RoutedEventArgs e)
         {
             // Only react to the Selected event raised by the TreeViewItem
             // whose IsSelected property was modified. Ignore all ancestors
             // who are merely reporting that a descendant's Selected fired.
             if (!Object.ReferenceEquals(sender, e.OriginalSource))
+            {
                 return;
+            }
 
             if (e.OriginalSource is TreeViewItem item)
+            {
                 item.BringIntoView();
+            }
         }
 
         #endregion // IsBroughtIntoViewWhenSelected

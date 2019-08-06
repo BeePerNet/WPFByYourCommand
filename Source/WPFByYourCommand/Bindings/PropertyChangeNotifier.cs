@@ -29,7 +29,10 @@ namespace WPFByYourCommand.Bindings
         public PropertyChangeNotifier(DependencyObject propertySource, PropertyPath property)
         {
             if (null == propertySource)
+            {
                 throw new ArgumentNullException(nameof(propertySource));
+            }
+
             mPropertySource = new WeakReference(propertySource);
             Binding binding = new Binding
             {
@@ -44,15 +47,9 @@ namespace WPFByYourCommand.Bindings
 
         #region PropertySource
 
-        public DependencyObject PropertySource
-        {
-            get
-            {
-                return mPropertySource != null && mPropertySource.IsAlive
+        public DependencyObject PropertySource => mPropertySource != null && mPropertySource.IsAlive
                 ? mPropertySource.Target as DependencyObject
                 : null;
-            }
-        }
 
         #endregion
 
@@ -81,14 +78,8 @@ namespace WPFByYourCommand.Bindings
         public object Value
 #pragma warning restore CA1721 // Property names should not match get methods
         {
-            get
-            {
-                return GetValue(PropertyChangeNotifier.ValueProperty);
-            }
-            set
-            {
-                SetValue(PropertyChangeNotifier.ValueProperty, value);
-            }
+            get => GetValue(PropertyChangeNotifier.ValueProperty);
+            set => SetValue(PropertyChangeNotifier.ValueProperty, value);
         }
 
         #endregion

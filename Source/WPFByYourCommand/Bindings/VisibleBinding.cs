@@ -116,7 +116,7 @@ namespace WPFByYourCommand.Bindings
         {
             if (targetObject is FrameworkElement)
             {
-                var element = targetObject as FrameworkElement;
+                FrameworkElement element = targetObject as FrameworkElement;
                 if (TargetObject != null)
                 {
                     DetachTargetObject();
@@ -152,7 +152,7 @@ namespace WPFByYourCommand.Bindings
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             //delegate binding creation etc. to the base class 
-            var expression = base.ProvideValue(serviceProvider);
+            object expression = base.ProvideValue(serviceProvider);
 
             DependencyObject targetObject = null;
             DependencyProperty targetProperty = null;
@@ -228,17 +228,21 @@ namespace WPFByYourCommand.Bindings
 
 
 
-        bool _disposed = false;
+        private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
+            {
                 return;
+            }
 
             if (disposing)
             {
                 // dispose managed resources
                 if (Notifier != null)
+                {
                     Notifier.Dispose();
+                }
             }
             // free native resources
             _disposed = true;

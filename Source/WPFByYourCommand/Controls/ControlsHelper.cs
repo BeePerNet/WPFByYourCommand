@@ -14,7 +14,9 @@ namespace WPFByYourCommand.Controls
             while ((outerDepObj = VisualTreeHelper.GetParent(outerDepObj)) != null)
             {
                 if (outerDepObj is T)
+                {
                     return outerDepObj as T;
+                }
             }
 
             return null;

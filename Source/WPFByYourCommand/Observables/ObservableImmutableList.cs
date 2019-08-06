@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -13,7 +14,8 @@ namespace WPFByYourCommand.Observables
     /// FROM https://www.codeproject.com/Articles/64936/Threadsafe-ObservableImmutable-Collection
     /// By AnthonyPaulO
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
+    [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
+    [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
     public class ObservableImmutableCollection<T> : ObservableCollectionObject, IList, ICollection, IEnumerable, IList<T>, IImmutableList<T>, ICollection<T>, IEnumerable<T>, IReadOnlyList<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         #region Private
@@ -49,12 +51,14 @@ namespace WPFByYourCommand.Observables
 
         #region General
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryOperation(Func<ImmutableList<T>, ImmutableList<T>> operation)
         {
             return TryOperation(operation, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool DoOperation(Func<ImmutableList<T>, ImmutableList<T>> operation)
         {
@@ -70,8 +74,8 @@ namespace WPFByYourCommand.Observables
             {
                 if (TryLock())
                 {
-                    var oldList = _items;
-                    var newItems = operation(oldList);
+                    ImmutableList<T> oldList = _items;
+                    ImmutableList<T> newItems = operation(oldList);
 
                     if (newItems == null)
                     {
@@ -82,7 +86,10 @@ namespace WPFByYourCommand.Observables
                     _items = newItems;
 
                     if (args != null)
+                    {
                         RaiseNotifyCollectionChanged(args);
+                    }
+
                     return true;
                 }
             }
@@ -101,10 +108,10 @@ namespace WPFByYourCommand.Observables
             {
                 if (TryLock())
                 {
-                    var oldList = _items;
-                    var kvp = operation(oldList);
-                    var newItems = kvp.Key;
-                    var args = kvp.Value;
+                    ImmutableList<T> oldList = _items;
+                    KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs> kvp = operation(oldList);
+                    ImmutableList<T> newItems = kvp.Key;
+                    NotifyCollectionChangedEventArgs args = kvp.Value;
 
                     if (newItems == null)
                     {
@@ -115,7 +122,10 @@ namespace WPFByYourCommand.Observables
                     _items = newItems;
 
                     if (args != null)
+                    {
                         RaiseNotifyCollectionChanged(args);
+                    }
+
                     return true;
                 }
             }
@@ -135,8 +145,8 @@ namespace WPFByYourCommand.Observables
             try
             {
                 Lock();
-                var oldItems = _items;
-                var newItems = operation(_items);
+                ImmutableList<T> oldItems = _items;
+                ImmutableList<T> newItems = operation(_items);
 
                 if (newItems == null)
                 {
@@ -147,7 +157,9 @@ namespace WPFByYourCommand.Observables
                 result = (_items = newItems) != oldItems;
 
                 if (args != null)
+                {
                     RaiseNotifyCollectionChanged(args);
+                }
             }
             finally
             {
@@ -165,10 +177,10 @@ namespace WPFByYourCommand.Observables
             try
             {
                 Lock();
-                var oldItems = _items;
-                var kvp = operation(_items);
-                var newItems = kvp.Key;
-                var args = kvp.Value;
+                ImmutableList<T> oldItems = _items;
+                KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs> kvp = operation(_items);
+                ImmutableList<T> newItems = kvp.Key;
+                NotifyCollectionChangedEventArgs args = kvp.Value;
 
                 if (newItems == null)
                 {
@@ -179,7 +191,9 @@ namespace WPFByYourCommand.Observables
                 result = (_items = newItems) != oldItems;
 
                 if (args != null)
+                {
                     RaiseNotifyCollectionChanged(args);
+                }
             }
             finally
             {
@@ -195,19 +209,21 @@ namespace WPFByYourCommand.Observables
 
         #region Specific
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoInsert(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return DoOperation
                 (
                 currentItems =>
                 {
-                    var kvp = valueProvider(currentItems);
-                    var newItems = currentItems.Insert(kvp.Key, kvp.Value);
+                    KeyValuePair<int, T> kvp = valueProvider(currentItems);
+                    ImmutableList<T> newItems = currentItems.Insert(kvp.Key, kvp.Value);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoAdd(Func<ImmutableList<T>, T> valueProvider)
         {
             return DoOperation
@@ -215,12 +231,13 @@ namespace WPFByYourCommand.Observables
                 currentItems =>
                 {
                     T value;
-                    var newItems = _items.Add(value = valueProvider(currentItems));
+                    ImmutableList<T> newItems = _items.Add(value = valueProvider(currentItems));
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, currentItems.Count));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoAddRange(Func<ImmutableList<T>, IEnumerable<T>> valueProvider)
         {
             return DoOperation
@@ -230,6 +247,7 @@ namespace WPFByYourCommand.Observables
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoRemove(Func<ImmutableList<T>, T> valueProvider)
         {
             return DoRemoveAt
@@ -239,49 +257,53 @@ namespace WPFByYourCommand.Observables
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoRemoveAt(Func<ImmutableList<T>, int> valueProvider)
         {
             return DoOperation
                 (
                 currentItems =>
                 {
-                    var index = valueProvider(currentItems);
-                    var value = currentItems[index];
-                    var newItems = currentItems.RemoveAt(index);
+                    int index = valueProvider(currentItems);
+                    T value = currentItems[index];
+                    ImmutableList<T> newItems = currentItems.RemoveAt(index);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool DoSetItem(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return DoOperation
                 (
                 currentItems =>
                 {
-                    var kvp = valueProvider(currentItems);
-                    var newValue = kvp.Value;
-                    var index = kvp.Key;
-                    var oldValue = currentItems[index];
-                    var newItems = currentItems.SetItem(kvp.Key, newValue);
+                    KeyValuePair<int, T> kvp = valueProvider(currentItems);
+                    T newValue = kvp.Value;
+                    int index = kvp.Key;
+                    T oldValue = currentItems[index];
+                    ImmutableList<T> newItems = currentItems.SetItem(kvp.Key, newValue);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue, index));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TryInsert(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return TryOperation
                 (
                 currentItems =>
                 {
-                    var kvp = valueProvider(currentItems);
-                    var newItems = currentItems.Insert(kvp.Key, kvp.Value);
+                    KeyValuePair<int, T> kvp = valueProvider(currentItems);
+                    ImmutableList<T> newItems = currentItems.Insert(kvp.Key, kvp.Value);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, kvp.Value, kvp.Key));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TryAdd(Func<ImmutableList<T>, T> valueProvider)
         {
             return TryOperation
@@ -289,12 +311,13 @@ namespace WPFByYourCommand.Observables
                 currentItems =>
                 {
                     T value;
-                    var newItems = _items.Add(value = valueProvider(currentItems));
+                    ImmutableList<T> newItems = _items.Add(value = valueProvider(currentItems));
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, currentItems.Count));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TryAddRange(Func<ImmutableList<T>, IEnumerable<T>> valueProvider)
         {
             return TryOperation
@@ -304,6 +327,7 @@ namespace WPFByYourCommand.Observables
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TryRemove(Func<ImmutableList<T>, T> valueProvider)
         {
             return TryRemoveAt
@@ -313,31 +337,33 @@ namespace WPFByYourCommand.Observables
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TryRemoveAt(Func<ImmutableList<T>, int> valueProvider)
         {
             return TryOperation
                 (
                 currentItems =>
                 {
-                    var index = valueProvider(currentItems);
-                    var value = currentItems[index];
-                    var newItems = currentItems.RemoveAt(index);
+                    int index = valueProvider(currentItems);
+                    T value = currentItems[index];
+                    ImmutableList<T> newItems = currentItems.RemoveAt(index);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
                 }
                 );
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public bool TrySetItem(Func<ImmutableList<T>, KeyValuePair<int, T>> valueProvider)
         {
             return TryOperation
                 (
                 currentItems =>
                 {
-                    var kvp = valueProvider(currentItems);
-                    var newValue = kvp.Value;
-                    var index = kvp.Key;
-                    var oldValue = currentItems[index];
-                    var newItems = currentItems.SetItem(kvp.Key, newValue);
+                    KeyValuePair<int, T> kvp = valueProvider(currentItems);
+                    T newValue = kvp.Value;
+                    int index = kvp.Key;
+                    T oldValue = currentItems[index];
+                    ImmutableList<T> newItems = currentItems.SetItem(kvp.Key, newValue);
                     return new KeyValuePair<ImmutableList<T>, NotifyCollectionChangedEventArgs>(newItems, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue, index));
                 }
                 );
@@ -372,7 +398,7 @@ namespace WPFByYourCommand.Observables
 
         public int Add(object value)
         {
-            var val = (T)value;
+            T val = (T)value;
             Add(val);
             return IndexOf(val);
         }
@@ -392,13 +418,7 @@ namespace WPFByYourCommand.Observables
             Insert(index, (T)value);
         }
 
-        public bool IsFixedSize
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsFixedSize => false;
 
         public void Remove(object value)
         {
@@ -412,14 +432,8 @@ namespace WPFByYourCommand.Observables
 
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                SetItem(index, (T)value);
-            }
+            get => this[index];
+            set => SetItem(index, (T)value);
         }
 
         public void CopyTo(Array array, int index)
@@ -427,21 +441,9 @@ namespace WPFByYourCommand.Observables
             _items.ToArray().CopyTo(array, index);
         }
 
-        public bool IsSynchronized
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsSynchronized => false;
 
-        public object SyncRoot
-        {
-            get
-            {
-                return _syncRoot;
-            }
-        }
+        public object SyncRoot => _syncRoot;
 
         #endregion IList
 
@@ -464,14 +466,8 @@ namespace WPFByYourCommand.Observables
 
         public T this[int index]
         {
-            get
-            {
-                return _items[index];
-            }
-            set
-            {
-                SetItem(index, value);
-            }
+            get => _items[index];
+            set => SetItem(index, value);
         }
 
         void ICollection<T>.Add(T item)
@@ -499,26 +495,16 @@ namespace WPFByYourCommand.Observables
             _items.CopyTo(array, arrayIndex);
         }
 
-        public int Count
-        {
-            get
-            {
-                return _items.Count;
-            }
-        }
+        public int Count => _items.Count;
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsReadOnly => false;
 
         public bool Remove(T item)
         {
             if (!_items.Contains(item))
+            {
                 return false;
+            }
 
             _items = _items.Remove(item);
             RaiseNotifyCollectionChanged();
@@ -531,7 +517,7 @@ namespace WPFByYourCommand.Observables
 
         public IImmutableList<T> Add(T value)
         {
-            var index = _items.Count;
+            int index = _items.Count;
             _items = _items.Add(value);
             RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, index));
             return this;
@@ -577,7 +563,7 @@ namespace WPFByYourCommand.Observables
 
         public IImmutableList<T> Remove(T value, IEqualityComparer<T> equalityComparer)
         {
-            var index = _items.IndexOf(value, equalityComparer);
+            int index = _items.IndexOf(value, equalityComparer);
             RemoveAt(index);
             return this;
         }
@@ -591,7 +577,7 @@ namespace WPFByYourCommand.Observables
 
         public IImmutableList<T> RemoveAt(int index)
         {
-            var value = _items[index];
+            T value = _items[index];
             _items = _items.RemoveAt(index);
             RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
             return this;
@@ -613,14 +599,14 @@ namespace WPFByYourCommand.Observables
 
         public IImmutableList<T> Replace(T oldValue, T newValue, IEqualityComparer<T> equalityComparer)
         {
-            var index = _items.IndexOf(oldValue, equalityComparer);
+            int index = _items.IndexOf(oldValue, equalityComparer);
             SetItem(index, newValue);
             return this;
         }
 
         public IImmutableList<T> SetItem(int index, T value)
         {
-            var oldItem = _items[index];
+            T oldItem = _items[index];
             _items = _items.SetItem(index, value);
             RaiseNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldItem, value, index));
             return this;

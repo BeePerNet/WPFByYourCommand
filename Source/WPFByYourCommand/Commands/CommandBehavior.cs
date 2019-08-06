@@ -17,14 +17,20 @@ namespace WPFByYourCommand.Commands
         public static ICommandContext GetContext(DependencyObject element)
         {
             if (element == null)
+            {
                 throw new ArgumentNullException(nameof(element));
+            }
+
             return element.GetValue(ContextProperty) as ICommandContext;
         }
 
         public static void SetContext(DependencyObject element, ICommandContext commandContext)
         {
             if (element == null)
+            {
                 throw new ArgumentNullException(nameof(element));
+            }
+
             element.SetValue(ContextProperty, commandContext);
         }
 
@@ -112,14 +118,20 @@ namespace WPFByYourCommand.Commands
             if (e.OldValue != null && e.OldValue != DependencyProperty.UnsetValue && e.OldValue is ICommand)
             {
                 if (e.OldValue is IMenuCommand)
+                {
                     (e.OldValue as IMenuCommand).UnFillCommandSource(commandSource);
+                }
                 else
                 {
                     string text = string.Empty;
                     if (e.OldValue is RoutedUICommand)
+                    {
                         text = (e.OldValue as RoutedUICommand).Text;
+                    }
                     else if (e.OldValue is ITextCommand)
+                    {
                         text = (e.OldValue as ITextCommand).Text;
+                    }
 
                     if (!string.IsNullOrEmpty(text))
                     {
@@ -136,23 +148,33 @@ namespace WPFByYourCommand.Commands
                             button.Content = null;
                         }
                         else
+                        {
                             throw new NotImplementedException();
+                        }
                     }
                     else
+                    {
                         throw new NotImplementedException();
+                    }
                 }
             }
             if (e.NewValue != null && e.NewValue != DependencyProperty.UnsetValue && e.NewValue is ICommand)
             {
                 if (e.NewValue is IMenuCommand)
+                {
                     (e.NewValue as IMenuCommand).FillCommandSource(commandSource);
+                }
                 else
                 {
                     string text = string.Empty;
                     if (e.NewValue is RoutedUICommand)
+                    {
                         text = (e.NewValue as RoutedUICommand).Text;
+                    }
                     else if (e.NewValue is ITextCommand)
+                    {
                         text = (e.NewValue as ITextCommand).Text;
+                    }
 
                     if (!string.IsNullOrEmpty(text))
                     {
@@ -169,10 +191,14 @@ namespace WPFByYourCommand.Commands
                             button.Content = text;
                         }
                         else
+                        {
                             throw new NotImplementedException();
+                        }
                     }
                     else
+                    {
                         throw new NotImplementedException();
+                    }
                 }
             }
         }

@@ -56,17 +56,25 @@ namespace WPFByYourCommand.Exceptions
         public static void ShowException(string textblock, string textbox, Window owner = null)
         {
             if (owner == null && Application.Current != null)
+            {
                 owner = Application.Current.MainWindow;
+            }
 
             if (owner == null)
+            {
                 InternalShowException(textblock, textbox);
+            }
             else if (owner.Dispatcher.Thread == Thread.CurrentThread)
+            {
                 InternalShowException(textblock, textbox, owner);
+            }
             else
+            {
                 owner.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     InternalShowException(textblock, textbox, owner);
                 }));
+            }
         }
 
     }

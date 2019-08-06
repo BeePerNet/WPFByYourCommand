@@ -26,6 +26,7 @@ namespace WPFByYourCommand.Commands
     /// <typeparam name="TResult">The type of the result of the Func that will be stored
     /// by this weak reference.</typeparam>
     ////[ClassInfo(typeof(WeakAction)]
+    [SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes")]
     public class WeakFunc<T1, T2, TResult>
     {
 #if SILVERLIGHT
@@ -46,18 +47,14 @@ namespace WPFByYourCommand.Commands
         /// <summary>
         /// Get a value indicating whether the WeakFunc is static or not.
         /// </summary>
-        public bool IsStatic
-        {
-            get
-            {
+        public bool IsStatic =>
 #if SILVERLIGHT
                 return (_func != null && _func.Target == null)
                     || _staticFunc != null;
 #else
-                return _staticFunc != null;
+                _staticFunc != null;
 #endif
-            }
-        }
+
 
         /// <summary>
         /// Gets the name of the method that this WeakFunc represents.
@@ -226,7 +223,7 @@ namespace WPFByYourCommand.Commands
                 && FuncReference.Target != null
                 && !keepTargetAlive)
             {
-                var type = FuncReference.Target.GetType();
+                Type type = FuncReference.Target.GetType();
 
                 if (type.Name.StartsWith("<>", StringComparison.Ordinal)
                     && type.Name.Contains("DisplayClass"))
@@ -333,7 +330,7 @@ namespace WPFByYourCommand.Commands
                 return result;
             }
 
-            var funcTarget = FuncTarget;
+            object funcTarget = FuncTarget;
 
             if (IsAlive)
             {

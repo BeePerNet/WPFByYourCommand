@@ -7,7 +7,7 @@ namespace WPFByYourCommand
     {
         public static void LoadWPFStyles()
         {
-            var foo = new Uri("pack://application:,,,/WPFByYourCommand;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute);
+            Uri foo = new Uri("pack://application:,,,/WPFByYourCommand;component/Themes/Generic.xaml", UriKind.RelativeOrAbsolute);
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = foo });
         }
 

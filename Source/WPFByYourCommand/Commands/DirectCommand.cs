@@ -18,24 +18,12 @@ namespace WPFByYourCommand.Commands
         ///     Ex: public static RoutedCommand New  { get { new RoutedCommand("New", .... ) } }
         ///          public static RoutedCommand New = new RoutedCommand("New", ... ) ;
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
+        public string Name => _name;
 
         /// <summary>
         ///     Owning type of the property
         /// </summary>
-        public Type OwnerType
-        {
-            get
-            {
-                return _ownerType;
-            }
-        }
+        public Type OwnerType => _ownerType;
 
         private readonly string _name;
         private readonly Type _ownerType;
