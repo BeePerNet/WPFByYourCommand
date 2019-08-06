@@ -38,17 +38,17 @@ namespace WPFByYourCommand.Controls
         private double lastOpacityValue;
         private void pushOpacity()
         {
-            if (this.Visibility != Visibility.Visible)
+            if (Visibility != Visibility.Visible)
                 return;
 
-            if (this.IsEnabled)
+            if (IsEnabled)
             {
-                this.Opacity = lastOpacityValue;
+                Opacity = lastOpacityValue;
             }
             else
             {
-                lastOpacityValue = this.Opacity;
-                this.Opacity = this.GreyOpacity;
+                lastOpacityValue = Opacity;
+                Opacity = GreyOpacity;
             }
         }
 
@@ -57,11 +57,11 @@ namespace WPFByYourCommand.Controls
         {
             get
             {
-                return (double)this.GetValue(AutoDisablingImage.GreyOpacityProperty);
+                return (double)GetValue(AutoDisablingImage.GreyOpacityProperty);
             }
             set
             {
-                this.SetValue(AutoDisablingImage.GreyOpacityProperty, (object)value);
+                SetValue(AutoDisablingImage.GreyOpacityProperty, value);
             }
         }
 
