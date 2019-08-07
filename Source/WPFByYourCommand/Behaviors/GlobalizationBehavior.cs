@@ -126,7 +126,7 @@ namespace WPFByYourCommand.Behaviors
         /// To delete if howto was found and xaml fixed.
         /// </summary>
         /// <returns>List of specific cultures</returns>
-        public static Dictionary<string, string> Cultures
+        public static IReadOnlyDictionary<string, string> Cultures
         {
             get
             {
@@ -144,6 +144,82 @@ namespace WPFByYourCommand.Behaviors
                 return result;
             }
         }
+
+        public static readonly char[] DateTimeStandardFormats = { 'D', 'F', 'G', 'M', 'O', 'R', 'T', 'Y', 'd', 'f', 'g', 's', 't', 'u' };
+
+        /// <summary>Retourne tous les modèles dans lesquels les valeurs date et heure peuvent être mises en forme en utilisant la chaîne de format standard.</summary>
+        /// <param name="format">Chaîne de format standard.</param>
+        /// <returns>Tableau contenant les modèles standard selon lesquels les valeurs de date et d'heure peuvent être appliquées aux valeurs en utilisant la chaîne de format spécifiée.</returns>
+        /// <exception cref="T:System.ArgumentException">
+        /// <paramref name="format" /> n'est pas une chaîne de format standard valide.</exception>
+        public static string GetDateTimePattern(char format)
+        {
+            switch (format)
+            {
+                case 'D':
+                    return DateTimeFormatInfo.CurrentInfo.LongDatePattern;
+                case 'F':
+                case 'U':
+                    return string.Concat(DateTimeFormatInfo.CurrentInfo.LongDatePattern, " ", DateTimeFormatInfo.CurrentInfo.LongTimePattern);
+                case 'G':
+                    return string.Concat(DateTimeFormatInfo.CurrentInfo.ShortDatePattern, " ", DateTimeFormatInfo.CurrentInfo.LongTimePattern);
+                case 'M':
+                case 'm':
+                    return DateTimeFormatInfo.CurrentInfo.MonthDayPattern;
+                case 'O':
+                case 'o':
+                    return "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK";
+                case 'R':
+                case 'r':
+                    return "ddd, dd MMM yyyy HH':'mm':'ss 'GMT'";
+                case 'T':
+                    return DateTimeFormatInfo.CurrentInfo.LongTimePattern;
+                case 'Y':
+                case 'y':
+                    return DateTimeFormatInfo.CurrentInfo.YearMonthPattern;
+                case 'd':
+                    return DateTimeFormatInfo.CurrentInfo.ShortDatePattern;
+                case 'f':
+                    return string.Concat(DateTimeFormatInfo.CurrentInfo.LongDatePattern, " ", DateTimeFormatInfo.CurrentInfo.ShortTimePattern);
+                case 'g':
+                    return string.Concat(DateTimeFormatInfo.CurrentInfo.ShortDatePattern, " ", DateTimeFormatInfo.CurrentInfo.ShortTimePattern);
+                case 's':
+                    return "yyyy'-'MM'-'dd'T'HH':'mm':'ss";
+                case 't':
+                    return DateTimeFormatInfo.CurrentInfo.ShortTimePattern;
+                case 'u':
+                    return DateTimeFormatInfo.CurrentInfo.UniversalSortableDateTimePattern;
+                default:
+                    throw new ArgumentException("Format_BadFormatSpecifier", nameof(format));
+            }
+        }
+
+
+
+        public static IEnumerable<Tuple<char, string, string>> DateTimeFormats
+        {
+            get
+            {
+                DateTime now = DateTime.Now;
+                List<Tuple<char, string, string>> result = new List<Tuple<char, string, string>>();
+
+                string pattern;
+                foreach (char format in DateTimeStandardFormats)
+                {
+                    pattern = GetDateTimePattern(format);
+                    result.Add(new Tuple<char, string, string>(format, pattern, now.ToString(pattern, CultureInfo.CurrentCulture)));
+                }
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+
 
         public static string GetUpdateWindow(Window element)
         {
