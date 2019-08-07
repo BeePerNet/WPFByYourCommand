@@ -108,10 +108,12 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Behaviors\ItemsControlBehavior.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
+    <Compile Include="Converters\ProvideDefaultValueConverter.cs" />
     <Compile Include="Exceptions\ExceptionBox.xaml.cs">
       <DependentUpon>ExceptionBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\TextExceptionFormatter.cs" />
+    <Compile Include="Extensions\BitmapSourceExtensions.cs" />
     <Compile Include="StylesHelper.cs" />
     <Compile Include="Observables\ObservableCollectionObject.cs" />
     <Compile Include="Observables\ObservableImmutableList.cs" />
