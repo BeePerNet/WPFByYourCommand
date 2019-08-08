@@ -20,14 +20,14 @@ namespace WPFByYourCommand.Extensions
             byte[] data = new byte[] { };
             if (image != null)
             {
-                    var encoder = new BmpBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(image));
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        encoder.Save(ms);
-                        data = ms.ToArray();
-                    }
-                    return data;
+                BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    data = ms.ToArray();
+                }
+                return data;
             }
             return data;
         }

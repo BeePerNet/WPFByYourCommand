@@ -75,7 +75,8 @@ namespace WPFByYourCommand.Commands
 
         private static void UITypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //TODO
         }
 
         public static void SetUIType(Control target, CommandUIBehaviorType command)
@@ -135,26 +136,26 @@ namespace WPFByYourCommand.Commands
 
                     if (!string.IsNullOrEmpty(text))
                     {
-                        if (commandSource is MenuItem)
+                        if (commandSource is MenuItem menuItem)
                         {
-                            MenuItem menuItem = commandSource as MenuItem;
                             menuItem.Command = null;
                             menuItem.Header = null;
                         }
-                        else if (commandSource is ButtonBase)
+                        else if (commandSource is ButtonBase button)
                         {
-                            ButtonBase button = commandSource as ButtonBase;
                             button.Command = null;
                             button.Content = null;
                         }
                         else
                         {
-                            throw new NotImplementedException();
+                            //TODO
+                            //throw new NotImplementedException();
                         }
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        //TODO
+                        //throw new NotImplementedException();
                     }
                 }
             }
@@ -178,26 +179,26 @@ namespace WPFByYourCommand.Commands
 
                     if (!string.IsNullOrEmpty(text))
                     {
-                        if (commandSource is MenuItem)
+                        if (commandSource is MenuItem menuItem)
                         {
-                            MenuItem menuItem = commandSource as MenuItem;
                             menuItem.Command = e.NewValue as ICommand;
                             menuItem.Header = text;
                         }
-                        else if (commandSource is ButtonBase)
+                        else if (commandSource is ButtonBase button)
                         {
-                            ButtonBase button = commandSource as ButtonBase;
                             button.Command = e.NewValue as ICommand;
                             button.Content = text;
                         }
                         else
                         {
-                            throw new NotImplementedException();
+                            //TODO
+                            //throw new NotImplementedException();
                         }
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        //TODO
+                        //throw new NotImplementedException();
                     }
                 }
             }

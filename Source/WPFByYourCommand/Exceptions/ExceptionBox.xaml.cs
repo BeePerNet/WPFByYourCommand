@@ -18,30 +18,31 @@ namespace WPFByYourCommand.Exceptions
             public string Textbox { get; set; }
         }
 
-        private ExceptionBox(string textblock, string textbox)
+        private ExceptionBox(string textblock, string textbox, string title)
         {
             InitializeComponent();
-
+            if (title != null)
+                this.Title = title;
             DataContext = new Context() { Textblock = textblock, Textbox = textbox };
         }
 
         [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<En attente>")]
-        public static void ShowException(Exception ex, Window owner = null)
+        public static void ShowException(Exception ex, string title = null, Window owner = null)
         {
-            ExceptionBox.ShowException(TextExceptionFormatter.GetInnerException(ex).Message, new TextExceptionFormatter(ex).Format(), owner);
+            ExceptionBox.ShowException(TextExceptionFormatter.GetInnerException(ex).Message, new TextExceptionFormatter(ex).Format(), title, owner);
         }
 
-        public static void ShowException(string startText, Exception ex, Window owner = null)
+        public static void ShowException(string startText, Exception ex, string title = null, Window owner = null)
         {
-            ExceptionBox.ShowException(startText, new TextExceptionFormatter(ex).Format(), owner);
+            ExceptionBox.ShowException(startText, new TextExceptionFormatter(ex).Format(), title, owner);
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<En attente>")]
-        private static void InternalShowException(string textblock, string textbox, Window owner = null)
+        private static void InternalShowException(string textblock, string textbox, string title, Window owner)
         {
             try
             {
-                ExceptionBox window = new ExceptionBox(textblock, textbox)
+                ExceptionBox window = new ExceptionBox(textblock, textbox, title)
                 {
                     Owner = owner
                 };
@@ -53,7 +54,7 @@ namespace WPFByYourCommand.Exceptions
             }
         }
 
-        public static void ShowException(string textblock, string textbox, Window owner = null)
+        public static void ShowException(string textblock, string textbox, string title = null, Window owner = null)
         {
             if (owner == null && Application.Current != null)
             {
@@ -62,17 +63,17 @@ namespace WPFByYourCommand.Exceptions
 
             if (owner == null)
             {
-                InternalShowException(textblock, textbox);
+                InternalShowException(textblock, textbox, title, null);
             }
             else if (owner.Dispatcher.Thread == Thread.CurrentThread)
             {
-                InternalShowException(textblock, textbox, owner);
+                InternalShowException(textblock, textbox, title, owner);
             }
             else
             {
                 owner.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    InternalShowException(textblock, textbox, owner);
+                    InternalShowException(textblock, textbox, title, owner);
                 }));
             }
         }

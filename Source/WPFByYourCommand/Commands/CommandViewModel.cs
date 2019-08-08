@@ -45,16 +45,20 @@ namespace WPFByYourCommand.Commands
         public abstract void AddInputModels(InputBindingCollection bindingCollection);
 
 
-        public static T GetViewModelObject<T>(object originalSource) where T : CommandViewModel
+        public static T GetViewModelObject<T>(object originalSource) where T : class
+        {
+            return GetViewModelObject(originalSource) as T;
+        }
+
+        public static object GetViewModelObject(object originalSource)
         {
             if (!(originalSource is FrameworkElement element))
             {
                 return null;
             }
 
-            return element.DataContext as T;
+            return element.DataContext;
         }
-
 
 
     }
