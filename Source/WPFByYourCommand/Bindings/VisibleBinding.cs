@@ -226,7 +226,7 @@ namespace WPFByYourCommand.Bindings
 
         #endregion
 
-
+        #region IDisposable
 
         private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
@@ -253,5 +253,7 @@ namespace WPFByYourCommand.Bindings
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion IDisposable
     }
 }
