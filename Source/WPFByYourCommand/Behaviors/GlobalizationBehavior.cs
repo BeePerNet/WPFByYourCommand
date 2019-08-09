@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 
 namespace WPFByYourCommand.Behaviors
@@ -436,6 +437,67 @@ namespace WPFByYourCommand.Behaviors
                 }
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string GetUpdateChildsBindings(DependencyObject element)
+        {
+            return (string)element.GetValue(UpdateChildsBindingsProperty);
+        }
+
+        public static void SetUpdateChildsBindings(DependencyObject element, string value)
+        {
+            element.SetValue(UpdateChildsBindingsProperty, value);
+        }
+
+
+        public static readonly DependencyProperty UpdateChildsBindingsProperty =
+            DependencyProperty.RegisterAttached(
+            "UpdateChildsBindings",
+            typeof(string),
+            typeof(GlobalizationBehavior),
+            new FrameworkPropertyMetadata(null, OnUpdateChildsBindingsChanged));
+
+        private static void OnUpdateChildsBindingsChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            if (!DesignerProperties.GetIsInDesignMode(depObj))
+            {
+                if (e.NewValue != null)
+                {
+                    void action(DependencyObject w)
+                    {
+                        int count = VisualTreeHelper.GetChildrenCount(w);
+                        DependencyObject child;
+                        for (int i = 0; i < count; i++)
+                        {
+                            child = VisualTreeHelper.GetChild(w, i);
+                            UpdateBindings(child);
+                        }
+                    }
+
+                    Instance.Add(depObj, action, e.NewValue.ToString().Split(','));
+                }
+                else
+                {
+                    Instance.Remove(depObj);
+                }
+            }
+        }
+
+
+
 
     }
 }
