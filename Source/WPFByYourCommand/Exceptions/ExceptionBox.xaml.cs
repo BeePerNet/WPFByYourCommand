@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace WPFByYourCommand.Exceptions
 {
@@ -42,10 +43,12 @@ namespace WPFByYourCommand.Exceptions
         {
             try
             {
-                ExceptionBox window = new ExceptionBox(textblock, textbox, title)
+                ExceptionBox window = new ExceptionBox(textblock, textbox, title);
+                if (owner != null)
                 {
-                    Owner = owner
-                };
+                    window.Owner = owner;
+                }
+
                 window.ShowDialog();
             }
             catch (Exception ex)
@@ -56,22 +59,19 @@ namespace WPFByYourCommand.Exceptions
 
         public static void ShowException(string textblock, string textbox, string title = null, Window owner = null)
         {
-            if (owner == null && Application.Current != null)
+            Dispatcher dispatcher = owner?.Dispatcher;
+            if (dispatcher == null && Application.Current != null)
             {
-                owner = Application.Current.MainWindow;
+                dispatcher = Application.Current.Dispatcher;
             }
 
-            if (owner == null)
-            {
-                InternalShowException(textblock, textbox, title, null);
-            }
-            else if (owner.Dispatcher.Thread == Thread.CurrentThread)
+            if (dispatcher.Thread == Thread.CurrentThread)
             {
                 InternalShowException(textblock, textbox, title, owner);
             }
             else
             {
-                owner.Dispatcher.BeginInvoke(new Action(() =>
+                dispatcher.BeginInvoke(new Action(() =>
                 {
                     InternalShowException(textblock, textbox, title, owner);
                 }));
