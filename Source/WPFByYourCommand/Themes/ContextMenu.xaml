@@ -2,14 +2,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:beh="clr-namespace:WPFByYourCommand.Commands"
     xmlns:conv="clr-namespace:WPFByYourCommand.Converters">
-    <conv:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter" />
     <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type MenuItem}">
                     <Setter Property="beh:CommandBehavior.Command" Value="{Binding}" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeStringConverter}}" Value="ParentCommand">
+                        <DataTrigger Binding="{Binding Converter={conv:ObjectToTypeStringConverter}}" Value="ParentCommand">
                             <Setter Property="ItemsSource" Value="{Binding Childs}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text}" Value="-">

@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace WPFByYourCommand.Converters
 {
-    public class ObjectToTypeStringConverter : IValueConverter
+    public class ObjectToTypeStringConverter : BaseConverter, IValueConverter
     {
         public object Convert(
          object value, Type targetType,

@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace WPFByYourCommand.Converters
 {
-    public class IsEqualConverter : IValueConverter, IMultiValueConverter
+    public class IsEqualConverter : BaseConverter, IValueConverter, IMultiValueConverter
     {
         internal static bool GetValue(object value, object parameter)
         {

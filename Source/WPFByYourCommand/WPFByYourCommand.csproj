@@ -102,6 +102,7 @@
     <Compile Include="Controls\ControlsHelper.cs" />
     <Compile Include="Controls\ItemLayoutInfo.cs" />
     <Compile Include="Controls\VirtualizingWrapPanel.cs" />
+    <Compile Include="Converters\BaseConverter.cs" />
     <Compile Include="Converters\IsNotEqualConverter.cs" />
     <Compile Include="Converters\IsEqualConverter.cs" />
     <Compile Include="Commands\IMenuCommand.cs" />
