@@ -64,16 +64,15 @@ namespace WPFByYourCommand.Exceptions
             {
                 dispatcher = Application.Current.Dispatcher;
             }
-
             if (dispatcher.Thread == Thread.CurrentThread)
             {
-                InternalShowException(textblock, textbox, title, owner);
+                InternalShowException(textblock, textbox, title, owner ?? Application.Current?.MainWindow);
             }
             else
             {
                 dispatcher.BeginInvoke(new Action(() =>
                 {
-                    InternalShowException(textblock, textbox, title, owner);
+                    InternalShowException(textblock, textbox, title, owner ?? Application.Current?.MainWindow);
                 }));
             }
         }
