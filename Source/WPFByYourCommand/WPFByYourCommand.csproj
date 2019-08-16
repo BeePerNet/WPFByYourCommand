@@ -114,6 +114,7 @@
       <DependentUpon>ExceptionBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\TextExceptionFormatter.cs" />
+    <Compile Include="Expressions\FastProperty.cs" />
     <Compile Include="Extensions\BitmapSourceExtensions.cs" />
     <Compile Include="StylesHelper.cs" />
     <Compile Include="Observables\ObservableCollectionObject.cs" />

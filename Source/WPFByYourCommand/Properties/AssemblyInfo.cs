@@ -66,6 +66,6 @@ using System.Windows.Markup;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7.0.0")]
-[assembly: AssemblyFileVersion("1.7.0.0")]
+[assembly: AssemblyVersion("1.8.0.0")]
+[assembly: AssemblyFileVersion("1.8.0.0")]
 
