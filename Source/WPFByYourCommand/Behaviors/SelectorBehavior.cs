@@ -149,7 +149,6 @@ namespace WPFByYourCommand.Behaviors
             {
                 PassItems(list, e.RemovedItems, false);
                 PassItems(list, e.AddedItems, true);
-                //ScrollIntoView(list, e.AddedItems.OfType<object>().FirstOrDefault());
             }
         }
 
