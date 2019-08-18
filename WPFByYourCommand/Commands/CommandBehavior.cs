@@ -75,7 +75,7 @@ namespace WPFByYourCommand.Commands
 
         private static void UITypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
             //TODO
         }
 
@@ -149,13 +149,13 @@ namespace WPFByYourCommand.Commands
                         else
                         {
                             //TODO
-                            //throw new NotImplementedException();
+                            throw new NotImplementedException();
                         }
                     }
                     else
                     {
                         //TODO
-                        //throw new NotImplementedException();
+                        throw new NotImplementedException();
                     }
                 }
             }
@@ -192,13 +192,13 @@ namespace WPFByYourCommand.Commands
                         else
                         {
                             //TODO
-                            //throw new NotImplementedException();
+                            throw new NotImplementedException();
                         }
                     }
                     else
                     {
                         //TODO
-                        //throw new NotImplementedException();
+                        throw new NotImplementedException();
                     }
                 }
             }
