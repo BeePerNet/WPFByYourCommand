@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using WPFByYourCommand.Expressions;
 
 namespace WPFByYourCommand.Behaviors
@@ -65,21 +64,36 @@ namespace WPFByYourCommand.Behaviors
                 return;
             }
 
-            if (e.OriginalSource is Selector item && item.SelectedItem != null)
+            if (e.OriginalSource is Selector item)
             {
-                if (item is ListBox)
-                {
-                    ((ListBox)item).ScrollIntoView(item.SelectedItem);
-                }
-
-                if (item is DataGrid)
-                {
-                    ((DataGrid)item).ScrollIntoView(item.SelectedItem);
-                }
+                ScrollIntoView(item, e.AddedItems.OfType<object>().FirstOrDefault());
             }
         }
 
         #endregion // IsBroughtIntoViewWhenSelected
+
+
+
+        private static void ScrollIntoView(Selector item, object selection)
+        {
+            if (item != null && selection != null)
+            {
+                if (item is ListBox)
+                {
+                    ((ListBox)item).ScrollIntoView(selection);
+                }
+
+                if (item is DataGrid)
+                {
+                    ((DataGrid)item).ScrollIntoView(selection);
+                }
+            }
+        }
+
+
+
+
+
 
 
 
@@ -135,6 +149,7 @@ namespace WPFByYourCommand.Behaviors
             {
                 PassItems(list, e.RemovedItems, false);
                 PassItems(list, e.AddedItems, true);
+                //ScrollIntoView(list, e.AddedItems.OfType<object>().FirstOrDefault());
             }
         }
 
