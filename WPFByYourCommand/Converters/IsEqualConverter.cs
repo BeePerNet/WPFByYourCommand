@@ -81,7 +81,7 @@ namespace WPFByYourCommand.Converters
 
             if (targetType == typeof(Visibility))
             {
-                return result ? Visibility.Visible : Visibility.Hidden;
+                return result ? Visibility.Visible : Visibility.Collapsed;
             }
 
             return value;
@@ -103,7 +103,7 @@ namespace WPFByYourCommand.Converters
 
             if (targetType == typeof(Visibility))
             {
-                return result ? Visibility.Visible : Visibility.Hidden;
+                return result ? Visibility.Visible : Visibility.Collapsed;
             }
 
             return values;
