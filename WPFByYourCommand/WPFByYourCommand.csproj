@@ -122,16 +122,18 @@
     <Compile Include="Bindings\PropertyChangeNotifier.cs" />
     <Compile Include="Observables\ObservableObject.cs" />
     <Compile Include="Bindings\VisibleBinding.cs" />
-    <Compile Include="Themes\Expander.cs" />
+    <Compile Include="Themes\Expander.xaml.cs">
+      <DependentUpon>Expander.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Themes\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Exceptions\ExceptionBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ContextMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Expander.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
