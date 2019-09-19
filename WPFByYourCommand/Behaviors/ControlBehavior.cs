@@ -37,11 +37,11 @@ namespace WPFByYourCommand.Behaviors
 
             if ((bool)e.NewValue)
             {
-                element.MouseRightButtonDown += FocusElementMouseRightButtonDown;
+                element.PreviewMouseRightButtonDown += FocusElementMouseRightButtonDown;
             }
             else
             {
-                element.MouseRightButtonDown -= FocusElementMouseRightButtonDown;
+                element.PreviewMouseRightButtonDown -= FocusElementMouseRightButtonDown;
             }
         }
 
@@ -55,6 +55,71 @@ namespace WPFByYourCommand.Behaviors
                 e.Handled = true;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static bool GetKeyboardFocusOnMouseButtonDown(Control element)
+        {
+            return (bool)element.GetValue(KeyboardFocusOnMouseButtonDownProperty);
+        }
+
+        public static void SetKeyboardFocusOnMouseButtonDown(Control element, bool value)
+        {
+            element.SetValue(KeyboardFocusOnMouseButtonDownProperty, value);
+        }
+
+
+        public static readonly DependencyProperty KeyboardFocusOnMouseButtonDownProperty =
+            DependencyProperty.RegisterAttached(
+            "KeyboardFocusOnMouseButtonDown",
+            typeof(bool),
+            typeof(ControlBehavior),
+            new FrameworkPropertyMetadata(false, OnKeyboardFocusOnMouseButtonDownChanged));
+
+        private static void OnKeyboardFocusOnMouseButtonDownChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(depObj is UIElement element))
+            {
+                return;
+            }
+
+            if ((bool)e.NewValue)
+            {
+                element.MouseDown += KeyboardFocusOnMouseButtonDown;
+            }
+            else
+            {
+                element.MouseDown -= KeyboardFocusOnMouseButtonDown;
+            }
+        }
+
+        private static void KeyboardFocusOnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Control control = e.Source as Control;
+
+            if (control != null && !control.IsFocused)
+            {
+                control.Focus();
+                e.Handled = true;
+            }
+        }
+
 
     }
 }

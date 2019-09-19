@@ -71,13 +71,16 @@ namespace WPFByYourCommand.Behaviors
             //or ("CommitNew is not allowed for this view"), we undo the possible pending changes, if any
             IEditableCollectionView collection = senderItemsControl.Items as IEditableCollectionView;
 
-            if (collection.IsEditingItem)
+            if (collection.CanCancelEdit)
             {
-                collection.CancelEdit();
-            }
-            else if (collection.IsAddingNew)
-            {
-                collection.CancelNew();
+                if (collection.IsEditingItem)
+                {
+                    collection.CancelEdit();
+                }
+                else if (collection.IsAddingNew)
+                {
+                    collection.CancelNew();
+                }
             }
         }
 
